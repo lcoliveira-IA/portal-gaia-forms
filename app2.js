@@ -282,18 +282,19 @@ function updateLockUI() {
 
 
 async function checkAuth() {
-    let saved = localStorage.getItem("gaia_current_user");
-    if (!saved) {
-        // Se ainda não tem login, redireciona para a tela de identificação
-        window.location.href = "login.html";
-        return;
-    }
     try {
-        currentUser = JSON.parse(saved);
-    } catch(e) {
-        currentUser = { role: "cliente", name: "Cliente GAIA", client_id: "cli_default" };
-    }
-    window.currentUser = currentUser;
+        let saved = localStorage.getItem("gaia_current_user");
+        if (!saved) {
+            currentUser = { role: "cliente", name: "Cliente GAIA", client_id: "cli_default" };
+            localStorage.setItem("gaia_current_user", JSON.stringify(currentUser));
+        } else {
+            try {
+                currentUser = JSON.parse(saved);
+            } catch(e) {
+                currentUser = { role: "cliente", name: "Cliente GAIA", client_id: "cli_default" };
+            }
+        }
+        window.currentUser = currentUser;
 
         
 
