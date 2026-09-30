@@ -245,6 +245,7 @@ document.querySelectorAll(".category-selector .cat-btn").forEach(button => {
         currentStepIndex = 0;
 
         initWizard();
+        updateStepView();
 
     });
 
@@ -817,9 +818,15 @@ async function loadSchema() {
 // Get sections for current category
 
 function getCategorySections() {
-
-    return formSchema.filter(s => s.type === currentCategory);
-
+    if (!Array.isArray(formSchema)) return [];
+    const norm = str => (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    const targetNorm = norm(currentCategory);
+    return formSchema.filter(s => {
+        const sNorm = norm(s.type);
+        if (targetNorm.includes("benef") && sNorm.includes("benef")) return true;
+        if (targetNorm.includes("folha") && sNorm.includes("folha")) return true;
+        return sNorm === targetNorm || s.type === currentCategory;
+    });
 }
 
 
@@ -4608,7 +4615,10 @@ btnNextStep.addEventListener("click", () => {
 // Save to LocalStorage
 
 function saveDraft() {
-    // localStorage.setItem disabled 
+    try {
+        const stateKey = 'gaia_state_' + (currentProfileId || currentClientId || 'default');
+        localStorage.setItem(stateKey, JSON.stringify(formState));
+    } catch(e) {}
     updateProgressBar();
 
     
@@ -6849,20 +6859,22 @@ async function saveSchemaToServer() {
 
 async function reloadSchemaForCurrentContext() {
     try {
-        let url = '/api/schema';
-        if (currentClientId) {
-            url += '?client_id=' + encodeURIComponent(currentClientId) + '&t=' + Date.now();
-        } else {
-            url += '?t=' + Date.now();
+        let res = await fetch('./form_schema.json?v=' + Date.now());
+        if (!res.ok) {
+            res = await fetch('form_schema.json?v=' + Date.now());
         }
-        const res = await fetch(url);
         if (res.ok) {
             const data = await res.json();
-            if (Array.isArray(data)) {
+            if (Array.isArray(data) && data.length > 0) {
                 formSchema = data;
+                console.log("[Portal GAIA] form_schema.json carregado com sucesso. Total topicos:", formSchema.length);
             }
+        } else {
+            console.error("[Portal GAIA] Falha HTTP ao buscar form_schema.json:", res.status);
         }
-    } catch (e) { console.error(e); }
+    } catch (e) {
+        console.error("[Portal GAIA] Erro na requisicao do schema:", e);
+    }
     initWizard();
     updateStepView();
 }
