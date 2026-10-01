@@ -526,3 +526,264 @@ body {
 @keyframes toastSlideIn {
     to { opacity: 1; transform: translateY(0); }
 }
+
+
+/* ==========================================================================
+   Company Configurator & Empresa Manager Styles (Lumina Precision)
+   ========================================================================== */
+
+/* Header Action Buttons */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+/* Button Component System */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid transparent;
+    outline: none;
+    text-decoration: none;
+    font-family: inherit;
+    line-height: 1.4;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background-color: #1d1d1f !important;
+    color: #ffffff !important;
+    border-color: #1d1d1f !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.btn-primary:hover {
+    background-color: #000000 !important;
+}
+
+.btn-outline {
+    background-color: #ffffff !important;
+    border: 1px solid #d2d5da !important;
+    color: #202124 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.btn-outline:hover {
+    background-color: #f8f9fa !important;
+    border-color: #1d1d1f !important;
+    color: #1d1d1f !important;
+}
+
+/* Company Data Card */
+.data-card {
+    background: #ffffff;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-subtle);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    margin-bottom: 16px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.data-card:hover {
+    box-shadow: var(--shadow-apple);
+    border-color: var(--border-hover);
+}
+
+/* Summary Row (The Grid View for each Company/Filial) */
+.summary-row {
+    display: grid !important;
+    grid-template-columns: 1.2fr 2.5fr 1.5fr 1.2fr auto;
+    align-items: center;
+    padding: 14px 20px;
+    gap: 16px;
+    border-bottom: 1px solid var(--border-color);
+    background: #fafafa;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.summary-row:hover {
+    background-color: #f4f5f7;
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+}
+
+.col-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #70757a;
+    font-weight: 700;
+    margin-bottom: 3px;
+    letter-spacing: 0.02em;
+}
+
+.col-value {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #1d1d1f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Expanded Form Details */
+.expanded-content {
+    display: none;
+    padding: 24px;
+    background: #ffffff;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+.expanded-content.active {
+    display: block !important;
+}
+
+/* Section Title within Company Form */
+.section-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Form Controls (Inputs, Selects in Company Form) */
+.form-control {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border-hover);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    background: #ffffff;
+    outline: none;
+    font-family: inherit;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+    background: #ffffff;
+}
+
+/* Danger Button for Remove Empresa / Filial */
+.data-card button[style*="var(--danger)"],
+.data-card button[style*="danger"] {
+    color: #dc2626 !important;
+    border-color: #fca5a5 !important;
+    background-color: #fef2f2 !important;
+    padding: 7px 14px;
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.data-card button[style*="var(--danger)"]:hover,
+.data-card button[style*="danger"]:hover {
+    background-color: #fee2e2 !important;
+    border-color: #ef4444 !important;
+}
+
+/* Local / Filial Container */
+.locais-container {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.local-block {
+    background: #fafafa;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-top: 12px;
+}
+
+/* Modal Overlay & Modal Dialog (Import Excel/CSV) */
+.modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(32, 33, 36, 0.45) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    display: none !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 99999 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease !important;
+}
+
+.modal-overlay.active {
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+}
+
+.modal-overlay .modal {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 28px !important;
+    width: 100% !important;
+    max-width: 520px !important;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12) !important;
+    border: 1px solid var(--border-color) !important;
+    transform: scale(0.96) !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1) !important;
+}
+
+.upload-area {
+    border: 2px dashed #d2d5da;
+    border-radius: var(--radius-xl);
+    padding: 36px 20px;
+    text-align: center;
+    margin: 20px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fafafa;
+}
+
+.upload-area:hover {
+    border-color: #1d1d1f;
+    background: #f4f5f7;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}

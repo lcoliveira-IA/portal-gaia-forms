@@ -2670,7 +2670,8 @@ function renderFormContent(section) {
 
     
 
-    appendCardHeader(sectionCard, "Configurações Gerais (Tabelas)", "config_tabelas", sectionState, false);
+    const cardHeaderTitle = (section.title === "Dados da Empresa") ? "Dados da Empresa e Filiais" : "Configurações Gerais (Tabelas)";
+    appendCardHeader(sectionCard, cardHeaderTitle, "config_tabelas", sectionState, false);
 
     
 
@@ -3532,11 +3533,27 @@ setTimeout(() => { txt.style.height = "auto"; txt.style.height = txt.scrollHeigh
                     fileControl.appendChild(fileCard);
                 });
 
-                // Always render an input below to add more files
+                // Modern dropzone and trigger button (Lumina Precision)
+                const dropzoneBtn = document.createElement("div");
+                dropzoneBtn.className = "btn-hover-lift cursor-pointer p-4 rounded-xl border-2 border-dashed border-[#d2d5da] hover:border-[#1d1d1f] bg-white hover:bg-[#fafafa] flex items-center justify-center gap-3 transition-all text-xs font-semibold text-[#5f6368] hover:text-[#1d1d1f] shadow-xs mt-2";
+                dropzoneBtn.innerHTML = `
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0066cc] flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-cloud-arrow-up text-base"></i>
+                    </div>
+                    <div class="text-left">
+                        <span class="block text-xs font-bold text-[#1d1d1f]">Clique para selecionar ou arraste o arquivo</span>
+                        <span class="text-[11px] text-[#70757a] font-normal">Formatos suportados: PDF, XLSX, CSV, DOCX ou Imagens (máx. 10MB)</span>
+                    </div>
+                `;
+
                 const fileInput = document.createElement("input");
                 fileInput.type = "file";
                 fileInput.multiple = true;
-                fileInput.className = "block w-full text-xs text-outline file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer mt-2";
+                fileInput.style.display = "none";
+                dropzoneBtn.addEventListener("click", () => {
+                    if (typeof isReadOnly !== 'undefined' && isReadOnly) return;
+                    fileInput.click();
+                });
 
                 fileInput.addEventListener("change", async (e) => {
                     const files = e.target.files;
@@ -3578,8 +3595,12 @@ setTimeout(() => { txt.style.height = "auto"; txt.style.height = txt.scrollHeigh
                     updateStepView();
                 });
 
-                if (typeof isReadOnly !== 'undefined' && isReadOnly) { fileInput.disabled = true; }
+                if (typeof isReadOnly !== 'undefined' && isReadOnly) { 
+                    fileInput.disabled = true; 
+                    dropzoneBtn.classList.add("opacity-50", "cursor-not-allowed");
+                }
 
+                fileControl.appendChild(dropzoneBtn);
                 fileControl.appendChild(fileInput);
 
                 attachBox.appendChild(fileControl);
@@ -4523,8 +4544,7 @@ setTimeout(() => { suffixInput.style.height = "auto"; suffixInput.style.height =
             hasInputs = true;
             
             const container = document.createElement("div");
-            container.className = "form-section relative group";
-            container.style.padding = "24px";
+            container.className = "empresa-config-wrapper relative mt-2";
             
             const htmlDiv = document.createElement("div");
             
@@ -4536,12 +4556,12 @@ setTimeout(() => { suffixInput.style.height = "auto"; suffixInput.style.height =
             htmlDiv.innerHTML = `
                 <div id="toast-container"></div>
                 <div class="header-actions">
-                    <button class="btn btn-primary" onclick="openModal()"><i class="fas fa-file-import"></i> Importar Excel/CSV</button>
-                    <button class="btn" style="background-color: #10b981; color: white; border-color: #10b981;" onclick="downloadTemplate()"><i class="fas fa-download"></i> Baixar Template</button>
-                    <button class="btn btn-outline" id="btnExportGA" onclick="exportGA()"><i class="fas fa-file-export"></i> Exportar GA</button>
+                    <button class="btn btn-primary btn-hover-lift" onclick="openModal()"><i class="fas fa-file-import"></i> Importar Excel/CSV</button>
+                    <button class="btn btn-hover-lift" style="background-color: #10b981; color: white; border-color: #10b981;" onclick="downloadTemplate()"><i class="fas fa-download"></i> Baixar Template</button>
+                    <button class="btn btn-outline btn-hover-lift" id="btnExportGA" onclick="exportGA()"><i class="fas fa-file-export"></i> Exportar GA</button>
                 </div>
                 <div id="companies-list"></div>
-                <button class="btn btn-outline" style="width: 100%; border-style: dashed; margin-top: 1rem;" onclick="addEmpresa()"><i class="fas fa-plus"></i> Adicionar Nova Empresa/Local</button>
+                <button class="btn btn-outline btn-hover-lift" style="width: 100%; border-style: dashed; margin-top: 1rem; padding: 12px;" onclick="addEmpresa()"><i class="fas fa-plus"></i> Adicionar Nova Empresa/Local</button>
                 
                 <!-- Import Modal -->
                 <div class="modal-overlay" id="importModal">
@@ -4559,8 +4579,8 @@ setTimeout(() => { suffixInput.style.height = "auto"; suffixInput.style.height =
                         </div>
                         
                         <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                            <button class="btn btn-outline" onclick="closeModal()" style="flex: 1;">Cancelar</button>
-                            <button class="btn btn-primary" onclick="simulateImport()" style="flex: 1;"><i class="fas fa-cogs"></i> Processar Importação</button>
+                            <button class="btn btn-outline btn-hover-lift" onclick="closeModal()" style="flex: 1;">Cancelar</button>
+                            <button class="btn btn-primary btn-hover-lift" onclick="simulateImport()" style="flex: 1;"><i class="fas fa-cogs"></i> Processar Importação</button>
                         </div>
                     </div>
                 </div>
@@ -4587,9 +4607,11 @@ setTimeout(() => { suffixInput.style.height = "auto"; suffixInput.style.height =
 
 
     if (hasInputs) {
-
-        targetContainer.appendChild(sectionCard);
-
+        if (section.title === "Dados da Empresa") {
+            targetContainer.insertBefore(sectionCard, targetContainer.firstChild);
+        } else {
+            targetContainer.appendChild(sectionCard);
+        }
     }
 
     
