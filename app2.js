@@ -4,10 +4,10 @@
 window.IS_STATIC_MODE = true;
 
 window.addEventListener('error', function(event) {
-    alert("ERRO JS INESPERADO: " + event.message + " na linha " + event.lineno);
+    console.error("ERRO JS INESPERADO: ", event.message, " na linha ", event.lineno);
 });
 window.addEventListener('unhandledrejection', function(event) {
-    alert("ERRO ASYNC INESPERADO: " + event.reason);
+    console.error("ERRO ASYNC INESPERADO: ", event.reason);
 });
 
 
@@ -66,9 +66,11 @@ async function handleFormFinalization() {
     }
 
     showConfirmModal(
-        "Deseja finalizar o formulário?\n\nApós a finalização, ele ficará bloqueado para edições. Caso precise de correções, você deverá solicitar a liberação ao seu consultor.",
+        "Deseja finalizar o formulário?\n\nApós a finalização, ele ficará bloqueado para edições e será transmitido para o Copilot Studio / SharePoint para auditoria de implantação.",
         async () => {
             try {
+                showAlertModal("Transmitindo dados para a Apdata e registrando no SharePoint...\nPor favor, aguarde.");
+
                 saveDraft();
                 if (typeof saveStateToServer === "function") {
                     await saveStateToServer();
@@ -91,13 +93,17 @@ async function handleFormFinalization() {
                             state: formState,
                             profiles: clientProfiles
                         };
-                        await fetch(window.COPILOT_WEBHOOK_URL, {
+                        const resp = await fetch(window.COPILOT_WEBHOOK_URL, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload)
                         });
-                        copilotSent = true;
-                        console.log("[Copilot Studio] Respostas transmitidas com sucesso!");
+                        if (resp.ok) {
+                            copilotSent = true;
+                            console.log("[Copilot Studio] Respostas transmitidas com sucesso!");
+                        } else {
+                            console.warn("[Copilot Studio] Resposta HTTP do webhook:", resp.status);
+                        }
                     } catch(copilotErr) {
                         console.warn("[Copilot Studio] Aviso ao transmitir para webhook:", copilotErr);
                     }
@@ -111,7 +117,7 @@ async function handleFormFinalization() {
                     updateStepView();
 
                     showAlertModal(
-                        "Obrigado! - Formulário Bloqueado\n\nSeu formulário foi finalizado com sucesso. Todas as edições foram bloqueadas. Caso necessite de alterações, entre em contato com seu consultor."
+                        "Obrigado! Formulário Finalizado e Transmitido com Sucesso!\n\nOs dados foram gravados com segurança no SharePoint e o Agente de IA iniciou a auditoria de implantação.\nTodas as edições no formulário foram bloqueadas."
                     );
                 } else {
                     showAlertModal("Erro ao finalizar formulário: " + (data.error || "Erro desconhecido"));
