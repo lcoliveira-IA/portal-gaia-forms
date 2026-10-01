@@ -1,0 +1,4861 @@
+{
+    "documento": "Mapeamento de Dados GA - Folha de Pagamento V.2.8",
+    "versao_extracao": "1.0",
+    "perguntas": [
+        {
+            "id_pergunta": "estrutura-global-empresas-locais-folhas",
+            "secao": "Estrutura Global",
+            "titulo": "Estrutura de empresas, locais e folhas",
+            "texto": "No Global Antares como ficará a estrutura das suas empresas, locais e folhas? (Grupo de Empresa, Empresa, Local, Folha)",
+            "tipo": "composta",
+            "opcoes": [],
+            "campos_texto": [
+                "Grupo de Empresa",
+                "Empresa",
+                "Local",
+                "Folha"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Validar a estrutura que foi migrada. [2107,2111] Criacao da estrutura mencionada pelo cliente. Terceiro/pensionista.",
+            "numero": "1.1"
+        },
+        {
+            "id_pergunta": "estrutura-global-processamento-folha",
+            "secao": "Estrutura Global",
+            "titulo": "Organizacao do processamento/envio da folha",
+            "texto": "Como é organizado o processamento / envio da folha de pagamento?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "centralizada_rh",
+                    "rotulo": "Centralizada no RH: apenas o RH envia e controla tudo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "descentralizada_locais",
+                    "rotulo": "Descentralizada nos Locais / Filiais / Unidades: cada local envia seus proprios dados",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "1.2"
+        },
+        {
+            "id_pergunta": "estrutura-global-vinculos-processados",
+            "secao": "Estrutura Global",
+            "titulo": "Vinculos processados na folha",
+            "texto": "Vínculos processados na folha de pagamento (101 Empregado Geral CLT, 103 Empregado Aprendiz, 901 Estagiário, 701 Autônomos Em Geral, 711 Autônomo Transportador de Passageiro, 712 Autônomo Transportador de Carga, 721 Diretores não empregados com FGTS, 722 Diretores não empregados sem FGTS, Pessoa Jurídica, Outros)",
+            "tipo": "multipla",
+            "opcoes": [
+                {
+                    "chave": "101_empregado_geral",
+                    "rotulo": "101 - Empregado Geral (CLT)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "103_empregado_aprendiz",
+                    "rotulo": "103 - Empregado Aprendiz",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "901_estagiario",
+                    "rotulo": "901 - Estagiario",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "701_autonomo_geral",
+                    "rotulo": "701 - Autonomos Em Geral",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "711_autonomo_passageiro",
+                    "rotulo": "711 - Autonomo Transportador de Passageiro",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "712_autonomo_carga",
+                    "rotulo": "712 - Autonomo Transportador de Carga",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "721_diretor_com_fgts",
+                    "rotulo": "721 - Diretores nao empregados com FGTS",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "722_diretor_sem_fgts",
+                    "rotulo": "722 - Diretores nao empregados sem FGTS",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "pessoa_juridica",
+                    "rotulo": "Pessoa Juridica (cliente informar codigo do eSocial)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Validacao para criacao da estrutura das folhas. Consulta os vinculos registrados para os contratados na migracao.",
+            "numero": "1.3"
+        },
+        {
+            "id_pergunta": "dados-adicionais-regime-pagamento",
+            "secao": "Dados Adicionais",
+            "titulo": "Regime de Pagamento",
+            "texto": "Regime de Pagamento:",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "calendario",
+                    "rotulo": "Caixa - Pagamento da Folha no proximo mes (Ate 5o dia util)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "comercial",
+                    "rotulo": "Competencia - Pagamento da Folha dentro do mes de referencia",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "9 - Regime Pagamento",
+            "nota_automacao": "Validar com o campo FOL_OplRegimeCompetencia; se diferente gerar arquivo de alteracao. ID campo 3790.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "dados-adicionais-mudanca-regime",
+            "secao": "Dados Adicionais",
+            "titulo": "Mudanca de Regime de Pagamento no ano",
+            "texto": "Houve mudança de Regime de Pagamento no ano corrente? Sim (em qual mês?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Em qual Mes?",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Mes da mudanca"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "dados-adicionais-responsavel-dirf",
+            "secao": "Dados Adicionais",
+            "titulo": "Responsavel Legal (DIRF)",
+            "texto": "Nome do Responsável Legal (DIRF), CPF do Responsável Legal (DIRF) e E-mail do Responsável Legal. Quantidade atual de funcionários.",
+            "tipo": "composta",
+            "opcoes": [],
+            "campos_texto": [
+                "Nome do Responsavel Legal (DIRF)",
+                "CPF do Responsavel Legal (DIRF)",
+                "E-mail do Responsavel Legal",
+                "Quantidade Atual de Funcionarios"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "9 - Resp DIRF (obj 1535)",
+            "nota_automacao": "Gravar no Objeto 1535, 2124, 2109. Gerar Count via consulta para quantidade de funcionarios. Tambem alimenta 9 - Resp RAIS (obj 2124) e 9 - Resp Local (obj 2109).",
+            "numero": null
+        },
+        {
+            "id_pergunta": "dados-adicionais-tipo-empresa",
+            "secao": "Dados Adicionais",
+            "titulo": "Tipo de Empresa",
+            "texto": "Tipo de Empresa: ME / EPP / Outros.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "me",
+                    "rotulo": "ME",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "epp",
+                    "rotulo": "EPP",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "9 - Tipo Empresa",
+            "nota_automacao": "Objeto 2107, se nao existir criar o registro APM.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "dados-adicionais-optante-simples",
+            "secao": "Dados Adicionais",
+            "titulo": "Optante pelo Simples",
+            "texto": "Optante Simples: Sim / Não.",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "9 - Optante Simples",
+            "nota_automacao": "Objeto 1442 por empresa, considerar o janeiro do ano da implantacao.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "admissao-relatorios-gerados",
+            "secao": "Admissao",
+            "titulo": "Relatorios gerados na admissao",
+            "texto": "Selecione os relatórios que deverão ser gerados na admissão. Informar quantidade de vias, para quem enviar e a forma de envio. (Contrato de Trabalho, Compensação de Horas, Prorrogação de Horas, Opção de Vale Transporte, Salário-Família, Dependentes para IR, Comprovante de Devolução de CTPS, Etiqueta de Admissão, Etiqueta de Experiência, Etiqueta de Atualização de CTPS, Outros)",
+            "tipo": "multipla",
+            "opcoes": [
+                {
+                    "chave": "contrato_trabalho",
+                    "rotulo": "Contrato de Trabalho",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "compensacao_horas",
+                    "rotulo": "Compensacao de Horas",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "prorrogacao_horas",
+                    "rotulo": "Prorrogacao de Horas",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "vale_transporte",
+                    "rotulo": "Opcao de Vale Transporte",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "salario_familia",
+                    "rotulo": "Salario-Familia",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "dependentes_ir",
+                    "rotulo": "Dependentes para Imposto de Renda",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "devolucao_ctps",
+                    "rotulo": "Comprovante de Devolucao de CTPS",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "etiqueta_admissao",
+                    "rotulo": "Etiqueta de Admissao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "etiqueta_experiencia",
+                    "rotulo": "Etiqueta de Experiencia",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "etiqueta_atualizacao_ctps",
+                    "rotulo": "Etiqueta de Atualizacao de CTPS",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros. Especificar e enviar modelo",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Opcao",
+                "Descricao",
+                "Observacao"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Enviar copia dos modelos de contrato de trabalho e demais documentos emitidos na admissao.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "admissao-tipo-quebra-kit",
+            "secao": "Admissao",
+            "titulo": "Tipo de quebra para kit admissional",
+            "texto": "Definição do tipo de quebra para emissão de kit Admissional (grupo texto de admissão).",
+            "tipo": "multipla",
+            "opcoes": [
+                {
+                    "chave": "vinculo",
+                    "rotulo": "Vinculo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "cargo",
+                    "rotulo": "Cargo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "centro_custo",
+                    "rotulo": "Centro de Custo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "filiais",
+                    "rotulo": "Filiais",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "contratos_trabalho",
+                    "rotulo": "Contratos de Trabalho",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Apenas informativo.",
+            "numero": "1.5"
+        },
+        {
+            "id_pergunta": "admissao-prazo-experiencia",
+            "secao": "Admissao",
+            "titulo": "Prazo de experiencia",
+            "texto": "Prazo de experiência: 45 + 45 / 30 + 60 / Outro.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "45_45",
+                    "rotulo": "45 + 45",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "30_60",
+                    "rotulo": "30 + 60",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Apenas informativo.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "admissao-processo-estagiarios",
+            "secao": "Admissao",
+            "titulo": "Processo de admissao de estagiarios",
+            "texto": "Processo de admissão de estagiários: realizado pelo CIEE e/ou outros / realizado internamente pela empresa.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "ciee_outros",
+                    "rotulo": "Processo realizado pelo CIEE e/ou outros",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "interno",
+                    "rotulo": "Realizado internamente pela empresa",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Apenas informativo.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "admissao-prazo-renovacao-estagio",
+            "secao": "Admissao",
+            "titulo": "Prazo de renovacao do Contrato de Estagio",
+            "texto": "Qual o prazo de renovação do Contrato de Estágio?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "6meses",
+                    "rotulo": "A cada 6 meses",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "1ano",
+                    "rotulo": "A cada 1 ano",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Apenas informativo.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "admissao-outro-controle-numeracao",
+            "secao": "Admissao",
+            "titulo": "Outro controle/numeracao de funcionario",
+            "texto": "Há no cadastro outro tipo de controle ou numeração para identificar funcionário? Especificar a regra de composição deste código e a utilização.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Regra de composicao e utilizacao"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Criacao de regra flex.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "admissao-regra-matricula",
+            "secao": "Admissao",
+            "titulo": "Regra de criacao da matricula",
+            "texto": "Existe uma regra específica para criação da matrícula ou assume o sequencial da última matrícula +1? Sim (qual?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Qual?",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Regra da matricula"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Migracao deve subir corretamente. [Atencao]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "admissao-campos-especificos",
+            "secao": "Admissao",
+            "titulo": "Campos especificos do sistema atual",
+            "texto": "Há campos específicos utilizados no sistema atual para cadastro de dados de controle ou utilização interna da empresa? Listar os campos específicos, onde aparecem, a regra de preenchimento e utilização. (Campo Nº 01, 02, 03: descrição, regra de preenchimento, utilização, tipo do campo)",
+            "tipo": "composta",
+            "opcoes": [],
+            "campos_texto": [
+                "Campo (descricao)",
+                "Regra de preenchimento",
+                "Utilizacao (Onde? Admissao, WF, relatorios etc.)",
+                "Tipo do campo (Lista, descricao)"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Criar um video do que e campo oficial e campo especifico.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-expediente-trabalho",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Expediente de trabalho",
+            "texto": "Qual o expediente de trabalho da empresa?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "seg_sex",
+                    "rotulo": "Segunda a Sexta-feira, das 9h00 as 18h00 com 1 hora de intervalo, Flexivel",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "seg_sab",
+                    "rotulo": "Segunda a Sabado das",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "escala_revezamento",
+                    "rotulo": "Escala de Revezamento, das",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "2.1"
+        },
+        {
+            "id_pergunta": "jornada-controle-frequencia",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Forma de Controle de Frequencia",
+            "texto": "Qual a forma de Controle de Frequência?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "cartao_ponto",
+                    "rotulo": "Cartao Ponto",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "folha_ponto",
+                    "rotulo": "Folha de Ponto",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "ponto_eletronico",
+                    "rotulo": "Ponto Eletronico",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-periodo-fechamento-frequencia",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Periodo de fechamento do Controle de Frequencia",
+            "texto": "Qual o período de fechamento do Controle de Frequência?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "16_15",
+                    "rotulo": "16 a 15",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "21_20",
+                    "rotulo": "21 a 20",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-integracao-horas",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Integracao das horas na folha",
+            "texto": "Processo para integração das horas na folha de pagamento: Apuração manual e lançamento na folha / Interface com sistema de ponto / Importação de arquivo TXT / Outro.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "manual",
+                    "rotulo": "Apuracao manual e lancamento na folha",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "interface_ponto",
+                    "rotulo": "Interface com sistema de ponto",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "importacao_txt",
+                    "rotulo": "Importacao de arquivo TXT",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-percentuais-horas-extras",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Percentuais de horas extras",
+            "texto": "Quais os percentuais pagos de horas extras?",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Percentuais de horas extras"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-adicional-noturno",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Adicional noturno",
+            "texto": "Existe adicional noturno? Qual o percentual?",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Percentual do adicional noturno"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-apuracao-dsr",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Forma de apuracao do DSR",
+            "texto": "Qual a forma de apuração do D.S.R.?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "mes_competencia",
+                    "rotulo": "Dividido pelos dias uteis x domingos e feriados do mes de competencia da folha",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "periodo_fechamento",
+                    "rotulo": "Dividido pelos dias uteis x domingos e feriados do periodo de fechamento do ponto eletronico",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-proporcionalidade-dias-uteis",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Proporcionalidade dias uteis e inuteis",
+            "texto": "Há proporcionalidade na apuração dos dias úteis e inúteis, nos casos de admissão, férias, afastamentos, rescisão?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "12 - Proporcionalidade dias uteis",
+            "nota_automacao": "1590 - Todos os niveis (campo 12637 Empresa / 14092 Local). Verificar os niveis.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-faltas-abonadas",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Controle de faltas abonadas",
+            "texto": "Há controle de faltas abonadas na folha, ou seja, estes dias são lançados na folha em verba separada da verba de salário?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": null,
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-diferenca-he-adic-noturno-base",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Base de calculo diferenca HE/Adic Noturno",
+            "texto": "Quando há diferença de Horas Extras, Adicional Noturno (devido a pagamento a menor no mês anterior) para acerto na folha, qual a base de cálculo a ser utilizada?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "salario_mes_anterior",
+                    "rotulo": "Salario do mes anterior",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "remuneracao_mes_anterior",
+                    "rotulo": "Remuneracao do mes anterior",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "salario_mes_pagamento",
+                    "rotulo": "Salario do mes de pagamento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "remuneracao_mes_pagamento",
+                    "rotulo": "Remuneracao do mes de pagamento",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Objeto 1590 (Campo)",
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-desconta-dsr-falta",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Desconto de DSR sobre falta",
+            "texto": "A empresa desconta DSR sobre falta dos funcionários?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Regra de calculo"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": null,
+            "numero": null
+        },
+        {
+            "id_pergunta": "jornada-diferenca-faltas-base",
+            "secao": "Jornada de Trabalho",
+            "titulo": "Base de calculo diferenca de faltas",
+            "texto": "Quando há diferença de faltas (devido a desconto a menor no mês anterior) para acerto na folha, qual a base de cálculo a ser utilizada?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "salario_mes_anterior",
+                    "rotulo": "Salario do mes anterior",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "remuneracao_mes_anterior",
+                    "rotulo": "Remuneracao do mes anterior",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "salario_mes_pagamento",
+                    "rotulo": "Salario do mes de pagamento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "remuneracao_mes_pagamento",
+                    "rotulo": "Remuneracao do mes de pagamento",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": null,
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-comissionistas-puros",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Funcionarios comissionistas puros",
+            "texto": "Há na empresa funcionário que recebe mensalmente com base em percentual, produção, viagem, etc. (comissionistas puros, sem salário fixo)?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim, selecionar o tipo de pagamento (Comissao / Tarefa / Outros)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao, sempre ha o salario fixo",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Tipo de pagamento (Comissao/Tarefa/Outros)"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-verbas-remuneracao",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Verbas que compoem a remuneracao",
+            "texto": "Sinalizar quais verbas compõem a remuneração específica do funcionário (adicionais usados para pagamentos como HE, Férias etc.): Insalubridade / Periculosidade / Adicional de transferência / Adicional de Tempo de Serviço (Anuênio, Triênio, Quinquênio) / Outros.",
+            "tipo": "multipla",
+            "opcoes": [
+                {
+                    "chave": "insalubridade",
+                    "rotulo": "Insalubridade",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "periculosidade",
+                    "rotulo": "Periculosidade",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "adicional_transferencia",
+                    "rotulo": "Adicional de transferencia",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "adicional_tempo_servico",
+                    "rotulo": "Adicional de Tempo de Servico: Anuenio, Trienio, Quinquenio",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-funcionarios-insalubres",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Funcionarios em atividades insalubres",
+            "texto": "Existem funcionários em atividades insalubres? Como identificá-los (contratado / cargo / centro de custo)?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim (Contratado / Cargo / Centro de Custo / Outros)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Forma de identificacao"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-funcionarios-periculosos",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Funcionarios em atividades periculosas",
+            "texto": "Existem funcionários envolvidos em atividades periculosas? Como identificá-los (contratado / cargo / centro de custo)?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim (Contratado / Cargo / Centro de Custo / Outros)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Forma de identificacao",
+                "Base de Calculo"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-multiplos-vinculos",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Funcionarios com multiplos vinculos",
+            "texto": "Existem funcionários que possuem múltiplos vínculos (trabalham em outros lugares)?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-base-calculo-processos",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Base de calculo para processos",
+            "texto": "Qual a base de cálculo utilizada para apuração dos valores dos processos: Vencimentos (HE/Adic Noturno/Banco de Horas); Descontos (Faltas/Atrasos/DSR sobre Faltas); Férias Normais/Proporcionais/Indenizadas; Média de Férias; Licença Remunerada (Férias Coletivas); Aviso Prévio; Média de Aviso Prévio; 13º Proporcional e Projeção Aviso Prévio; Médias 13º Proporcional; 13º Antecipação (1ª Parcela/Férias); 2ª Parcela 13º; Médias 2ª Parcela 13º. Opções: Salário Base / Remuneração específica / Média 12 meses / Outra.",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "salario_base",
+                    "rotulo": "Salario Base",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "remuneracao_especifica",
+                    "rotulo": "Remuneracao especifica acima",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "media_12_meses",
+                    "rotulo": "Media dos ultimos 12 meses, quando o funcionario nao recebe salario fixo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "conforme_legislacao",
+                    "rotulo": "Conforme Legislacao (13o Antecipacao - Lei 4.749/1965 Salario Base)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "remuneracao_legislacao",
+                    "rotulo": "Remuneracao (Conforme legislacao Lei 4.090/62)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outra",
+                    "rotulo": "Outra. Especificar regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Vencimentos: HE/Adic Noturno/Banco de Horas",
+                "Descontos: Faltas/Atrasos/DSR sobre Faltas",
+                "Ferias Normais/Proporcionais/Indenizadas",
+                "Media de Ferias",
+                "Licenca Remunerada (Ferias Coletivas)",
+                "Aviso Previo",
+                "Media de Aviso Previo",
+                "13o Proporcional e Projecao Aviso Previo",
+                "Medias 13o Proporcional",
+                "13o Antecipacao (1a Parcela/Ferias)",
+                "2a Parcela 13o",
+                "Medias 2a Parcela 13o"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-classificacao-relatorios",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Classificacao para geracao de relatorios",
+            "texto": "Qual a classificação a ser parametrizada para geração dos relatórios de férias, adiantamento, folha de pagamento, etc.?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "empresa",
+                    "rotulo": "Separado por empresa",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "empresa_alfabetica",
+                    "rotulo": "Separado por empresa e ordem alfabetica",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "empresa_cc",
+                    "rotulo": "Separado por empresa e centro de custo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "empresa_local_cc",
+                    "rotulo": "Separado por empresa, localidade e centro de custo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "empresa_local_cc_alfabetica",
+                    "rotulo": "Separado por empresa, localidade, centro de custo e ordem alfabetica",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "3358 - Abrir o chamado para oficializar conforme esta na base.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-dispensado-sexta-indeniza-sabado",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Dispensa na sexta indeniza sabado e domingo",
+            "texto": "Quando o funcionário é dispensado na sexta-feira a empresa indeniza o sábado e domingo?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "sim_todos",
+                    "rotulo": "Sim, para todos os funcionarios",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "sim_compensam_sabado",
+                    "rotulo": "Sim, somente para os funcionarios que compensam o sabado na jornada semanal",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-prazo-envio-financeiro",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Prazo para envio ao financeiro",
+            "texto": "Prazo para envio da solicitação de pagamento ao financeiro (Módulo BPO/BSP): 24h antes / 48h antes / Outro.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "24h",
+                    "rotulo": "24 horas antes da data de pagamento, considerando dias uteis",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "48h",
+                    "rotulo": "48 horas antes da data de pagamento, considerando dias uteis",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-prazo-liberacao-demonstrativo",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Prazo para liberacao de acesso aos demonstrativos",
+            "texto": "Prazo para liberação de acesso aos demonstrativos de pagamento aos funcionários: 2 dias antes / 1 dia antes / No dia do pagamento / Outro.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "2",
+                    "rotulo": "2 dias antes da data de pagamento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "1",
+                    "rotulo": "1 dia antes da data de pagamento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "0",
+                    "rotulo": "No dia do pagamento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - 3.10 Prazo liberacao demonstrativo",
+            "nota_automacao": "Objeto 2107/2109. Se marcado algum registro, marcar 1 no campo 123396 e colocar a quantidade de dias no campo 121991 (Empresa) / 121992 (Local).",
+            "numero": "3.10"
+        },
+        {
+            "id_pergunta": "folha-verba-liquido",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Verba de liquido (2736)",
+            "texto": "Criar uma linha do 1215 para registrar a verba 2736 (Verba - Líquido). Não há pergunta ao cliente - valor fixo.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Verba Liquido (fixo 2736)"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - Verba liquido",
+            "nota_automacao": "Chamado 873595 - Padrao objeto 458. Verba fixa 2736 no campo 22712.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-data-limite-desligamento",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Data limite para desligamento no mes",
+            "texto": "Qual a data limite para desligamento dos funcionários no mês?",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Dia limite para desligamento"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - 3.11",
+            "nota_automacao": "Objeto 2126 DH2_NuiDiaLimiteRescisao (22646). Se preenchido vai dar erro em rescisoes apos a data.",
+            "numero": "3.11"
+        },
+        {
+            "id_pergunta": "folha-estabilidade-indeniza-bloqueia",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Estabilidade: indeniza ou bloqueia",
+            "texto": "Em caso de estabilidade de salário e/ou emprego, a empresa calcula os valores do período da estabilidade e paga em rescisão (indeniza) ou impede o desligamento (suspende/bloqueia)?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "indeniza",
+                    "rotulo": "Indeniza o periodo estavel",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "bloqueia",
+                    "rotulo": "Suspende/Bloqueia a demissao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - 3.12",
+            "nota_automacao": "2126 - (22660 opl)",
+            "numero": "3.12"
+        },
+        {
+            "id_pergunta": "folha-media-aviso-previo",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Regra de Media de Aviso Previo",
+            "texto": "Regras de cálculo de Média de Aviso Prévio?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "legislacao",
+                    "rotulo": "Conforme legislacao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "especifica",
+                    "rotulo": "Regra especifica do cliente. Detalhar a regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Detalhamento da regra"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-aviso-previo-3dias-lei12506",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Aviso previo 3 dias (Lei 12.506)",
+            "texto": "A respeito da Lei 12.506, qual a tratativa: (a) pagar o aviso prévio de 3 dias iniciando do 1º ano vencido / (b) a partir do 2º ano vencido.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "1ano",
+                    "rotulo": "(a) Pagar o aviso previo de 3 dias iniciando do 1o ano vencido",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "2ano",
+                    "rotulo": "(b) Pagar o aviso previo de 3 dias iniciando a partir do 2o ano vencido",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - 3.14",
+            "nota_automacao": "2126 - (95579) se preenchido o A, marcar o campo.",
+            "numero": "3.14"
+        },
+        {
+            "id_pergunta": "folha-media-ferias-indenizadas-proporcionais",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Media de Ferias Indenizadas e Proporcionais",
+            "texto": "Regras de cálculo de Média de Férias Indenizadas e Proporcionais (Férias Indenizadas e Férias Proporcionais): Conforme legislação / Regra específica (detalhar).",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "legislacao",
+                    "rotulo": "Conforme legislacao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "especifica",
+                    "rotulo": "Regra especifica. Detalhar a regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Ferias Indenizadas - detalhamento",
+                "Ferias Proporcionais - detalhamento"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-media-13-salario",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Media de 13o salario",
+            "texto": "Qual a regra de cálculo para pagamento de média de 13º salário (13º Proporcional e projeção Aviso Prévio): Conforme legislação / Regra específica (detalhar).",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "legislacao",
+                    "rotulo": "Conforme legislacao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "especifica",
+                    "rotulo": "Regra especifica. Detalhar a regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "13o Proporcional - detalhamento",
+                "13o projecao Aviso Previo - detalhamento"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-desconto-aviso-pedido-demissao",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Desconto de Aviso Previo em pedido de demissao",
+            "texto": "A empresa desconta do funcionário o valor de Aviso Prévio quando ele pedir demissão sem cumprimento do Aviso?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "sim_todos",
+                    "rotulo": "Sim, em todos os casos de pedido de demissao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao_nenhum",
+                    "rotulo": "Nao desconta Aviso Previo em nenhum caso de pedido de demissao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "analisa_caso",
+                    "rotulo": "A Empresa analisa cada caso e decide se descontara ou nao o Aviso Previo",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo]",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-indenizacao-art480",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Indenizacao Art. 480 CLT",
+            "texto": "A empresa desconta a Indenização (Art. 480 CLT) de 50% sobre a remuneração referente aos dias que faltam para o término de experiência quando a quebra de contrato ocorrer por pedido de demissão do funcionário?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "sim_todos",
+                    "rotulo": "Sim, em todos os casos de pedido de demissao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao_nenhum",
+                    "rotulo": "Nao desconta Indenizacao em nenhum caso de pedido de demissao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "analisa_caso",
+                    "rotulo": "A empresa analisa cada caso e decide se descontara ou nao a Indenizacao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": null,
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-ir-abono-pecuniario-1terco",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "IRRF sobre 1/3 do abono pecuniario",
+            "texto": "Com base na Solução de Consulta COSIT nº 209/2021, incide IRRF sobre o valor de 1/3 (terço constitucional) referente ao abono pecuniário pago durante o contrato. Qual o procedimento adotado pela empresa?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "considera_ir",
+                    "rotulo": "Considera incidencia para IR",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao_considera_ir",
+                    "rotulo": "Nao considera incidencia para IR",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Conforme o arquivo reversao IR abono pecuniario 1/3.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-data-credito-pagamento-mensal",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Data de credito do pagamento mensal",
+            "texto": "Data de crédito do pagamento mensal aos empregados: Especificar.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Data de credito do pagamento mensal"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "[informativo] Abrir o chamado para nao criar automaticamente as datas.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-bolsa-estagio-regra",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Regra de calculo da bolsa estagio",
+            "texto": "Qual a regra de cálculo do pagamento mensal da bolsa estágio?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "mensalista_comercial",
+                    "rotulo": "Mensalistas - Mes comercial (30 dias)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "mensalista_calendario",
+                    "rotulo": "Mensalistas - Mes calendario (28, 29, 30, 31 dias)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "horistas",
+                    "rotulo": "Horistas",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Detalhar a regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Objeto 1590 (ID 13463) Sem flag 30.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-bolsa-estagio-proporcionalidade",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Proporcionalidade bolsa estagio (desconsiderar)",
+            "texto": "Em caso de proporcionalidade (admissão e rescisão), qual a regra de cálculo do pagamento da bolsa estágio?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "comercial",
+                    "rotulo": "Mes comercial",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "calendario",
+                    "rotulo": "Mes calendario",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Desconsiderar pergunta.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-outros-pagamentos-estagiarios",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Outros pagamentos/descontos para estagiarios (recesso/natalina)",
+            "texto": "Além da bolsa estágio há algum outro tipo de pagamento ou desconto para os estagiários?",
+            "tipo": "multipla",
+            "opcoes": [
+                {
+                    "chave": "somente_bolsa",
+                    "rotulo": "Nao, somente bolsa estagio",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "um_terco_recesso",
+                    "rotulo": "1/3 sobre o recesso",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "gratificacao_natalina",
+                    "rotulo": "Gratificacao natalina",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros. Especificar verba e regra de calculo",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - 3.23 (1/3 recesso + gratificacao natalina)",
+            "nota_automacao": "1590 (ID 12200) se marcado o 1/3. 1590 (ID 1704) se marcado gratificacao natalina.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-salario-maternidade-regra",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Regra de apuracao do Salario Maternidade",
+            "texto": "Qual a regra para apuração e pagamento do Salário Maternidade?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "remuneracao_media_6meses",
+                    "rotulo": "Remuneracao do funcionario mais a media de variaveis recebidas nos ultimos 6 meses",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "especifica",
+                    "rotulo": "Regra especifica. Detalhar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Detalhamento da regra"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "verificar depois.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-salario-maternidade-tipo-mes",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Tipo de mes para Salario Maternidade",
+            "texto": "Na apuração da remuneração no pagamento do Salário Maternidade, devemos considerar: Mês comercial (30 dias) / Calendário (28,29,30 ou 31 dias) / Regra específica.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "comercial",
+                    "rotulo": "Mes comercial (30 dias)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "calendario",
+                    "rotulo": "Calendario (28, 29, 30 ou 31 dias)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "especifica",
+                    "rotulo": "Regra especifica. Detalhar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - 3.25",
+            "nota_automacao": "1590 (ID 1005). Regra confirmada: Calendario = 1; Mes comercial = 0. Se Regra especifica, tratar manualmente/abrir chamado.",
+            "numero": "3.25"
+        },
+        {
+            "id_pergunta": "folha-insuficiencia-saldo-afastamento",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Insuficiencia de saldo em afastamentos de contribuicao",
+            "texto": "Para os casos de afastamentos que não terão o desconto no mês de contribuição (Assistencial/Negocial/Confederativa), gerando insuficiência de saldo?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - 3.26",
+            "nota_automacao": "Objeto 1590 (ID 12953).",
+            "numero": "3.26"
+        },
+        {
+            "id_pergunta": "folha-pagamentos-extras",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Pagamentos extras durante o mes",
+            "texto": "Existem pagamentos extras durante o mês? Sim (quais verbas?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Quais Verbas?",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Verbas"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-provisiona-inss-extra",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Provisiona INSS no pagamento extra",
+            "texto": "A empresa provisiona o desconto de INSS no pagamento extra?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - 3.28",
+            "nota_automacao": "Objeto 1590 (ID 14213)",
+            "numero": "3.28"
+        },
+        {
+            "id_pergunta": "folha-provisiona-irrf-extra",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Provisiona IRRF no pagamento extra",
+            "texto": "A empresa provisiona o desconto de IRRF no pagamento extra?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "13 - 3.29",
+            "nota_automacao": "Objeto 1590 (ID 14212) - 2 caixa e 1 competencia, 0 nao provisiona. Olhar a folha 2111. Relacionado a FOL_OplRegimeCompetencia.",
+            "numero": "3.29"
+        },
+        {
+            "id_pergunta": "folha-ppr-plr-completo",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "PPR/PLR - pagamento, adiantamento e regras completas",
+            "texto": "Há pagamento de PPR/PLR? Existe previsão de adiantamento? Necessidade de desenvolvimento de cálculo de PPR?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "pagamento_sim",
+                    "rotulo": "Pagamento: Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "pagamento_nao",
+                    "rotulo": "Pagamento: Nao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "adiantamento_sim",
+                    "rotulo": "Adiantamento: Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "adiantamento_nao",
+                    "rotulo": "Adiantamento: Nao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "desenvolvimento_sim",
+                    "rotulo": "Necessidade de desenvolvimento de calculo PPR: Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "desenvolvimento_nao",
+                    "rotulo": "Nao, o valor sera importado",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Empresa",
+                "Localidade",
+                "Periodo de Apuracao",
+                "Data Pagamento Adiantamento",
+                "Data Pagamento Parcela Final",
+                "Sindicato",
+                "Vinculos com direito (CLT/Estagiarios/Menor Aprendiz/Outros)",
+                "Situacoes com direito (Ativos/Admitidos/Afastados/Demitidos)",
+                "Periodo para apuracao dos avos",
+                "Data limite admissao",
+                "Data limite demissao",
+                "Data limite afastamentos",
+                "Tipos de afastamento com direito",
+                "Tratativa afastados no mes de pagamento",
+                "Regra de calculo",
+                "ID da Verba de Pgto",
+                "Proporcionalidade e situacoes",
+                "Taxa/contribuicao sobre PPR",
+                "Desconto de taxa do funcionario",
+                "Momento do calculo (Adiantamento Quinzenal/Folha/Processo Extra)",
+                "Demonstrativo somente PPR (Sim/Nao)",
+                "Desconto de pensao sobre PPR (Nao/Sim/Somente se em oficio)"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo. Verificar futuramente o desenvolvimento de calculo de PPR.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-prazo-envio-banco-credito",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Prazo de envio do arquivo bancario",
+            "texto": "Quantos dias antes do pagamento deve ser enviado ao banco o arquivo bancário para crédito aos funcionários?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "2dias",
+                    "rotulo": "02 dias uteis",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "1dia",
+                    "rotulo": "01 dia util",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-regras-verbas-especificas",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Regras de calculo das verbas especificas",
+            "texto": "Relacionar e enviar regras de cálculos das verbas específicas existentes na folha (Verba, Sindicato, Vínculos considerados, Situações consideradas, Descrição da Regra, proporcionalidade e situações, detalhamento).",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "clt",
+                    "rotulo": "Vinculo CLT",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "estagiario",
+                    "rotulo": "Vinculo Estagiario",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "menor_aprendiz",
+                    "rotulo": "Vinculo Menor Aprendiz",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Vinculo Outros. Especificar",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "ativos",
+                    "rotulo": "Situacao Ativos",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "admitidos",
+                    "rotulo": "Situacao Admitidos",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "afastados",
+                    "rotulo": "Situacao Afastados",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "demitidos",
+                    "rotulo": "Situacao Demitidos",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Verba",
+                "Sindicato",
+                "Descricao da Regra",
+                "Proporcionalidade e situacoes",
+                "Detalhamento"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Retirar e colocar em arquivo de regra.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "folha-verbas-liquido-garantido",
+            "secao": "Folha de Pagamento / Regras Gerais",
+            "titulo": "Verbas com liquido garantido",
+            "texto": "Existem verbas com líquido garantido?",
+            "tipo": "multipla",
+            "opcoes": [
+                {
+                    "chave": "salario_familia",
+                    "rotulo": "Salario Familia",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "ajuda_custo",
+                    "rotulo": "Ajuda de Custo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-periodicidade-calculo",
+            "secao": "Ferias",
+            "titulo": "Periodicidade do calculo de ferias",
+            "texto": "Qual a periodicidade do cálculo e para quem devem ser enviados os documentos?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "semanal",
+                    "rotulo": "Semanalmente",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "quinzenal",
+                    "rotulo": "Quinzenalmente",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "mensal",
+                    "rotulo": "Mensal",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-nao-vencidas",
+            "secao": "Ferias",
+            "titulo": "Gozo de ferias com periodo aquisitivo incompleto",
+            "texto": "A empresa permite o gozo de férias para os funcionários que ainda não tenham o período aquisitivo completo?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.2",
+            "nota_automacao": "1503 (id 22940) se sim informar 1.",
+            "numero": "4.2"
+        },
+        {
+            "id_pergunta": "ferias-pagamento-dobro",
+            "secao": "Ferias",
+            "titulo": "Pagamento de ferias em dobro",
+            "texto": "A empresa paga férias em dobro quando devido?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.3 (dobro)",
+            "nota_automacao": "2117 (ID 22894 e 153930)",
+            "numero": "4.3"
+        },
+        {
+            "id_pergunta": "ferias-dias-semana-saida",
+            "secao": "Ferias",
+            "titulo": "Dias pre-definidos para saida de ferias",
+            "texto": "Existem dias pré-definidos para saída de férias?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "1dia_util",
+                    "rotulo": "Somente no 1o dia util da semana",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "qualquer_exceto_folga",
+                    "rotulo": "Qualquer dia da semana, exceto nos dias de folga/descanso",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "seg_qui",
+                    "rotulo": "De segunda a quinta sendo proibido as vesperas de feriados, feriados, folga/descanso",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.4 (dias semana ferias)",
+            "nota_automacao": "Objeto 1499. Multi-linha: gera uma linha por dia da semana conforme a opcao.",
+            "numero": "4.4"
+        },
+        {
+            "id_pergunta": "ferias-dias-permitidos",
+            "secao": "Ferias",
+            "titulo": "Dias de ferias (descanso) permitidos",
+            "texto": "Selecionar os dias de férias (descanso) que a empresa permite para programação e cálculo: 20 dias + 1/3 abono pecuniário / 30 dias de descanso / Parcelado (saldo por Férias Coletivas) / Conforme Reforma Trabalhista (até 3 descansos) / Outro.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "20mais13",
+                    "rotulo": "20 dias de descanso + 1/3 abono pecuniario",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "30dias",
+                    "rotulo": "30 dias de descanso",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "parcelado",
+                    "rotulo": "Parcelado, nos casos de saldo de ferias devido as Ferias Coletivas",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Conforme Reforma Trabalhista (ate 3 descansos, 2 de no minimo 5 dias e 1 de no minimo 14 dias) ou Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.5 (dias ferias permitidos)",
+            "nota_automacao": "Objeto 2117 conforme o que o cliente preencher.",
+            "numero": "4.5"
+        },
+        {
+            "id_pergunta": "ferias-antecedencia-programacao",
+            "secao": "Ferias",
+            "titulo": "Antecedencia da programacao de ferias",
+            "texto": "A programação de férias pode ser realizada até quantos dias antes da saída de férias?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "30",
+                    "rotulo": "30 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "45",
+                    "rotulo": "45 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "60",
+                    "rotulo": "60 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.6 (antecedencia programacao ferias)",
+            "nota_automacao": "Objeto 1503 (ID 113654)",
+            "numero": "4.6"
+        },
+        {
+            "id_pergunta": "ferias-alteracao-programacao",
+            "secao": "Ferias",
+            "titulo": "Antecedencia da alteracao de programacao",
+            "texto": "A alteração da programação de férias pode ser realizada até quantos dias antes da saída de férias?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "30",
+                    "rotulo": "30 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "45",
+                    "rotulo": "45 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "60",
+                    "rotulo": "60 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.7 (alteracao programacao ferias)",
+            "nota_automacao": "Objeto 1503 (ID 113643)",
+            "numero": "4.7"
+        },
+        {
+            "id_pergunta": "ferias-pagamento-quando",
+            "secao": "Ferias",
+            "titulo": "Quando e feito o pagamento das ferias",
+            "texto": "Quando é feito o pagamento das férias?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "2dias_uteis",
+                    "rotulo": "02 dias uteis antes do inicio de gozo (legislacao)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.8 (pagamento ferias)",
+            "nota_automacao": "Objeto 1503. DFF_CdiMetCalcDataPagto = 1; DFF_QtiDiasCalcDataPagto = Quantidade.",
+            "numero": "4.8"
+        },
+        {
+            "id_pergunta": "ferias-sabado-dias-uteis",
+            "secao": "Ferias",
+            "titulo": "Sabado na contagem de dias uteis para pagamento",
+            "texto": "A empresa considera o sábado para contagem dos dias úteis para pagamento?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "sim_sexta",
+                    "rotulo": "Sim, quando gozo a partir de segunda-feira o pagamento ocorrera na sexta-feira anterior",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao_quinta",
+                    "rotulo": "Nao, quando gozo a partir de segunda-feira o pagamento sera efetuado na quinta-feira anterior se dia util",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.9 (sabado dias uteis pagamento)",
+            "nota_automacao": "Objeto 1498. Se sim, cria registros de segunda ate sabado; se nao, marca de segunda ate quinta.",
+            "numero": "4.9"
+        },
+        {
+            "id_pergunta": "ferias-prazo-envio-financeiro",
+            "secao": "Ferias",
+            "titulo": "Prazo para envio dos pagamentos de ferias ao financeiro",
+            "texto": "Qual o prazo para envio dos pagamentos de férias ao financeiro?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "24h",
+                    "rotulo": "24 horas antes da data de pagamento, considerando dias uteis",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "48h",
+                    "rotulo": "48 horas antes da data de pagamento, considerando dias uteis",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-email-departamento",
+            "secao": "Ferias",
+            "titulo": "Envio de e-mail nas ferias",
+            "texto": "Nas férias do funcionário é necessário envio de e-mail para algum departamento? Sim / Não. O que deverá constar no e-mail? Especificar responsáveis (Departamento, Responsável).",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Conteudo do e-mail",
+                "Departamento",
+                "Responsavel"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo. Confirmar com o time de relatorios/portal.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-periodo-critico",
+            "secao": "Ferias",
+            "titulo": "Periodo critico para saida de ferias",
+            "texto": "Qual o período considerado crítico para saída de férias (antes de vencer a 2ª férias)?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "2meses",
+                    "rotulo": "2 meses",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "3meses",
+                    "rotulo": "3 meses",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.1 (periodo critico)",
+            "nota_automacao": "1503 (ID campo 23030): 2 meses preenche 10, 3 meses preenche 9 (formula 12 - meses). Somente se 4.11 = sim.",
+            "numero": "4.1"
+        },
+        {
+            "id_pergunta": "ferias-antecipa-13-nas-ferias",
+            "secao": "Ferias",
+            "titulo": "Antecipa 13o salario nas ferias",
+            "texto": "A empresa antecipa 13º salário nas férias? Sim (quais meses de antecipação?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Quais Meses de antecipacao?",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Meses de antecipacao"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.2 (antecipa 13o nas ferias)",
+            "nota_automacao": "1503 (ID campo 22990), marcar se for sim. Somente se 4.11 = sim.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-antecipa-medias-13",
+            "secao": "Ferias",
+            "titulo": "Antecipa medias de 13o salario nas ferias",
+            "texto": "Neste caso, antecipa-se as médias de 13º salário?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.3 (13o consolidado obj 1409)",
+            "nota_automacao": "objeto 1409 (ID 77832), marcar se for sim. Somente se 4.11 = sim.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-regra-medias-13-antecipacao",
+            "secao": "Ferias",
+            "titulo": "Regra de calculo de medias de 13o para antecipacao",
+            "texto": "Qual a regra de cálculo de médias de 13º salário para antecipação nas férias?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "50_pct",
+                    "rotulo": "50% do valor de media do periodo apurado",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "cct",
+                    "rotulo": "Conforme CCT (informar a clausula)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "especifica",
+                    "rotulo": "Regra especifica. Detalhar a regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Clausula CCT / Detalhamento"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-abater-faltas",
+            "secao": "Ferias",
+            "titulo": "Abater faltas injustificadas no periodo aquisitivo",
+            "texto": "Para apuração dos dias de direito de férias, são abatidas as faltas injustificadas no período aquisitivo?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.5 (faltas) e 4.6 (metodo)",
+            "nota_automacao": "2117 (ID 22820) se marcado como sim.",
+            "numero": "4.5"
+        },
+        {
+            "id_pergunta": "ferias-metodo-apuracao-faltas",
+            "secao": "Ferias",
+            "titulo": "Modelo de desconto da verba de faltas",
+            "texto": "Qual o modelo de desconto da verba de faltas: Desmembradas dia a dia (data real da ocorrência) / Sumarizadas (um único lançamento com o total do período).",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "data_real",
+                    "rotulo": "Desmembradas dia a dia (para cada dia de falta um lancamento com a data real da ocorrencia)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "ficha_financeira",
+                    "rotulo": "Sumarizadas (um unico lancamento com o total de faltas do periodo do ponto)",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.5 (faltas) e 4.6 (metodo)",
+            "nota_automacao": "2117 (ID 23830). Desmembrada = 2, Sumarizada (ficha financeira) = 1.",
+            "numero": "4.6"
+        },
+        {
+            "id_pergunta": "ferias-pagamento-adicional-concessao",
+            "secao": "Ferias",
+            "titulo": "Pagamento adicional na concessao das ferias",
+            "texto": "Existe algum pagamento adicional na concessão das férias?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Detalhar",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Detalhamento"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-provisao-desconto-concessao",
+            "secao": "Ferias",
+            "titulo": "Provisao de desconto na concessao das ferias",
+            "texto": "Existe provisão de desconto na concessão das férias?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "credito_trabalhador",
+                    "rotulo": "Credito do Trabalhador - Sim/Nao (detalhar)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "outra",
+                    "rotulo": "Assistencia medica/odontologica - Sim/Nao (detalhar)",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Detalhamento Credito do Trabalhador",
+                "Detalhamento assistencia medica/odontologica"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.8 (provisao desconto concessao ferias)",
+            "nota_automacao": "Objeto 1590. Se marcado como Nao, marcar o campo 14210 (Empresa) / 14224 (Local) para Credito do Trabalhador. Assistencia medica/odontologica e regra de calculo - abrir chamado.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-regra-media-ferias-verbas",
+            "secao": "Ferias",
+            "titulo": "Regra de calculo de media nas ferias",
+            "texto": "Qual regra de cálculo para pagamento de média nas férias e quais verbas específicas participam?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "periodo_aquisitivo",
+                    "rotulo": "Periodo aquisitivo",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "ultimos_12_meses",
+                    "rotulo": "Ultimos 12 meses (quando nao recebe salario fixo)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "convencao_coletiva",
+                    "rotulo": "Convencao Coletiva: Maior media entre 3, 6 e 12 meses",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Verbas do periodo aquisitivo",
+                "Verbas dos ultimos 12 meses",
+                "Verbas da convencao coletiva",
+                "Detalhamento outro"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (CCT)",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-outras-informacoes",
+            "secao": "Ferias",
+            "titulo": "Outras informacoes sobre a rotina de ferias",
+            "texto": "Outras informações que julgar necessário sobre a rotina de férias.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Outras informacoes"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-programacao-automatica",
+            "secao": "Ferias",
+            "titulo": "Programacao automatica de gozo de ferias",
+            "texto": "A empresa utiliza programação automática de gozo de férias, considerando o período crítico?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.11 (programacao automatica)",
+            "nota_automacao": "objeto 1503 (ID 22950): sim informar 2, nao informar 1. Durante a configuracao sempre informar 1; o sim so no Go-live. So gerar com autorizacao do consultor.",
+            "numero": "4.11"
+        },
+        {
+            "id_pergunta": "ferias-dias-gozo-programacao-automatica",
+            "secao": "Ferias",
+            "titulo": "Dias de gozo para programacao automatica",
+            "texto": "Em caso afirmativo: Qual a quantidade de dias de gozo deve ser considerada para a programação automática no sistema?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "20mais10",
+                    "rotulo": "20 dias de gozo + 10 de abono",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "30dias",
+                    "rotulo": "30 dias de gozo",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Objeto 1503. Esse item so devera ser importado no Go-live, nao pode ser importado antes.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-primeira-parcela-13-programacao-automatica",
+            "secao": "Ferias",
+            "titulo": "Pagamento 1a parcela 13o no gozo (programacao automatica)",
+            "texto": "A empresa pagará 1ª parcela de 13º salário no gozo de férias, na programação automática?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.2 (antecipa 13o nas ferias)",
+            "nota_automacao": "Se sim, marcar o campo (ID 22990) no 1503.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-coletivas",
+            "secao": "Ferias",
+            "titulo": "Adocao de ferias coletivas",
+            "texto": "A empresa adota férias coletivas?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Mes das ferias coletivas"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.14 (ferias coletivas)",
+            "nota_automacao": "Se sim, marcar o campo (ID 52581) no 2117. Mes das coletivas e informativo.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "ferias-postergacao-retorno",
+            "secao": "Ferias",
+            "titulo": "Datas de postergacao para retorno das ferias",
+            "texto": "Há datas de postergação para o retorno das férias (Ex.: Natal, Ano Novo)?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim (informar Dia, Mes, Descricao, Tipo/Modo de Descanso, Sindicato)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Dia",
+                "Mes",
+                "Descricao",
+                "Tipo de Descanso",
+                "Modo de Descanso",
+                "Sindicato"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.15 (postergacao retorno ferias)",
+            "nota_automacao": "Preencher no 1798 aba datas a ignorar por sindicato oficial. Nota no DOCX: nao fazer nada, informativo - porem a inteligencia gera por sindicato oficial conforme tabela.",
+            "numero": "4.15"
+        },
+        {
+            "id_pergunta": "ferias-encerramento-periodo-aquisitivo",
+            "secao": "Ferias",
+            "titulo": "Encerramento do periodo aquisitivo (Art. 140 CLT)",
+            "texto": "A empresa encerra o período aquisitivo conforme lei artigo 140 da CLT?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao. Especifique",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Especificacao"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.17 (encerra periodo aquisitivo art 140)",
+            "nota_automacao": "Se nao, marcar o campo (ID 154153) no 2117. Regra confirmada: Sim = 1, Nao = 0.",
+            "numero": "4.17"
+        },
+        {
+            "id_pergunta": "afastamentos-empresa-cidada",
+            "secao": "Afastamentos",
+            "titulo": "Adesao ao programa Empresa Cidada",
+            "texto": "A Empresa aderiu ao programa Empresa Cidadã (Lei 11770/08), destinado a prorrogar por 60 dias a licença maternidade e por 15 dias a licença paternidade?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "15 - 5.1 (Empresa Cidada)",
+            "nota_automacao": "Se sim, objeto 2107 (ID 109272)",
+            "numero": null
+        },
+        {
+            "id_pergunta": "afastamentos-curso-paternidade",
+            "secao": "Afastamentos",
+            "titulo": "Curso de paternidade responsavel para prorrogacao",
+            "texto": "É necessário que o pai participe de curso ou atividade sobre paternidade responsável para obter a prorrogação?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Processo [Informativo] - e no objeto 3865",
+            "numero": null
+        },
+        {
+            "id_pergunta": "afastamentos-email-departamento",
+            "secao": "Afastamentos",
+            "titulo": "Envio de e-mail no afastamento/retorno",
+            "texto": "No caso de afastamento e/ou retorno de funcionário é necessário envio de e-mail para algum departamento? Sim / Não. O que deverá constar no e-mail? Especificar responsáveis.",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Conteudo do e-mail",
+                "Departamento",
+                "Responsavel"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo. Verificar com Renata se essa pergunta deve constar no mapeamento da folha.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "afastamentos-complemento-beneficio",
+            "secao": "Afastamentos",
+            "titulo": "Complemento de beneficio (Acidente/Auxilio Doenca)",
+            "texto": "A empresa paga complemento de benefício (Acidente de Trabalho / Auxílio Doença)?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "afastamentos-base-calculo-complemento",
+            "secao": "Afastamentos",
+            "titulo": "Base de calculo do complemento",
+            "texto": "Neste caso qual a base de cálculo para apuração do complemento?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "salario_base",
+                    "rotulo": "Salario Base",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "remuneracao",
+                    "rotulo": "Remuneracao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "media_variaveis",
+                    "rotulo": "Media das variaveis recebidas. Quantidade de meses a considerar",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "afastamentos-inicio-pagamento-complemento",
+            "secao": "Afastamentos",
+            "titulo": "Inicio do pagamento de complemento",
+            "texto": "Quando se inicia o pagamento de complemento? Especificar.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Inicio do pagamento de complemento"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "afastamentos-complemento-folha-e-13",
+            "secao": "Afastamentos",
+            "titulo": "Complemento pago na folha e no 13o",
+            "texto": "Este complemento é pago tanto para a folha de pagamento como para o 13º salário?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "afastamentos-base-complemento-13",
+            "secao": "Afastamentos",
+            "titulo": "Base de calculo do complemento no 13o",
+            "texto": "Para apuração do valor do complemento devemos utilizar qual base de cálculo?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "apura_13_integral",
+                    "rotulo": "Apura o valor de 13o salario integral (considerando avos de afastamento) e complementa a diferenca entre o beneficio e o valor apurado",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "mesma_base_folha",
+                    "rotulo": "Utiliza a mesma base aplicada na folha e complementa a diferenca entre o beneficio e o valor apurado",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Detalhar a regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "afastamentos-insuficiencia-saldo-retorno",
+            "secao": "Afastamentos",
+            "titulo": "Insuficiencia de saldo no retorno",
+            "texto": "Como é tratada a insuficiência de saldo gerada no pagamento do funcionário afastado quando do seu retorno?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "total_retorno",
+                    "rotulo": "Desconta o valor total no mes de retorno",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "parcela",
+                    "rotulo": "Parcela o valor da insuficiencia de saldo. Especificar regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Regra de parcelamento"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "adiantamento-data-percentual",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Data de pagamento e percentual do adiantamento",
+            "texto": "Data do pagamento do adiantamento de salário e percentual (inclusive outras localidades): Data (Dia 15 ou último dia útil anterior / Outro) e Percentual (40% / Outro).",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "dia15",
+                    "rotulo": "Dia 15 ou ultimo dia util anterior caso recaia em sabado, domingo e feriado",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "data_outro",
+                    "rotulo": "Outro (data)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "40pct",
+                    "rotulo": "40%",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "percentual_outro",
+                    "rotulo": "Outro percentual",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Data de Pagamento",
+                "Percentual"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "16 - 6.1 (percentual adiantamento)",
+            "nota_automacao": "Se for outro percentual, objeto 1590 (ID 1501) por empresa, (ID 2501) por local.",
+            "numero": "6.1"
+        },
+        {
+            "id_pergunta": "adiantamento-indice-diferente",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Funcionarios com indice diferente",
+            "texto": "Há funcionários com índice diferente para o adiantamento quinzenal? Sim (como identificá-lo?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Como identifica-lo?",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Forma de identificacao"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "6.2"
+        },
+        {
+            "id_pergunta": "adiantamento-nao-recebe-quinzenal",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Funcionarios que nao recebem adiantamento",
+            "texto": "Há funcionários que não recebem adiantamento quinzenal?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim (sera solicitada relacao de Nao Optante no inicio do Paralelo Tecnico)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "6.3"
+        },
+        {
+            "id_pergunta": "adiantamento-vinculos-recebem",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Vinculos que recebem adiantamento e base de calculo",
+            "texto": "Regras para pagamento do Adiantamento. Quais vínculos recebem: CLT / Diretor / Estagiário / PJ / Menor Aprendiz / Outros. Base de Cálculo: Salário Base / Salário Base mês anterior / Remuneração / Remuneração mês anterior / Outro.",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "clt",
+                    "rotulo": "CLT",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "diretor",
+                    "rotulo": "Diretor",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "estagiario",
+                    "rotulo": "Estagiario",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "pj",
+                    "rotulo": "PJ",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "menor_aprendiz",
+                    "rotulo": "Menor Aprendiz",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Base de Calculo (Salario Base / Salario Base mes anterior / Remuneracao / Remuneracao mes anterior / Outro)"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "16 - 6.4.1 (vinculos adiantamento)",
+            "nota_automacao": "Objeto 1590, avaliar parametrizacao. SEMANTICA INVERTIDA: gravar 1 quando vinculo NAO marcado (nao recebe) - Diretor (1710), Estagiario (1711), Menor Aprendiz (1739).",
+            "numero": "6.4"
+        },
+        {
+            "id_pergunta": "adiantamento-ferias-regra",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Adiantamento nas ferias",
+            "texto": "Férias - O funcionário recebe adiantamento?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "proporcional_1dia",
+                    "rotulo": "Recebe adiantamento quinzenal proporcional aos dias de ativo, desde que tenha pelo menos 1 dia de ativo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "proporcional_xdias",
+                    "rotulo": "Recebe adiantamento quinzenal proporcional aos dias de ativo, desde que tenha pelo menos X dias de ativo no mes",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao_recebe",
+                    "rotulo": "Nao recebe adiantamento, independente da quantidade de dias de ferias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "integral",
+                    "rotulo": "Recebe adiantamento integral, desde que tenha pelo menos 1 dia de ativo no mes",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Quantidade de dias de ativo"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo - regra de ferias no adiantamento.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "adiantamento-admissao-regra",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Adiantamento na admissao",
+            "texto": "Admissão - O funcionário recebe adiantamento?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "proporcional_1dia",
+                    "rotulo": "Recebe proporcional aos dias de ativo, independente da data de admissao, com pelo menos 1 dia de ativo e admissao antes do calculo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "proporcional_xdias",
+                    "rotulo": "Recebe proporcional, admitido antes do calculo e com pelo menos X dias de ativo no mes",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "integral_independente",
+                    "rotulo": "Recebe integral, independente da data de admissao, com 1 dia de ativo e admissao antes do calculo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "integral_xdias",
+                    "rotulo": "Recebe integral, admitido antes do calculo e com pelo menos X dias de ativo no mes (nao ha campo)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "admitidos_nao_recebem",
+                    "rotulo": "Admitidos no mes nao recebem adiantamento no mes de admissao. Somente a partir do mes seguinte",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Detalhar a regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Quantidade de dias de ativo"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "16 - 6.4.2 (admissao adiantamento)",
+            "nota_automacao": "Objeto 1590: Proporcional (1303 Empresa/2303 Local), Integral (1712/2712), Admitidos nao recebem (1716/2716).",
+            "numero": null
+        },
+        {
+            "id_pergunta": "adiantamento-proporcionalidade-31dias",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Proporcionalidade dias reais mes de 31 dias",
+            "texto": "Admissão - Proporcionalidade - Considerar dias reais do mês para admitidos em mês de 31 dias?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "calendario",
+                    "rotulo": "Mes calendario",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "comercial",
+                    "rotulo": "Mes comercial",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "16 - 6.4.3 (proporcionalidade + maternidade)",
+            "nota_automacao": "Objeto 1590 (12392 Empresa / 12393 Local). Mes calendario = 1, Nao = 0.",
+            "numero": "6.4.3"
+        },
+        {
+            "id_pergunta": "adiantamento-afastamento-retorno-inss",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Adiantamento no afastamento/retorno do INSS",
+            "texto": "Afastamento ou retorno do INSS - O funcionário recebe adiantamento?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "proporcional_1dia",
+                    "rotulo": "Recebe proporcional, independente da data de afastamento, com pelo menos 1 dia de ativo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "proporcional_xdias",
+                    "rotulo": "Recebe proporcional, com pelo menos X dias de ativo no mes",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "integral_independente",
+                    "rotulo": "Recebe integral, independente da data de afastamento, com 1 dia de ativo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "integral_xdias",
+                    "rotulo": "Recebe integral, com pelo menos X dias de ativo no mes",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao_recebe_afastado",
+                    "rotulo": "No mes de afastamento e de retorno, se afastado no momento do calculo nao recebe",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao_recebe_durante",
+                    "rotulo": "Durante o afastamento nao recebe adiantamento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Detalhar Regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Quantidade de dias de ativo"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "adiantamento-licenca-maternidade",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Adiantamento para afastada de Licenca Maternidade",
+            "texto": "Pagar adiantamento para funcionária afastada de Licença Maternidade?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Aplicacao da regra normalmente",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao, paga-se somente no mes seguinte ao retorno",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "proporcional_xdias",
+                    "rotulo": "Nos meses de inicio e retorno pagar proporcional, com pelo menos X dias de ativo",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "proporcional_1dia",
+                    "rotulo": "Nos meses de inicio e retorno pagar proporcional, com pelo menos 1 dia de ativo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Detalhar regra",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Quantidade de dias de ativo"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "16 - 6.4.3 (proporcionalidade + maternidade)",
+            "nota_automacao": "Marca o campo ID 1749 do 1590 (Empresa) e 2742 (Local). Sim = 1, Nao = 0.",
+            "numero": null
+        },
+        {
+            "id_pergunta": "adiantamento-pre-afastamento-15dias",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Pre-Afastamento 15 dias como dias de ativo",
+            "texto": "Os dias de Pré Afastamento (Aux. Doença ou Acidente de Trabalho) são considerados como dias de ativo para a contagem dos dias mínimos para pagamento do Adiantamento Quinzenal?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "adiantamento-afastamentos-desprezados",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Tipos de afastamento desprezados no calculo",
+            "texto": "Selecionar quais os tipos de afastamentos devem ser desprezados no cálculo (Afast. s/ Remuneração, Ac. Trabalho, Aux. Doença, Serv. Militar, Cumprimento Plena Reclusão, Prorrogação Maternidade, Lic. Adoção 120/60/30 dias, Aborto Não Criminoso, Aposentado p/ Invalidez, Mandato Sindical, Outros Motivos s/ ou c/ remun., Licença Paternidade).",
+            "tipo": "multipla",
+            "opcoes": [
+                {
+                    "chave": "afast_sem_remun",
+                    "rotulo": "Afast. s/ Remuneracao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "ac_trabalho",
+                    "rotulo": "Ac. Trabalho",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "aux_doenca",
+                    "rotulo": "Aux. Doenca",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "serv_militar",
+                    "rotulo": "Serv. Militar",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "reclusao",
+                    "rotulo": "Cumprimento Plena Reclusao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "prorrogacao_maternidade",
+                    "rotulo": "Prorrogacao Maternidade",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "lic_adocao_120",
+                    "rotulo": "Lic. Adocao 120 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "lic_adocao_60",
+                    "rotulo": "Lic. Adocao 60 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "lic_adocao_30",
+                    "rotulo": "Lic. Adocao 30 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "aborto",
+                    "rotulo": "Aborto Nao Criminoso",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "invalidez",
+                    "rotulo": "Aposentado p/ Invalidez",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "mandato_sindical",
+                    "rotulo": "Mandato Sindical",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros_sem_remun",
+                    "rotulo": "Outros Motivos s/ remun.",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros_com_remun",
+                    "rotulo": "Outros Motivos c/ remun.",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "lic_paternidade",
+                    "rotulo": "Licenca Paternidade",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "adiantamento-liquido-negativo",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Desconto de liquido negativo no adiantamento",
+            "texto": "Quando do líquido negativo - Desconta no adiantamento quinzenal?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao, descontar liquido negativo somente no mensal",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "adiantamento-pensao-quinzenal",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Desconto de pensao no adiantamento quinzenal",
+            "texto": "Quando houver pensão alimentícia - Desconta pensão no adiantamento quinzenal?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "sim_todos",
+                    "rotulo": "Sim, de todos os funcionarios",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "sim_oficio",
+                    "rotulo": "Sim, desde que especificado em oficio",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao_mensal",
+                    "rotulo": "Nao, somente no mensal",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "adiantamento-info-complementar",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Informacao complementar do adiantamento",
+            "texto": "Existe alguma informação complementar necessária para o cálculo do adiantamento salarial?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Especificar",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Especificacao"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "6.5"
+        },
+        {
+            "id_pergunta": "adiantamento-relatorios",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Relatorios do Adiantamento Quinzenal",
+            "texto": "Selecione os relatórios a serem enviados no processo do Adiantamento Quinzenal (Folha Analítica, Folha Sintética, Relação de Líquido, Relação líquido zero, Meio de Pagamento, Relação Líquido Pensionista, Conciliação Insuficiência de Saldo, Relação sem dados bancários, Outros).",
+            "tipo": "multipla",
+            "opcoes": [
+                {
+                    "chave": "folha_analitica",
+                    "rotulo": "Folha de Adiantamento Analitica",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "folha_sintetica",
+                    "rotulo": "Folha de Adiantamento Sintetica",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "relacao_liquido",
+                    "rotulo": "Relacao de Liquido",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "liquido_zero",
+                    "rotulo": "Relacao de funcionarios com liquido zero, se houver",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "meio_pagamento",
+                    "rotulo": "Meio de Pagamento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "liquido_pensionista",
+                    "rotulo": "Relacao de Liquido de Pensionista, se houver",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "conciliacao_insuficiencia",
+                    "rotulo": "Conciliacao de Insuficiencia de Saldo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "sem_dados_bancarios",
+                    "rotulo": "Relacao de funcionarios sem dados bancarios",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "6.10"
+        },
+        {
+            "id_pergunta": "adiantamento-prazo-envio-financeiro",
+            "secao": "Adiantamento de Salario",
+            "titulo": "Prazo para envio ao financeiro (adiantamento)",
+            "texto": "Qual o prazo para envio dos pagamentos de Adiantamento ao financeiro?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "24h",
+                    "rotulo": "24 horas antes da data de pagamento, considerando dias uteis",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "48h",
+                    "rotulo": "48 horas antes da data de pagamento, considerando dias uteis",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "6.11"
+        },
+        {
+            "id_pergunta": "pensao-credito-ferias",
+            "secao": "Pensao Alimenticia",
+            "titulo": "Credito da pensao nas ferias",
+            "texto": "Quando há desconto da pensão nas férias, quando é feito o crédito para a pensionista?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "outro",
+                    "rotulo": "A empresa paga a pensionista na mesma data do pagamento das ferias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "mesma_data_salario",
+                    "rotulo": "A empresa paga a pensionista na mesma data do pagamento do salario mensal",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "17 - 7.1 (pensao ferias)",
+            "nota_automacao": "Se salario mensal - 1590 (ID 1706) Empresa, (2706) Local.",
+            "numero": "7.1"
+        },
+        {
+            "id_pergunta": "pensao-antecipacao-13-ferias",
+            "secao": "Pensao Alimenticia",
+            "titulo": "Desconto de pensao sobre antecipacao de 13o nas ferias",
+            "texto": "Quando ocorre antecipação de 13º salário nas férias, desconta-se pensão sobre a mesma?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "pensao-informe-rendimentos",
+            "secao": "Pensao Alimenticia",
+            "titulo": "Informe de Rendimentos para a pensionista",
+            "texto": "A empresa envia Informe de Rendimentos para a pensionista?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "sindicato-predominante",
+            "secao": "Sindicato",
+            "titulo": "Sindicato predominante",
+            "texto": "Qual o sindicato predominante? Informar a Razão Social, CNPJ e Código da Entidade.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Razao Social",
+                "CNPJ",
+                "Codigo da Entidade"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "8.1"
+        },
+        {
+            "id_pergunta": "sindicato-aplicacao-clausulas",
+            "secao": "Sindicato",
+            "titulo": "Aplicacao das clausulas coletivas",
+            "texto": "A aplicação das cláusulas coletivas será realizada de acordo com o Sindicato a que o funcionário pertence?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "cada_convencao",
+                    "rotulo": "Sim, a empresa aplica as clausulas de cada convencao, conforme o Sindicato que pertence",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "dissidio_preponderante",
+                    "rotulo": "Aplicar somente dissidio, piso salarial e contribuicoes por sindicato, demais clausulas do sindicato preponderante",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "8.2"
+        },
+        {
+            "id_pergunta": "sindicato-beneficio-cruzado",
+            "secao": "Sindicato",
+            "titulo": "Uso de beneficio de outro sindicato",
+            "texto": "Há funcionários pertencentes a um sindicato fazendo uso de benefício concedido aos empregados de outro sindicato? Quais casos, regras e quem autoriza? Complementar com informações adicionais se necessário.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Casos, regras e autorizacao",
+                "Informacoes adicionais"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": null
+        },
+        {
+            "id_pergunta": "encargos-liminar",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Liminar para algum encargo",
+            "texto": "A empresa possui liminar para algum encargo? Detalhar.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Detalhamento da liminar"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo. Composicao da GPS: preencher planilha COMPOSICAO DE GPS.",
+            "numero": "9.1"
+        },
+        {
+            "id_pergunta": "encargos-desoneracao-folha",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Desoneracao na Folha de Pagamento",
+            "texto": "A empresa está enquadrada na Desoneração na Folha de Pagamento?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "parcial",
+                    "rotulo": "Parcial",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "total",
+                    "rotulo": "Total",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Memoria de calculo"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "9.2"
+        },
+        {
+            "id_pergunta": "encargos-contabil-sem-desoneracao",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Contabil sem desoneracao e reprocesso",
+            "texto": "Será necessário gerar um contábil sem desoneração e um segundo reprocesso de contábil após recebimento do percentual de desoneração?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo. Caso positivo, para BPO e BSP sera cobrado reprocesso de folha 25%, conforme contrato.",
+            "numero": "9.6"
+        },
+        {
+            "id_pergunta": "provisao-adiantamento-13-deduz-saldo",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.1 - Adiantamento 13o deduzido do saldo",
+            "texto": "O valor de Adiantamento de 13º Salário será deduzido do saldo total de provisão?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.1"
+        },
+        {
+            "id_pergunta": "provisao-adiantamento-13-baixa-fgts",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.2 - Adiantamento 13o baixado na provisao FGTS 13o",
+            "texto": "O valor de Adiantamento de 13º Salário será baixado na provisão de FGTS 13º Salário?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.2"
+        },
+        {
+            "id_pergunta": "provisao-ferias-dobro",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.3 - Provisiona ferias em dobro",
+            "texto": "Provisiona férias em dobro?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.3"
+        },
+        {
+            "id_pergunta": "provisao-baixa-rescisao-complementar",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.4 - Baixar valores pagos em rescisao complementar",
+            "texto": "Baixar valores pagos em rescisão complementar?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao_correcao_negativa",
+                    "rotulo": "Nao correcao negativa",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.4"
+        },
+        {
+            "id_pergunta": "provisao-reducao-faltas-proporcional",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.5 - Reducao por faltas proporcional",
+            "texto": "Considerar Redução por faltas proporcionalmente aos Dias de Férias de Direito?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.5"
+        },
+        {
+            "id_pergunta": "provisao-abate-salario-maternidade",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.6 - Abate Salario Maternidade dos Encargos 13o",
+            "texto": "Abate Salário Maternidade dos Encargos de Provisão 13º Salário?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.6"
+        },
+        {
+            "id_pergunta": "provisao-fgts-13-afastado-acidente",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.7 - FGTS sobre 13o de afastado por acidente",
+            "texto": "Provisionar FGTS sobre o 13º Salário do Contratado Afastado por Acidente de Trabalho?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.7"
+        },
+        {
+            "id_pergunta": "provisao-desmembramento-ferias",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.8 - Metodo de Desmembramento Provisao Ferias",
+            "texto": "Método de Desmembramento de Verbas Provisão Férias?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "padrao",
+                    "rotulo": "Padrao sem desmembramento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "basico_medias",
+                    "rotulo": "Separacao de Valor Basico e Medias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "basico_medias_terco",
+                    "rotulo": "Separacao de Valor Basico, Medias e 1/3 das Ferias",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.8"
+        },
+        {
+            "id_pergunta": "provisao-divisor-13-abono",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.9 - Divisor para Calculo de 13o e Abono",
+            "texto": "Divisor para Cálculo de 13º Salário e Abono de Férias?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "360",
+                    "rotulo": "360 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "365",
+                    "rotulo": "365 dias o padrao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.9"
+        },
+        {
+            "id_pergunta": "provisao-desmembramento-13",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.10 - Metodo de Desmembramento Provisao 13o",
+            "texto": "Método de Desmembramento de Verbas Provisão 13º Salário?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "padrao",
+                    "rotulo": "Padrao sem desmembramento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "basico_medias",
+                    "rotulo": "Separacao de Valor Basico e Medias",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.10"
+        },
+        {
+            "id_pergunta": "provisao-somar-ferias-futuras",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.11 - Somar Ferias Futuras no saldo atual",
+            "texto": "Somar Férias Futuras no saldo atual da provisão?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.11"
+        },
+        {
+            "id_pergunta": "provisao-subtrair-abono-encargos",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.12 - Subtrair abono para encargos",
+            "texto": "Subtrair abono para encargos de provisão?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.12"
+        },
+        {
+            "id_pergunta": "provisao-importacao-saldo",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.13 - Importacao do Saldo de Provisao",
+            "texto": "Será realizado a importação do Saldo de Provisão (Férias e 13º Salário)?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "importar",
+                    "rotulo": "Importar saldo existente",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "sem_importacao",
+                    "rotulo": "Iniciar sem importacao de saldo (zerar provisoes anteriores)",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.13"
+        },
+        {
+            "id_pergunta": "provisao-recesso-estagiarios",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.14 - Provisiona recesso de estagiarios",
+            "texto": "A empresa provisiona recesso de estagiários?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.14"
+        },
+        {
+            "id_pergunta": "provisao-recesso-terco",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.15 - Provisao do adicional de 1/3 no recesso",
+            "texto": "Caso seja provisionado o recesso de estagiários, deve ser considerada também a provisão do adicional de 1/3?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.15"
+        },
+        {
+            "id_pergunta": "provisao-avos-proporcional",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.16 - Avos de ferias proporcional aos dias de direito",
+            "texto": "Grava a quantidade de avos de férias de forma proporcional aos dias de direito?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.16"
+        },
+        {
+            "id_pergunta": "provisao-transferencia-saldo",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.17 - Tratamento do saldo em transferencia",
+            "texto": "Como será tratado o saldo de provisão em caso de transferência de empresa e de centro de custo?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "1_transfere_exclui",
+                    "rotulo": "1- Transfere e exclui origem",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "2_transfere_ajusta",
+                    "rotulo": "2- Transfere e ajusta saldos",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "3_controla_originais",
+                    "rotulo": "3- Controla registros originais",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "4_ajusta_especial",
+                    "rotulo": "4- Transfere e ajusta Saldos Especial",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.17"
+        },
+        {
+            "id_pergunta": "provisao-valores-alem-ferias-13",
+            "secao": "Encargos e Obrigacoes",
+            "titulo": "Provisao 4.18 - Provisionar valores alem de Ferias e 13o",
+            "texto": "Existe a necessidade de provisionar valores além de Férias e 13º Salário (ex.: Bônus, PPR e outros)?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Especificar",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Especificacao"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (Provisao)",
+            "numero": "4.18"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-1a-parcela-quando",
+            "secao": "13o Salario",
+            "titulo": "Quando e paga a 1a parcela do 13o",
+            "texto": "Quando é paga a 1ª parcela do 13º salário?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "30_novembro",
+                    "rotulo": "30 de Novembro",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.3 (13o consolidado obj 1409)",
+            "nota_automacao": "objeto 1409 (ID 27031) informar o mes. O processo 81 no campo (ID 27032). No objeto 1409 o campo data de vigencia deve estar preenchido para todas as folhas.",
+            "numero": "10.1"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-base-1a-parcela",
+            "secao": "13o Salario",
+            "titulo": "Base de calculo da 1a parcela do 13o",
+            "texto": "Na 1ª parcela de 13º salário, considerar como base de cálculo: Salário do mês Anterior / Salário do mês de pagamento / Remuneração do mês Anterior / Remuneração do mês de pagamento.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "remun_mes_pagamento",
+                    "rotulo": "Remuneracao do mes de pagamento",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "remun_mes_anterior",
+                    "rotulo": "Remuneracao do mes Anterior ou Salario do mes Anterior",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "salario_mes_pagamento",
+                    "rotulo": "Salario do mes de pagamento",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "20 - 10.2 (base calculo 1a parcela 13o)",
+            "nota_automacao": "Remuneracao mes de pagamento -> campo 1748 (Empresa)/2730 (Local). Remuneracao/Salario mes Anterior -> campo 13816 (Empresa)/13817 (Local).",
+            "numero": "10.2"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-2a-parcela-quando",
+            "secao": "13o Salario",
+            "titulo": "Quando e paga a 2a parcela do 13o",
+            "texto": "Quando é paga a 2ª parcela do 13º salário?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "20_dezembro",
+                    "rotulo": "20 de Dezembro",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outro",
+                    "rotulo": "Outro. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.3 (13o consolidado obj 1409)",
+            "nota_automacao": "objeto 1409 (ID 27033) informar o mes. O processo 91 no campo (ID 27034).",
+            "numero": "10.3"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-repasse-pensao",
+            "secao": "13o Salario",
+            "titulo": "Repasse de pensao sobre 13o",
+            "texto": "De acordo com o ofício, quando há desconto de pensão alimentícia sobre o 13º salário, o repasse para a pensionista ocorrerá: No processo origem (2ª parcela do 13º) / No processo mensal.",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "outro",
+                    "rotulo": "No processo origem (2a parcela do 13o salario)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "processo_mensal",
+                    "rotulo": "No processo mensal",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "20 - 10.4 (repasse pensao 13o)",
+            "nota_automacao": "Se salario mensal - 1590 (ID 1721) Empresa, (2719) Local.",
+            "numero": "10.4"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-processo-1a-parcela",
+            "secao": "13o Salario",
+            "titulo": "Processo de calculo da 1a parcela do 13o",
+            "texto": "Em qual processo é calculado a 1ª parcela de 13º salário?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "quinzenal",
+                    "rotulo": "Processo quinzenal",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "mensal",
+                    "rotulo": "Processo mensal",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "separado",
+                    "rotulo": "Processo separado",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "10.5"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-processo-separado-circulacao",
+            "secao": "13o Salario",
+            "titulo": "Verbas do processo separado circulam apenas para demonstracao",
+            "texto": "Caso seja calculado em processo separado, as verbas circularão na folha apenas para demonstração do holerite (vencimento e desconto)?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.3 (13o consolidado obj 1409)",
+            "nota_automacao": "Se nao, 1409 (ID 19280) marcar com 1. SEMANTICA INVERTIDA: Nao = gravar 1.",
+            "numero": "10.5.1"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-antecipa-media-1a-parcela",
+            "secao": "13o Salario",
+            "titulo": "Antecipa media na 1a parcela do 13o",
+            "texto": "Na 1ª parcela 13º Salário adianta-se a média? Qual a regra de cálculo?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Regra de calculo"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.3 (13o consolidado obj 1409)",
+            "nota_automacao": "No 1409, (id 77832) marcar como 1 se sim.",
+            "numero": "10.5.2"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-diferenca-reajuste",
+            "secao": "13o Salario",
+            "titulo": "Diferenca de 13o por reajuste salarial",
+            "texto": "Caso o funcionário tenha recebido antecipação de 13º e depois teve reajuste salarial, na 1ª parcela a empresa paga a diferença?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.3 (13o consolidado obj 1409)",
+            "nota_automacao": "objeto 1409 (ID 26990) marcar como 1 se sim.",
+            "numero": "10.5.3"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-regra-avos-1a-parcela",
+            "secao": "13o Salario",
+            "titulo": "Regra de apuracao dos avos da 1a parcela",
+            "texto": "Qual a regra de cálculo de apuração dos avos no ano para pagamento da 1ª parcela do 13º?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "ate_dezembro",
+                    "rotulo": "De Janeiro ou data de admissao ate dezembro, considerando avo com pelo menos 15 dias trabalhados no mes",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "ate_mes_anterior",
+                    "rotulo": "De Janeiro ou data de admissao ate o mes anterior ao pagamento da 1a parcela, avo com pelo menos 15 dias",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "10.5.4"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-faltas-reduzem-avos",
+            "secao": "13o Salario",
+            "titulo": "Faltas injustificadas reduzem avos do 13o",
+            "texto": "As faltas injustificadas devem ser consideradas para redução do número de avos de direito do 13º salário?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "20 - 10.5.5 (faltas reduzem avos 13o)",
+            "nota_automacao": "41847 marcar como 1 o OPL. Se sim, no objeto 675 informar 1 no campo (41848). Refere-se a perda de avos, nao ao desconto do valor das faltas.",
+            "numero": "10.5.5"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-2a-parcela-verbas-vencimentos",
+            "secao": "13o Salario",
+            "titulo": "2a parcela demonstrada em verbas de vencimentos/descontos",
+            "texto": "Os valores pagos referente a 2ª parcela de 13º serão demonstrados em folha nas verbas de vencimentos e descontos?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "14 - 4.3 (13o consolidado obj 1409)",
+            "nota_automacao": "Se sim, 1409 (ID 19280) marcar com 1.",
+            "numero": "10.5.6"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-regra-medias",
+            "secao": "13o Salario",
+            "titulo": "Regra para calculo das medias do 13o",
+            "texto": "Qual a regra para cálculo das médias do 13º salário?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "legislacao",
+                    "rotulo": "Conforme Legislacao",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "cct",
+                    "rotulo": "Conforme CCT (informar a clausula)",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "outros",
+                    "rotulo": "Outros. Especificar",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Clausula CCT / Especificacao"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "informativo",
+            "numero": "10.5.7"
+        },
+        {
+            "id_pergunta": "decimo-terceiro-desconto-media-maior",
+            "secao": "13o Salario",
+            "titulo": "Desconto de media paga a maior na 2a parcela",
+            "texto": "Ao reapurar a média da 2ª parcela do 13º com base nas verbas variáveis de dezembro, a empresa efetua o desconto de valores pagos a maior?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "20 - 10.5.8 (desconto media 13o pago a maior)",
+            "nota_automacao": "Se nao, no objeto 1590 (ID 13205) marcar como 1 (Empresas). SEMANTICA INVERTIDA: Nao = gravar 1.",
+            "numero": "10.5.8"
+        },
+        {
+            "id_pergunta": "econsignado-provisao-desconto-ferias",
+            "secao": "eConsignado",
+            "titulo": "Provisao de desconto do Credito do Trabalhador nas ferias",
+            "texto": "Existe provisão de desconto do Crédito do Trabalhador na concessão das férias?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo (relaciona-se com item de ferias 4.8 provisao).",
+            "numero": null
+        },
+        {
+            "id_pergunta": "econsignado-provisao-desconto-quinzenal",
+            "secao": "eConsignado",
+            "titulo": "Provisao de desconto do Credito do Trabalhador no quinzenal",
+            "texto": "Existe provisão de desconto do Crédito do Trabalhador no adiantamento quinzenal?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "26 - 4.18 (provisao desc Credito Trab quinzenal)",
+            "nota_automacao": "Se nao, marcar o campo 14211 (Empresa) / 14225 (Local) no 1590. SEMANTICA INVERTIDA: Nao = gravar 1.",
+            "numero": "4.18"
+        },
+        {
+            "id_pergunta": "econsignado-provisiona-integral-quinzenal",
+            "secao": "eConsignado",
+            "titulo": "Provisiona Credito do Trabalhador integral no quinzenal",
+            "texto": "Provisionar Crédito do Trabalhador integral no Adiantamento Quinzenal?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "26 - 4.19 (provisiona Credito Trab integral quinzenal)",
+            "nota_automacao": "Se sim, marcar o campo (ID 14223) Empresa / 14226 Local do objeto 1590.",
+            "numero": "4.19"
+        },
+        {
+            "id_pergunta": "expatriados-possui",
+            "secao": "Expatriados",
+            "titulo": "Possui empregados expatriados/impatriados",
+            "texto": "Possui empregados expatriados / impatriados?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Nome",
+                "CPF",
+                "Vinculo apdata (3 ou 4)"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "12.1"
+        },
+        {
+            "id_pergunta": "expatriados-beneficios",
+            "secao": "Expatriados",
+            "titulo": "Beneficios aos expatriados/impatriados",
+            "texto": "São fornecidos benefícios aos expatriados / impatriados?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "12.3"
+        },
+        {
+            "id_pergunta": "expatriados-adiantamento-quinzenal",
+            "secao": "Expatriados",
+            "titulo": "Adiantamento quinzenal para expatriados",
+            "texto": "A empresa paga adiantamento quinzenal para expatriados / impatriados?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Regra de pagamento"
+            ],
+            "gera_regra_1215": true,
+            "item_txt_relacionado": "21 - 4.19 (adiantamento expatriados)",
+            "nota_automacao": "Se nao, 1590 (ID 12688) opl Empresa, 12689 Local. Sim = 1, Nao = 0.",
+            "numero": "12.5"
+        },
+        {
+            "id_pergunta": "expatriados-zeramento-liquido",
+            "secao": "Expatriados",
+            "titulo": "Zeramento do liquido para expatriados",
+            "texto": "Para empregados expatriados, a empresa realiza lançamentos na folha brasileira apenas para apuração da remuneração e recolhimento dos encargos, com zeramento do líquido a pagar (pagamento no exterior)?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": true
+                }
+            ],
+            "campos_texto": [
+                "Regra aplicada"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "12.7"
+        },
+        {
+            "id_pergunta": "expatriados-outras-anotacoes",
+            "secao": "Expatriados",
+            "titulo": "Outras anotacoes de expatriados",
+            "texto": "Outras anotações.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Outras anotacoes"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "12.8"
+        },
+        {
+            "id_pergunta": "contabilizacao-responsavel-contabil",
+            "secao": "Contabilizacao",
+            "titulo": "Responsavel no Departamento Contabil",
+            "texto": "Quem é o responsável no Departamento Contábil pelo recebimento dos arquivos e relatórios?",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Responsavel"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.1"
+        },
+        {
+            "id_pergunta": "contabilizacao-data-entrega",
+            "secao": "Contabilizacao",
+            "titulo": "Data de entrega da contabilizacao",
+            "texto": "Qual a data de entrega da contabilização para o Departamento Contábil (Modalidade BPO/BSP)?",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Data de entrega"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.2"
+        },
+        {
+            "id_pergunta": "contabilizacao-sistema-utilizado",
+            "secao": "Contabilizacao",
+            "titulo": "Sistema utilizado pela empresa",
+            "texto": "Qual o sistema utilizado pela empresa?",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Sistema"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.3"
+        },
+        {
+            "id_pergunta": "contabilizacao-forma",
+            "secao": "Contabilizacao",
+            "titulo": "Como a contabilizacao e feita",
+            "texto": "Como a contabilização é feita?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "interface_txt",
+                    "rotulo": "Via interface (arquivo TXT)",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "relatorio_digitacao",
+                    "rotulo": "Via relatorio para digitacao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.4"
+        },
+        {
+            "id_pergunta": "contabilizacao-arquivos-relatorios",
+            "secao": "Contabilizacao",
+            "titulo": "Arquivos e relatorios enviados ao Contabil",
+            "texto": "Quais os arquivos e relatórios devem ser enviados ao Departamento Contábil? (Enviar modelos, leiautes e plano de contas).",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Arquivos e relatorios"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.5"
+        },
+        {
+            "id_pergunta": "contabilizacao-modo",
+            "secao": "Contabilizacao",
+            "titulo": "Modo de contabilizacao",
+            "texto": "Qual é o modo de contabilização da empresa?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "partida_simples",
+                    "rotulo": "Partida Simples - Debito para vencimentos e credito para descontos e liquido",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "partida_dupla",
+                    "rotulo": "Partida Dupla - Composta por Debito e Credito para todas as verbas",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.6"
+        },
+        {
+            "id_pergunta": "contabilizacao-centro-custo-igual",
+            "secao": "Contabilizacao",
+            "titulo": "Centro de custo folha igual ao contabil",
+            "texto": "O Centro de custo usado pela folha é o mesmo do contábil?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.7"
+        },
+        {
+            "id_pergunta": "contabilizacao-saldo-transferidos",
+            "secao": "Contabilizacao",
+            "titulo": "Tratativa de saldo anterior para transferidos",
+            "texto": "Qual é a tratativa de saldo anterior para funcionários transferidos de centro de custos e empresas?",
+            "tipo": "unica",
+            "opcoes": [
+                {
+                    "chave": "mantem_antigo",
+                    "rotulo": "Mantem no Centro de Custo antigo",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "transfere_novo",
+                    "rotulo": "Transfere o valor para o novo Centro de Custo",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.8"
+        },
+        {
+            "id_pergunta": "contabilizacao-diferenciacao-mao-obra",
+            "secao": "Contabilizacao",
+            "titulo": "Diferenciacao de lancamentos por mao de obra",
+            "texto": "Há diferenciação de lançamentos quanto à mão de obra (por tipos de despesas)? Sim (como identificar?",
+            "tipo": "composta",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim. Como identificar?",
+                    "exige_valor": true
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [
+                "Forma de identificacao"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.9"
+        },
+        {
+            "id_pergunta": "contabilizacao-subsidio-beneficios",
+            "secao": "Contabilizacao",
+            "titulo": "Contabilizacao do subsidio dos beneficios",
+            "texto": "Na folha de pagamento atual, é contabilizado o subsídio dos benefícios?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.10"
+        },
+        {
+            "id_pergunta": "contabilizacao-baixa-inss-contas-separadas",
+            "secao": "Contabilizacao",
+            "titulo": "Baixa de INSS parte empresa em contas separadas",
+            "texto": "Na Contabilização a baixa de INSS, parte empresa, referente à folha, férias e 13º salário deve ser feita em contas separadas?",
+            "tipo": "sim_nao",
+            "opcoes": [
+                {
+                    "chave": "sim",
+                    "rotulo": "Sim",
+                    "exige_valor": false
+                },
+                {
+                    "chave": "nao",
+                    "rotulo": "Nao",
+                    "exige_valor": false
+                }
+            ],
+            "campos_texto": [],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.11"
+        },
+        {
+            "id_pergunta": "contabilizacao-outras-anotacoes",
+            "secao": "Contabilizacao",
+            "titulo": "Outras anotacoes de contabilizacao",
+            "texto": "Outras anotações.",
+            "tipo": "texto",
+            "opcoes": [],
+            "campos_texto": [
+                "Outras anotacoes"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": "Informativo",
+            "numero": "11.12"
+        },
+        {
+            "id_pergunta": "aceite-mapeamento",
+            "secao": "Aceite",
+            "titulo": "Aceite do Mapeamento de Dados",
+            "texto": "Declaração de aceite: leitura do documento realizada, compartilho e aprovo todos os itens. Aprovação Responsável APDATA (Nome, Cargo, Assinatura) e Aprovação Responsável CLIENTE (Nome, Cargo, Assinatura). Local e data.",
+            "tipo": "composta",
+            "opcoes": [],
+            "campos_texto": [
+                "Local e data",
+                "APDATA - Nome",
+                "APDATA - Cargo",
+                "APDATA - Assinatura",
+                "CLIENTE - Nome",
+                "CLIENTE - Cargo",
+                "CLIENTE - Assinatura"
+            ],
+            "gera_regra_1215": false,
+            "item_txt_relacionado": null,
+            "nota_automacao": null,
+            "numero": null
+        }
+    ]
+}

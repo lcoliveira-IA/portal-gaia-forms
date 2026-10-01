@@ -1,0 +1,554 @@
+{
+  "descricao": "Mapa de reconciliacao entre as chaves atuais de mapa_resposta_para_valor da Inteligencia_Rotina_1215_Mapeamento.json e as chaves padronizadas do Formulario_Perguntas_COMPLETO.json. Inclui somente regras/campos cujas chaves atuais NAO casam com as novas chaves padronizadas.",
+  "ajustes": [
+    {
+      "item_txt": "9 - Regime Pagamento",
+      "id_campo_alvo": "3790",
+      "mapa_antigo_para_novo": {
+        "Competencia": "comercial",
+        "Caixa": "calendario"
+      }
+    },
+    {
+      "item_txt": "9 - Tipo Empresa",
+      "id_campo_alvo": "112345",
+      "mapa_antigo_para_novo": {
+        "ME": "me",
+        "EPP": "epp",
+        "Outros": "outros"
+      }
+    },
+    {
+      "item_txt": "9 - Optante Simples",
+      "id_campo_alvo": "74481",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "12 - Proporcionalidade dias uteis",
+      "id_campo_alvo": "12637",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "12 - Proporcionalidade dias uteis",
+      "id_campo_alvo": "14092",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "13 - 3.10 Prazo liberacao demonstrativo",
+      "id_campo_alvo": "121991",
+      "mapa_antigo_para_novo": {
+        "2 dias antes": "2",
+        "1 dia antes": "1",
+        "No dia do pagamento": "0",
+        "Outro": "outro"
+      }
+    },
+    {
+      "item_txt": "13 - 3.10 Prazo liberacao demonstrativo",
+      "id_campo_alvo": "121992",
+      "mapa_antigo_para_novo": {
+        "2 dias antes": "2",
+        "1 dia antes": "1",
+        "No dia do pagamento": "0",
+        "Outro": "outro"
+      }
+    },
+    {
+      "item_txt": "13 - 3.12",
+      "id_campo_alvo": "22660",
+      "mapa_antigo_para_novo": {
+        "Suspende/Bloqueia a demissao": "bloqueia",
+        "Indeniza o periodo estavel": "indeniza"
+      }
+    },
+    {
+      "item_txt": "13 - 3.14",
+      "id_campo_alvo": "95579",
+      "mapa_antigo_para_novo": {
+        "(a) 1o ano vencido": "1ano",
+        "(b) 2o ano vencido": "2ano"
+      }
+    },
+    {
+      "item_txt": "13 - 3.23 (1/3 recesso + gratificacao natalina)",
+      "id_campo_alvo": "12200",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "13 - 3.23 (1/3 recesso + gratificacao natalina)",
+      "id_campo_alvo": "2749",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "13 - 3.23 (1/3 recesso + gratificacao natalina)",
+      "id_campo_alvo": "1704",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "13 - 3.23 (1/3 recesso + gratificacao natalina)",
+      "id_campo_alvo": "2704",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "13 - 3.25",
+      "id_campo_alvo": "1005",
+      "mapa_antigo_para_novo": {
+        "Calendario (28, 29, 30 ou 31 dias)": "calendario",
+        "Mes comercial (30 dias)": "comercial"
+      }
+    },
+    {
+      "item_txt": "13 - 3.26",
+      "id_campo_alvo": "12953",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "13 - 3.28",
+      "id_campo_alvo": "14213",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "13 - 3.29",
+      "id_campo_alvo": "14212",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "14 - 4.2",
+      "id_campo_alvo": "22940",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "14 - 4.3 (dobro)",
+      "id_campo_alvo": "22894",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "14 - 4.3 (dobro)",
+      "id_campo_alvo": "153930",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "14 - 4.4 (dias semana ferias)",
+      "id_campo_alvo": "22915",
+      "mapa_antigo_para_novo": {
+        "Somente no 1o dia util da semana": "1dia_util",
+        "Qualquer dia exceto folga/descanso": "qualquer_exceto_folga",
+        "De segunda a quinta": "seg_qui"
+      }
+    },
+    {
+      "item_txt": "14 - 4.5 (dias ferias permitidos)",
+      "id_campo_alvo": "22882",
+      "mapa_antigo_para_novo": {
+        "20 dias + 1/3 abono": "20mais13",
+        "30 dias": "30dias",
+        "Outro (padrao)": "outro"
+      }
+    },
+    {
+      "item_txt": "14 - 4.5 (faltas) e 4.6 (metodo)",
+      "id_campo_alvo": "22820",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "14 - 4.5 (faltas) e 4.6 (metodo)",
+      "id_campo_alvo": "23830",
+      "mapa_antigo_para_novo": {
+        "Desmembradas (data real)": "data_real",
+        "Sumarizadas (ficha financeira)": "ficha_financeira"
+      }
+    },
+    {
+      "item_txt": "14 - 4.6 e 4.7 (antecedencia/alteracao ferias)",
+      "id_campo_alvo": "113654",
+      "mapa_antigo_para_novo": {
+        "30 dias": "30",
+        "45 dias": "45",
+        "60 dias": "60"
+      }
+    },
+    {
+      "item_txt": "14 - 4.6 e 4.7 (antecedencia/alteracao ferias)",
+      "id_campo_alvo": "113643",
+      "mapa_antigo_para_novo": {
+        "30 dias": "30",
+        "45 dias": "45",
+        "60 dias": "60"
+      }
+    },
+    {
+      "item_txt": "14 - 4.8 (pagamento ferias)",
+      "id_campo_alvo": "22035",
+      "mapa_antigo_para_novo": {
+        "02 dias uteis (legislacao)": "2dias_uteis",
+        "Outro": "outro"
+      }
+    },
+    {
+      "item_txt": "14 - 4.8 (provisao desconto concessao ferias)",
+      "id_campo_alvo": "14210",
+      "mapa_antigo_para_novo": {
+        "Sim - Credito do Trabalhador": "credito_trabalhador"
+      }
+    },
+    {
+      "item_txt": "14 - 4.8 (provisao desconto concessao ferias)",
+      "id_campo_alvo": "14224",
+      "mapa_antigo_para_novo": {
+        "Sim - Credito do Trabalhador": "credito_trabalhador"
+      }
+    },
+    {
+      "item_txt": "14 - 4.1 (periodo critico)",
+      "id_campo_alvo": "23030",
+      "mapa_antigo_para_novo": {
+        "2 meses": "2meses",
+        "3 meses": "3meses",
+        "Outro": "outro"
+      }
+    },
+    {
+      "item_txt": "14 - 4.11 (programacao automatica)",
+      "id_campo_alvo": "22950",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "14 - 4.2 (antecipa 13o nas ferias)",
+      "id_campo_alvo": "22990",
+      "mapa_antigo_para_novo": {
+        "Sim (e 4.11 Sim)": "sim"
+      }
+    },
+    {
+      "item_txt": "14 - 4.3 (13o consolidado obj 1409)",
+      "id_campo_alvo": "77832",
+      "mapa_antigo_para_novo": {
+        "Sim (4.3 e 4.11)": "sim"
+      }
+    },
+    {
+      "item_txt": "14 - 4.3 (13o consolidado obj 1409)",
+      "id_campo_alvo": "27031",
+      "mapa_antigo_para_novo": {
+        "30 de Novembro": "30_novembro",
+        "Outro": "outro"
+      }
+    },
+    {
+      "item_txt": "14 - 4.3 (13o consolidado obj 1409)",
+      "id_campo_alvo": "27033",
+      "mapa_antigo_para_novo": {
+        "20 de Dezembro": "20_dezembro",
+        "Outro": "outro"
+      }
+    },
+    {
+      "item_txt": "14 - 4.3 (13o consolidado obj 1409)",
+      "id_campo_alvo": "19280",
+      "mapa_antigo_para_novo": {
+        "Nao (10.5.1)": "nao",
+        "Sim": "sim"
+      }
+    },
+    {
+      "item_txt": "14 - 4.3 (13o consolidado obj 1409)",
+      "id_campo_alvo": "26990",
+      "mapa_antigo_para_novo": {
+        "Sim (10.5.3)": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "14 - 4.14 (ferias coletivas)",
+      "id_campo_alvo": "52581",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "14 - 4.17 (encerra periodo aquisitivo art 140)",
+      "id_campo_alvo": "154153",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "15 - 5.1 (Empresa Cidada)",
+      "id_campo_alvo": "109272",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.1 (vinculos adiantamento)",
+      "id_campo_alvo": "1710",
+      "mapa_antigo_para_novo": {
+        "NAO marcado": "nao"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.1 (vinculos adiantamento)",
+      "id_campo_alvo": "1711",
+      "mapa_antigo_para_novo": {
+        "NAO marcado": "nao"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.1 (vinculos adiantamento)",
+      "id_campo_alvo": "1739",
+      "mapa_antigo_para_novo": {
+        "NAO marcado": "nao"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.2 (admissao adiantamento)",
+      "id_campo_alvo": "1303",
+      "mapa_antigo_para_novo": {
+        "Proporcional": "proporcional"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.2 (admissao adiantamento)",
+      "id_campo_alvo": "2303",
+      "mapa_antigo_para_novo": {
+        "Proporcional": "proporcional"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.2 (admissao adiantamento)",
+      "id_campo_alvo": "1712",
+      "mapa_antigo_para_novo": {
+        "Integral": "integral"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.2 (admissao adiantamento)",
+      "id_campo_alvo": "2712",
+      "mapa_antigo_para_novo": {
+        "Integral": "integral"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.2 (admissao adiantamento)",
+      "id_campo_alvo": "1716",
+      "mapa_antigo_para_novo": {
+        "Admitidos nao recebem": "admitidos_nao_recebem"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.2 (admissao adiantamento)",
+      "id_campo_alvo": "2716",
+      "mapa_antigo_para_novo": {
+        "Admitidos nao recebem": "admitidos_nao_recebem"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.3 (proporcionalidade + maternidade)",
+      "id_campo_alvo": "12392",
+      "mapa_antigo_para_novo": {
+        "Mes calendario": "calendario",
+        "Nao": "comercial"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.3 (proporcionalidade + maternidade)",
+      "id_campo_alvo": "12393",
+      "mapa_antigo_para_novo": {
+        "Mes calendario": "calendario",
+        "Nao": "comercial"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.3 (proporcionalidade + maternidade)",
+      "id_campo_alvo": "1749",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "16 - 6.4.3 (proporcionalidade + maternidade)",
+      "id_campo_alvo": "2742",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "17 - 7.1 (pensao ferias)",
+      "id_campo_alvo": "1706",
+      "mapa_antigo_para_novo": {
+        "Mesma data salario mensal": "mesma_data_salario"
+      }
+    },
+    {
+      "item_txt": "17 - 7.1 (pensao ferias)",
+      "id_campo_alvo": "2706",
+      "mapa_antigo_para_novo": {
+        "Mesma data salario mensal": "mesma_data_salario"
+      }
+    },
+    {
+      "item_txt": "20 - 10.2 (base calculo 1a parcela 13o)",
+      "id_campo_alvo": "1748",
+      "mapa_antigo_para_novo": {
+        "Remuneracao mes pagamento": "remun_mes_pagamento"
+      }
+    },
+    {
+      "item_txt": "20 - 10.2 (base calculo 1a parcela 13o)",
+      "id_campo_alvo": "2730",
+      "mapa_antigo_para_novo": {
+        "Remuneracao mes pagamento": "remun_mes_pagamento"
+      }
+    },
+    {
+      "item_txt": "20 - 10.2 (base calculo 1a parcela 13o)",
+      "id_campo_alvo": "13816",
+      "mapa_antigo_para_novo": {
+        "Remuneracao/salario mes anterior": "remun_mes_anterior"
+      }
+    },
+    {
+      "item_txt": "20 - 10.2 (base calculo 1a parcela 13o)",
+      "id_campo_alvo": "13817",
+      "mapa_antigo_para_novo": {
+        "Remuneracao/salario mes anterior": "remun_mes_anterior"
+      }
+    },
+    {
+      "item_txt": "20 - 10.4 (repasse pensao 13o)",
+      "id_campo_alvo": "1721",
+      "mapa_antigo_para_novo": {
+        "No processo mensal": "processo_mensal"
+      }
+    },
+    {
+      "item_txt": "20 - 10.4 (repasse pensao 13o)",
+      "id_campo_alvo": "2719",
+      "mapa_antigo_para_novo": {
+        "No processo mensal": "processo_mensal"
+      }
+    },
+    {
+      "item_txt": "20 - 10.5.5 (faltas reduzem avos 13o)",
+      "id_campo_alvo": "41847",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "20 - 10.5.5 (faltas reduzem avos 13o)",
+      "id_campo_alvo": "41848",
+      "mapa_antigo_para_novo": {
+        "Ficha financeira": "ficha_financeira",
+        "Data real": "data_real"
+      }
+    },
+    {
+      "item_txt": "20 - 10.5.8 (desconto media 13o pago a maior)",
+      "id_campo_alvo": "13205",
+      "mapa_antigo_para_novo": {
+        "Nao": "nao",
+        "Sim": "sim"
+      }
+    },
+    {
+      "item_txt": "21 - 4.19 (adiantamento expatriados)",
+      "id_campo_alvo": "12688",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "21 - 4.19 (adiantamento expatriados)",
+      "id_campo_alvo": "12689",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "26 - 4.18 (provisao desc Credito Trab quinzenal)",
+      "id_campo_alvo": "14211",
+      "mapa_antigo_para_novo": {
+        "Nao": "nao",
+        "Sim": "sim"
+      }
+    },
+    {
+      "item_txt": "26 - 4.18 (provisao desc Credito Trab quinzenal)",
+      "id_campo_alvo": "14225",
+      "mapa_antigo_para_novo": {
+        "Nao": "nao",
+        "Sim": "sim"
+      }
+    },
+    {
+      "item_txt": "26 - 4.19 (provisiona Credito Trab integral quinzenal)",
+      "id_campo_alvo": "14223",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    },
+    {
+      "item_txt": "26 - 4.19 (provisiona Credito Trab integral quinzenal)",
+      "id_campo_alvo": "14226",
+      "mapa_antigo_para_novo": {
+        "Sim": "sim",
+        "Nao": "nao"
+      }
+    }
+  ]
+}

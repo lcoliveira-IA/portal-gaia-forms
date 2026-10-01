@@ -289,18 +289,92 @@ function updateLockUI() {
 
 
 
+function applyRoleUI(role) {
+    const isConsultor = (role === "consultor" || role === "admin");
+    const labelConsultor = document.getElementById("label-consultor-view");
+    const btnToggleConsultor = document.getElementById("btn-toggle-consultor-view");
+    
+    if (labelConsultor && btnToggleConsultor) {
+        if (isConsultor) {
+            labelConsultor.textContent = "Visão: Consultor";
+            btnToggleConsultor.className = "px-3 py-2 border border-emerald-500 text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer";
+        } else {
+            labelConsultor.textContent = "Visão: Cliente";
+            btnToggleConsultor.className = "px-3 py-2 border border-slate-300 text-slate-700 bg-white hover:bg-slate-100 rounded-lg text-xs font-semibold transition-all shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer";
+        }
+    }
+
+    const uploadCsvContainer = document.getElementById("csv-ga-upload-container");
+    const globalIaContainer = document.getElementById("global-ia-container");
+    const dropdownExtrair = document.getElementById("dropdown-extrair-container");
+    const fabDic = document.getElementById("fab-dicionario-1215");
+    const consultantTopBar = document.getElementById("consultant-top-bar");
+    const btnProcessIA = document.getElementById("btn-global-process-ia");
+
+    if (isConsultor) {
+        if (consultantTopBar) consultantTopBar.classList.remove("hidden");
+        if (uploadCsvContainer) {
+            uploadCsvContainer.classList.remove("hidden");
+            uploadCsvContainer.style.display = "block";
+        }
+        if (globalIaContainer) {
+            globalIaContainer.classList.remove("hidden");
+            globalIaContainer.style.display = "block";
+        }
+        if (dropdownExtrair) {
+            dropdownExtrair.classList.remove("hidden");
+            dropdownExtrair.style.display = "inline-block";
+        }
+        if (btnProcessIA) btnProcessIA.style.display = "flex";
+        if (fabDic) {
+            fabDic.classList.remove("hidden");
+            fabDic.style.display = "flex";
+        }
+    } else {
+        if (consultantTopBar) consultantTopBar.classList.add("hidden");
+        if (uploadCsvContainer) {
+            uploadCsvContainer.classList.add("hidden");
+            uploadCsvContainer.style.display = "none";
+        }
+        if (globalIaContainer) {
+            globalIaContainer.classList.add("hidden");
+            globalIaContainer.style.display = "none";
+        }
+        if (dropdownExtrair) {
+            dropdownExtrair.classList.add("hidden");
+            dropdownExtrair.style.display = "none";
+        }
+        if (btnProcessIA) btnProcessIA.style.display = "none";
+        if (fabDic) {
+            fabDic.classList.add("hidden");
+            fabDic.style.display = "none";
+        }
+    }
+}
+
 async function checkAuth() {
     try {
-        // Leitura de parâmetros na URL (Ex: ?empresa=CAMISA&cnpj=12345678000190)
+        // Leitura de parâmetros na URL (Ex: ?empresa=CAMISA&cnpj=12345678000190&role=consultor)
         const urlParams = new URLSearchParams(window.location.search);
         const paramEmpresa = urlParams.get("empresa") || urlParams.get("cliente");
         const paramCnpj = urlParams.get("cnpj") || "";
+        const paramRole = (urlParams.get("perfil") || urlParams.get("role") || "").toLowerCase();
+
+        let initialRole = "cliente";
+        if (paramRole === "consultor" || paramRole === "admin") {
+            initialRole = "consultor";
+        } else {
+            const savedRole = localStorage.getItem("gaia_active_role");
+            if (savedRole === "consultor" || savedRole === "admin") {
+                initialRole = "consultor";
+            }
+        }
 
         if (paramEmpresa) {
             const cleanEmpresa = decodeURIComponent(paramEmpresa).trim();
             const safeId = "cli_" + btoa(encodeURIComponent(cleanEmpresa.toLowerCase())).replace(/[^a-zA-Z0-9]/g, "").substring(0, 16);
             currentUser = {
-                role: "cliente",
+                role: initialRole,
                 name: cleanEmpresa,
                 cnpj: paramCnpj,
                 client_id: safeId
@@ -309,18 +383,39 @@ async function checkAuth() {
         } else {
             let saved = localStorage.getItem("gaia_current_user");
             if (!saved) {
-                currentUser = { role: "cliente", name: "Cliente GAIA", client_id: "cli_default" };
+                currentUser = { role: initialRole, name: "Cliente GAIA", client_id: "cli_default" };
                 localStorage.setItem("gaia_current_user", JSON.stringify(currentUser));
             } else {
                 try {
                     currentUser = JSON.parse(saved);
+                    currentUser.role = initialRole;
                 } catch(e) {
-                    currentUser = { role: "cliente", name: "Cliente GAIA", client_id: "cli_default" };
+                    currentUser = { role: initialRole, name: "Cliente GAIA", client_id: "cli_default" };
                 }
             }
         }
         window.currentUser = currentUser;
         currentClientId = currentUser.client_id || "cli_default";
+
+        // Setup do botão alternar visão consultor/cliente no topo
+        const btnToggleConsultor = document.getElementById("btn-toggle-consultor-view");
+        if (btnToggleConsultor && !btnToggleConsultor._hasToggleListener) {
+            btnToggleConsultor._hasToggleListener = true;
+            btnToggleConsultor.addEventListener("click", () => {
+                const newRole = (currentUser.role === "consultor") ? "cliente" : "consultor";
+                currentUser.role = newRole;
+                window.currentUser = currentUser;
+                localStorage.setItem("gaia_active_role", newRole);
+                applyRoleUI(newRole);
+                updateStepView();
+                if (typeof showAlertModal === "function") {
+                    showAlertModal(newRole === "consultor" ? 
+                        "Visão do Consultor Ativada!\n\nAgora você pode carregar o CSV do Global Antares no menu lateral, processar o confronto com as respostas do cliente e extrair o arquivo da Rotina 1215." : 
+                        "Visão do Cliente Ativada!\n\nAs ferramentas internas do consultor foram ocultadas."
+                    );
+                }
+            });
+        }
 
         // Atualiza a exibição visual do nome da empresa na interface
         const badge = document.getElementById("client-company-badge");
@@ -329,134 +424,7 @@ async function checkAuth() {
             badge.classList.remove("hidden");
         }
 
-        
-
-        // Hide/Show UI elements based on role
-
-        if (currentUser.role === "cliente") {
-
-            currentClientId = currentUser.client_id;
-
-            const btnConfig = document.getElementById("btn-config-apscripter");
-
-            const btnAi = document.getElementById("btn-open-ia-modal"); 
-
-            const btnExport = document.getElementById("btn-export-payload");
-
-            const btnBackup = document.getElementById("btn-backup-draft");
-
-            const btnRestore = document.getElementById("btn-restore-draft");
-
-            const btnGenerate = document.getElementById("btn-generate-report");
-
-            const btnProcessIA = document.getElementById("btn-global-process-ia");
-
-            const btnChatIA = document.getElementById("btn-global-chat-ia");
-
-
-
-            if (btnConfig) btnConfig.style.display = "none";
-
-            if (btnAi) btnAi.style.display = "none";
-
-            if (btnExport) btnExport.style.display = "none";
-
-            if (btnBackup) btnBackup.style.display = "none";
-
-            if (btnRestore) btnRestore.style.display = "none";
-
-            if (btnGenerate) btnGenerate.style.display = "none";
-
-            if (btnProcessIA) btnProcessIA.style.display = "none";
-
-            if (btnChatIA) btnChatIA.style.display = "none";
-
-            const uploadCsvContainer = document.getElementById("csv-ga-upload-container");
-            if (uploadCsvContainer) {
-                uploadCsvContainer.classList.add("hidden");
-                uploadCsvContainer.style.display = "none";
-            }
-
-            const globalIaContainer = document.getElementById("global-ia-container");
-            if (globalIaContainer) {
-                globalIaContainer.classList.add("hidden");
-                globalIaContainer.style.display = "none";
-            }
-
-            const dropdownExtrair = document.getElementById("dropdown-extrair-container");
-            if (dropdownExtrair) {
-                dropdownExtrair.classList.add("hidden");
-                dropdownExtrair.style.display = "none";
-            }
-
-            // Just in case it's named section-16-ai
-
-            const aiSection = document.getElementById("ai-section");
-
-            if (aiSection) aiSection.style.display = "none";
-
-            if (document.getElementById("active-client-badge")) {
-
-                document.getElementById("active-client-badge").classList.add("hidden");
-
-            }
-
-            const fabDic = document.getElementById("fab-dicionario-1215");
-            if (fabDic) {
-                fabDic.classList.add("hidden");
-                fabDic.style.display = "none";
-            }
-            const drawerDic = document.getElementById("drawer-dicionario-1215");
-            if (drawerDic) {
-                drawerDic.classList.add("hidden");
-                drawerDic.style.display = "none";
-            }
-
-        } else if (currentUser.role === "consultor" || currentUser.role === "admin") {
-
-            document.getElementById("consultant-top-bar").classList.remove("hidden");
-
-            const uploadCsvContainer = document.getElementById("csv-ga-upload-container");
-            if (uploadCsvContainer) {
-                uploadCsvContainer.classList.remove("hidden");
-                uploadCsvContainer.style.display = "block";
-            }
-
-            const globalIaContainer = document.getElementById("global-ia-container");
-            if (globalIaContainer) {
-                globalIaContainer.classList.remove("hidden");
-                globalIaContainer.style.display = "block";
-            }
-
-            const dropdownExtrair = document.getElementById("dropdown-extrair-container");
-            if (dropdownExtrair) {
-                dropdownExtrair.classList.remove("hidden");
-                dropdownExtrair.style.display = "inline-block";
-            }
-
-            const btnProcessIA = document.getElementById("btn-global-process-ia");
-            if (btnProcessIA) btnProcessIA.style.display = "flex";
-
-            const fabDic = document.getElementById("fab-dicionario-1215");
-            if (fabDic) {
-                fabDic.classList.remove("hidden");
-                fabDic.style.display = "flex";
-            }
-
-            loadClients();
-
-            
-
-            if (currentUser.role === "consultor" || currentUser.user === "system") {
-                
-
-            } else if (currentUser.role === "admin") {
-
-                document.getElementById("role-title-text").textContent = "Visão do Administrador";
-
-            }
-
-        }
+        applyRoleUI(currentUser.role);
 
 
 
@@ -7959,14 +7927,9 @@ function sincronizarExclusoes1215() {
     if (syncExclusoesTimeout) clearTimeout(syncExclusoesTimeout);
     syncExclusoesTimeout = setTimeout(() => {
         const cid = (typeof currentClientId !== "undefined" && currentClientId) ? currentClientId : "default";
-        fetch("/api/rotina1215/atualizar-exclusoes", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                client_id: cid,
-                chaves_excluidas: Array.from(window.ia1215Exclusoes || [])
-            })
-        }).catch(err => console.error("Erro ao sincronizar exclusões 1215:", err));
+        try {
+            localStorage.setItem("gaia_1215_exclusoes_" + cid, JSON.stringify(Array.from(window.ia1215Exclusoes || [])));
+        } catch(e) {}
     }, 200);
 }
 
@@ -8616,21 +8579,57 @@ function initRotina1215UI() {
         });
     }
 
-    if (btnDownTxt) {
-        btnDownTxt.addEventListener("click", () => {
-            if (menuExtrair) menuExtrair.classList.add("hidden");
-            const cid = (typeof currentClientId !== "undefined" && currentClientId) ? currentClientId : "default";
-            window.location.href = `/api/rotina1215/exportar-txt?client_id=${encodeURIComponent(cid)}`;
-        });
+    function downloadTextFile(content, fileName, mimeType) {
+        const blob = new Blob([content], { type: mimeType || "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 150);
     }
 
-    if (btnDownAuditoria) {
-        btnDownAuditoria.addEventListener("click", () => {
-            if (menuExtrair) menuExtrair.classList.add("hidden");
-            const cid = (typeof currentClientId !== "undefined" && currentClientId) ? currentClientId : "default";
-            window.location.href = `/api/rotina1215/exportar-auditoria?client_id=${encodeURIComponent(cid)}`;
-        });
+    function exportarArquivoTxt1215() {
+        if (menuExtrair) menuExtrair.classList.add("hidden");
+        if (!window.ia1215Results || window.ia1215Results.length === 0) {
+            showAlertModal("Nenhum confronto da Rotina 1215 foi gerado ainda.\n\nPor favor, envie o CSV do Global Antares no menu lateral e clique em 'Processar IA'.");
+            return;
+        }
+        const cid = (typeof currentClientId !== "undefined" && currentClientId) ? currentClientId : "cliente";
+        const txt = window.Rotina1215Engine.gerarArquivo1215(
+            { resultados: window.ia1215Results },
+            window.ia1215Autorizacoes || {},
+            window.ia1215Exclusoes || []
+        );
+        if (!txt || txt.trim() === "") {
+            showAlertModal("Atenção: Não há nenhuma linha para exportar com os filtros e seleções atuais.");
+            return;
+        }
+        downloadTextFile(txt, `Importacao_Rotina_1215_${cid}.txt`, "text/plain;charset=windows-1252");
     }
+
+    function exportarRelatorioAuditoria1215() {
+        if (menuExtrair) menuExtrair.classList.add("hidden");
+        if (!window.ia1215Results || window.ia1215Results.length === 0) {
+            showAlertModal("Nenhum confronto da Rotina 1215 foi gerado ainda.\n\nPor favor, envie o CSV do Global Antares no menu lateral e clique em 'Processar IA'.");
+            return;
+        }
+        const cid = (typeof currentClientId !== "undefined" && currentClientId) ? currentClientId : "cliente";
+        const csv = window.Rotina1215Engine.gerarRelatorioAuditoriaCsv(
+            { resultados: window.ia1215Results },
+            window.ia1215Exclusoes || []
+        );
+        downloadTextFile(csv, `Relatorio_Auditoria_1215_${cid}.csv`, "text/csv;charset=utf-8;");
+    }
+
+    if (btnDownTxt) btnDownTxt.addEventListener("click", exportarArquivoTxt1215);
+    if (btnModalDownTxt) btnModalDownTxt.addEventListener("click", exportarArquivoTxt1215);
+    if (btnDownAuditoria) btnDownAuditoria.addEventListener("click", exportarRelatorioAuditoria1215);
+    if (btnModalDownAuditoria) btnModalDownAuditoria.addEventListener("click", exportarRelatorioAuditoria1215);
 
     if (btnAbrirFiltro) {
         btnAbrirFiltro.addEventListener("click", (e) => {
@@ -8645,20 +8644,6 @@ function initRotina1215UI() {
     if (btnFiltroMarcarTodos) btnFiltroMarcarTodos.addEventListener("click", () => marcarTodasEntidadesModal(true));
     if (btnFiltroDesmarcarTodos) btnFiltroDesmarcarTodos.addEventListener("click", () => marcarTodasEntidadesModal(false));
 
-    if (btnModalDownTxt) {
-        btnModalDownTxt.addEventListener("click", () => {
-            const cid = (typeof currentClientId !== "undefined" && currentClientId) ? currentClientId : "default";
-            window.location.href = `/api/rotina1215/exportar-txt?client_id=${encodeURIComponent(cid)}`;
-        });
-    }
-
-    if (btnModalDownAuditoria) {
-        btnModalDownAuditoria.addEventListener("click", () => {
-            const cid = (typeof currentClientId !== "undefined" && currentClientId) ? currentClientId : "default";
-            window.location.href = `/api/rotina1215/exportar-auditoria?client_id=${encodeURIComponent(cid)}`;
-        });
-    }
-
     if (btnUploadCsv && inputCsv) {
         btnUploadCsv.addEventListener("click", () => {
             inputCsv.click();
@@ -8668,28 +8653,20 @@ function initRotina1215UI() {
             const file = e.target.files && e.target.files[0];
             if (!file) return;
 
-            btnUploadCsv.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-emerald-600"></i> Enviando...';
+            btnUploadCsv.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-emerald-600"></i> Analisando...';
 
             try {
                 const reader = new FileReader();
                 reader.onload = async (event) => {
                     const csvText = event.target.result;
-                    const cid = (typeof currentClientId !== "undefined" && currentClientId) ? currentClientId : "default";
+                    if (window.Rotina1215Engine) {
+                        await window.Rotina1215Engine.init();
+                        const rows = window.Rotina1215Engine.parseCsvGA(csvText);
+                        window.ia1215CsvRows = rows;
 
-                    const res = await fetch("/api/rotina1215/upload-csv", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            client_id: cid,
-                            filename: file.name,
-                            csv_content: csvText
-                        })
-                    });
-
-                    const data = await res.json();
-                    if (data.success) {
+                        const entidadesUnicas = new Set(rows.map(r => r.ID_ENTIDADE).filter(Boolean));
                         filenameSpan.textContent = file.name;
-                        countSpan.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${data.total_linhas} linhas (${data.total_entidades} entidades)`;
+                        countSpan.innerHTML = `<i class="fa-solid fa-check-circle"></i> ${rows.length} linhas (${entidadesUnicas.size} entidades)`;
                         infoDiv.classList.remove("hidden");
                         btnUploadCsv.innerHTML = `<i class="fa-solid fa-file-csv text-base text-emerald-600"></i> <span id="csv-ga-filename">${file.name}</span>`;
 
@@ -8700,12 +8677,7 @@ function initRotina1215UI() {
                             btnProcess.title = "Pronto para processar confronto IA";
                         }
 
-                        if (typeof showAlertModal === "function") {
-                            showAlertModal(`Arquivo CSV do Global Antares carregado com sucesso!\n\n${data.total_linhas} linhas analisadas para ${data.total_entidades} entidade(s).\nO botão "Processar IA" já está liberado.`);
-                        }
-                    } else {
-                        showAlertModal("Erro ao carregar CSV: " + (data.error || "Formato inválido."));
-                        btnUploadCsv.innerHTML = '<i class="fa-solid fa-file-csv text-base text-emerald-600"></i> <span>Carregar CSV do GA</span>';
+                        showAlertModal(`Arquivo CSV do Global Antares carregado com sucesso!\n\n${rows.length} linhas analisadas para ${entidadesUnicas.size} entidade(s).\nO botão "Processar IA" já está liberado.`);
                     }
                 };
                 reader.readAsText(file, "UTF-8");
@@ -8722,6 +8694,7 @@ function initRotina1215UI() {
             if (inputCsv) inputCsv.value = "";
             if (filenameSpan) filenameSpan.textContent = "Carregar CSV do GA";
             if (infoDiv) infoDiv.classList.add("hidden");
+            window.ia1215CsvRows = null;
             if (btnProcess) {
                 btnProcess.disabled = true;
                 btnProcess.classList.add("opacity-50", "cursor-not-allowed");
@@ -8740,23 +8713,24 @@ function initRotina1215UI() {
             try {
                 if (typeof saveDraft === "function") saveDraft();
 
-                const { respostas, ignoreFlags } = coletarRespostasDoFormulario();
-                const cid = (typeof currentClientId !== "undefined" && currentClientId) ? currentClientId : "default";
+                if (!window.ia1215CsvRows || window.ia1215CsvRows.length === 0) {
+                    showAlertModal("Nenhum arquivo CSV do Global Antares foi carregado previamente. Por favor, carregue o CSV no menu lateral.");
+                    return;
+                }
 
-                const res = await fetch("/api/rotina1215/processar", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        client_id: cid,
-                        respostas: respostas,
-                        autorizacoes: window.ia1215Autorizacoes || {},
-                        ignore_flags: ignoreFlags,
-                        chaves_excluidas: window.ia1215Exclusoes ? Array.from(window.ia1215Exclusoes) : []
-                    })
-                });
+                if (window.Rotina1215Engine) {
+                    await window.Rotina1215Engine.init();
+                    const { respostas, ignoreFlags } = coletarRespostasDoFormulario();
 
-                const data = await res.json();
-                if (data.success) {
+                    const data = window.Rotina1215Engine.processarConfronto1215(
+                        respostas,
+                        window.ia1215CsvRows,
+                        window.ia1215Autorizacoes || {},
+                        ignoreFlags,
+                        new Date(),
+                        window.ia1215Exclusoes ? Array.from(window.ia1215Exclusoes) : []
+                    );
+
                     window.ia1215Results = data.resultados;
                     window.ia1215Resumo = data.resumo;
 
@@ -8781,12 +8755,10 @@ function initRotina1215UI() {
                         `Você pode marcar/desmarcar entidades específicas diretamente em cada pergunta ou usar o botão 'Extrair arquivo > Filtrar Carga por Entidade'.`;
 
                     showAlertModal(msg);
-                } else {
-                    showAlertModal("Erro no processamento da IA: " + (data.error || "Erro desconhecido."));
                 }
             } catch (err) {
                 console.error(err);
-                showAlertModal("Erro de conexão ao processar IA: " + err.message);
+                showAlertModal("Erro ao processar IA: " + err.message);
             } finally {
                 btnProcess.innerHTML = '<i class="fa-solid fa-bolt"></i> Processar IA';
                 btnProcess.disabled = false;
@@ -9508,9 +9480,21 @@ let dicFilterState = {
 async function carregarDicionario1215(forceReload = false) {
     if (dicionario1215Data && !forceReload) return dicionario1215Data;
     try {
-        const res = await fetch("/api/rotina1215/dicionario");
-        if (!res.ok) throw new Error("Erro ao carregar dados do dicionário");
-        dicionario1215Data = await res.json();
+        if (window.Rotina1215Engine) {
+            const raw = await window.Rotina1215Engine.getDicionario();
+            const campos = raw.campos || (Array.isArray(raw) ? raw : []);
+            const txSet = new Set();
+            campos.forEach(c => {
+                if (c.id_transacao_1215) txSet.add(c.id_transacao_1215);
+                if (c.transacao) txSet.add(c.transacao);
+            });
+            dicionario1215Data = {
+                total: campos.length,
+                campos: campos,
+                transacoes: Array.from(txSet).sort(),
+                is_custom: false
+            };
+        }
         
         // Atualizar Select de Transações
         const selectTx = document.getElementById("select-filtro-transacao");

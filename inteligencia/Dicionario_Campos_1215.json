@@ -1,0 +1,1027 @@
+{
+    "descricao":  "Dicionario de campos da Rotina 1215 para exibicao ao consultor no portal. Por id_campo: nome_fisico, literal amigavel, id_transacao (1215), id_campo_chave, nivel (Folha/Empresa/Local/Grupo de Empresa/Sindicato Oficial) e item_txt. Literais sem acento por robustez de encoding.",
+    "fonte":  "CSV Form_Implantacao + Inteligencia_Rotina_1215_Mapeamento.json",
+    "total_campos":  102,
+    "campos":  [
+                   {
+                       "id_campo":  "12637",
+                       "nome_fisico":  "Considerar Dias Efetivamente Trabalhados p/ Apuracao dos Dias Uteis e Nao Uteis",
+                       "literal":  "Considerar Dias Efetivamente Trabalhados p/ Apuracao dos Dias Uteis e Nao Uteis",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "12",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "14092",
+                       "nome_fisico":  "Considerar Dias Efetivamente Trabalhados p/ Apuracao dos Dias Uteis e Nao Uteis",
+                       "literal":  "Considerar Dias Efetivamente Trabalhados p/ Apuracao dos Dias Uteis e Nao Uteis",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "12",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "123396",
+                       "nome_fisico":  "EMP_CdiOpcao_ConsDiaAtDisDmPgt",
+                       "literal":  "Opcao Prazo Liberacao Demonstrativo",
+                       "id_transacao":  "15053",
+                       "id_campo_chave":  "3180 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "13 - 3.10 emp cbx",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "121991",
+                       "nome_fisico":  "EMP_NuiDiaAntDispDemPagamento",
+                       "literal":  "Dias Antecedencia Disp Demonstrativo",
+                       "id_transacao":  "15053",
+                       "id_campo_chave":  "3180 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "13 - 3.10 emp dias",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "121992",
+                       "nome_fisico":  "LOC_NuiDiaAntDispDemPagamento",
+                       "literal":  "Dias Antecedencia Disp Demonstrativo (Local)",
+                       "id_transacao":  "15063",
+                       "id_campo_chave":  "3270 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "13 - 3.10 loc dias",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22646",
+                       "nome_fisico":  "DH2_NuiDiaLimiteRescisao",
+                       "literal":  "Dia-Limite para Rescisao",
+                       "id_transacao":  "19463",
+                       "id_campo_chave":  "22640 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "13 - 3.11",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22660",
+                       "nome_fisico":  "DH2_OplDemContratEstavel",
+                       "literal":  "Bloquear Rescisao Contratado Estavel",
+                       "id_transacao":  "19463",
+                       "id_campo_chave":  "22640 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "13 - 3.12",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "95579",
+                       "nome_fisico":  "DH2_OplAcrescAvPrevDtAdmissao",
+                       "literal":  "Acrescimo Aviso Previo a partir Admissao",
+                       "id_transacao":  "19463",
+                       "id_campo_chave":  "22640 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "13 - 3.14",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "13463",
+                       "nome_fisico":  "Considerar Dias Reais p/ Bolsa Auxilio dos Admitidos em Mes de 31 Dias",
+                       "literal":  "Considerar Dias Reais p/ Bolsa Auxilio dos Admitidos em Mes de 31 Dias",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "13 - 3.21",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "12393",
+                       "nome_fisico":  "Considerar Dias Reais do Mes para os Admitidos em Mes de 31 Dias",
+                       "literal":  "Considerar Dias Reais do Mes para os Admitidos em Mes de 31 Dias",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "13 - 3.21",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "12200",
+                       "nome_fisico":  "Pagar 1/3 sobre o Recesso do Estagiario",
+                       "literal":  "Pagar 1/3 sobre o Recesso do Estagiario",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "13 - 3.23",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1704",
+                       "nome_fisico":  "Pagar Gratificacao Natalina ao Estagiario",
+                       "literal":  "Pagar Gratificacao Natalina ao Estagiario",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "13 - 3.23",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2749",
+                       "nome_fisico":  "Pagar 1/3 sobre o Recesso do Estagiario",
+                       "literal":  "Pagar 1/3 sobre o Recesso do Estagiario",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "13 - 3.23",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2704",
+                       "nome_fisico":  "Pagar Gratificacao Natalina ao Estagiario",
+                       "literal":  "Pagar Gratificacao Natalina ao Estagiario",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "13 - 3.23",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1005",
+                       "nome_fisico":  "Tipo de Mes para Calculo de Salario-Maternidade",
+                       "literal":  "Tipo de Mes para Calculo de Salario-Maternidade",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "13 - 3.25",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "12953",
+                       "nome_fisico":  "Descontar Contribuicao Assistencial Durante o Afastamento",
+                       "literal":  "Descontar Contribuicao Assistencial Durante o Afastamento",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "13 - 3.26",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "14213",
+                       "nome_fisico":  "(flexivel 14213)",
+                       "literal":  "Opcao item 3.28",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "13 - 3.28",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "14212",
+                       "nome_fisico":  "(flexivel 14212)",
+                       "literal":  "Opcao item 3.29",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "13 - 3.29",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22712",
+                       "nome_fisico":  "DH2_CdiVerba_Liquido",
+                       "literal":  "Verba - Liquido (rescisao)",
+                       "id_transacao":  "19463",
+                       "id_campo_chave":  "22640 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "13 - Verba liquido",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "23030",
+                       "nome_fisico":  "DFF_QtiAutoMeses_P",
+                       "literal":  "Qtd Meses - Programacao Automatica",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22950",
+                       "nome_fisico":  "DFF_CdiMetProgramacaoFerias",
+                       "literal":  "Metodo de Programacao de Ferias",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.11",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "52581",
+                       "nome_fisico":  "DFF_OplAtivaSitLicRemunerada",
+                       "literal":  "Ativar Inclusao Situacao Licenca Remunerada",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.14",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "154153",
+                       "nome_fisico":  "DHU_OplAbrirPerMenos1AnoSaldo",
+                       "literal":  "Abrir Periodo Menos 1 Ano com Saldo",
+                       "id_transacao":  "19373",
+                       "id_campo_chave":  "22810 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.17",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22940",
+                       "nome_fisico":  "DFF_CdiMetTratFerNVenc",
+                       "literal":  "Metodo Tratativa Ferias Nao Vencidas",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22894",
+                       "nome_fisico":  "DHU_OplPagtoFeriasDobro",
+                       "literal":  "Pagamento Ferias em Dobro",
+                       "id_transacao":  "19373",
+                       "id_campo_chave":  "22810 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.3 dobro",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "153930",
+                       "nome_fisico":  "DHU_OplPagtoFeriasDobroPrazoPg",
+                       "literal":  "Pagamento Ferias Dobro por Prazo",
+                       "id_transacao":  "19373",
+                       "id_campo_chave":  "22810 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.3 dobro prazo",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "26990",
+                       "nome_fisico":  "DF3_OplPgtoJaRecebido",
+                       "literal":  "Considerar Complementar 13o Ja Recebido",
+                       "id_transacao":  "91292",
+                       "id_campo_chave":  "26970 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.3(13o) compl",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "27032",
+                       "nome_fisico":  "DF3_CdiProcessoLPC_1aParcela",
+                       "literal":  "Processo LPC 1a Parcela 13o",
+                       "id_transacao":  "91292",
+                       "id_campo_chave":  "26970 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.3(13o) lpc1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "27034",
+                       "nome_fisico":  "DF3_CdiProcessoLPC_2aParcela",
+                       "literal":  "Processo LPC 2a Parcela 13o",
+                       "id_transacao":  "91292",
+                       "id_campo_chave":  "26970 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.3(13o) lpc2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "27031",
+                       "nome_fisico":  "DF3_CdiMes_Pagamento1aParcela",
+                       "literal":  "Mes Pagamento 1a Parcela 13o",
+                       "id_transacao":  "91292",
+                       "id_campo_chave":  "26970 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.3(13o) mes1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "27033",
+                       "nome_fisico":  "DF3_CdiMes_Pagamento2aParcela",
+                       "literal":  "Mes Pagamento 2a Parcela 13o",
+                       "id_transacao":  "91292",
+                       "id_campo_chave":  "26970 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.3(13o) mes2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "77832",
+                       "nome_fisico":  "DF3_OplPagarMedias1aParcela",
+                       "literal":  "Pagar Medias na 1a Parcela 13o",
+                       "id_transacao":  "91292",
+                       "id_campo_chave":  "26970 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.3(13o) pagar",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "19280",
+                       "nome_fisico":  "DF3_OplVencDescHoleriteMes12",
+                       "literal":  "Participar Venc/Desc em Dezembro",
+                       "id_transacao":  "91292",
+                       "id_campo_chave":  "26970 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.3(13o) venc",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "9413",
+                       "nome_fisico":  "DHU_QtiDiasMinimoAntecedAviso",
+                       "literal":  "Qtd Min Dias Antecedencia Aviso Ferias",
+                       "id_transacao":  "19373",
+                       "id_campo_chave":  "22810 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.5 aviso",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22820",
+                       "nome_fisico":  "DHU_OplTratarFalFerias",
+                       "literal":  "Tratar Faltas nas Ferias",
+                       "id_transacao":  "19373",
+                       "id_campo_chave":  "22810 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.5 faltas",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "141204",
+                       "nome_fisico":  "DHU_QtiDiasMinimoMaiorGozoFer",
+                       "literal":  "Qtd Min Dias Maior Gozo Ferias",
+                       "id_transacao":  "19373",
+                       "id_campo_chave":  "22810 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.5 maior gozo",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "141206",
+                       "nome_fisico":  "DHU_QtiMaximoGozosPeriodo",
+                       "literal":  "Qtd Max Gozos por Periodo",
+                       "id_transacao":  "19373",
+                       "id_campo_chave":  "22810 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.5 max gozos",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22882",
+                       "nome_fisico":  "DHU_QtiDiasMinimoGozoFerias",
+                       "literal":  "Qtd Min Dias Gozo Ferias",
+                       "id_transacao":  "19373",
+                       "id_campo_chave":  "22810 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.5 min gozo",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "113654",
+                       "nome_fisico":  "DFF_QtiDiasAntecProgramacaoFer",
+                       "literal":  "Qtd Dias Antecedencia Programacao Ferias",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.6",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "23830",
+                       "nome_fisico":  "DHU_CdiMetCalculoFalta",
+                       "literal":  "Metodo de Calculo de Falta",
+                       "id_transacao":  "19373",
+                       "id_campo_chave":  "22810 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.6 metodo",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "113643",
+                       "nome_fisico":  "DFF_QtiDiasAlteracaoFerias",
+                       "literal":  "Qtd Dias para Alteracao de Ferias",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.7",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "14210",
+                       "nome_fisico":  "Nao Provisionar Emprestimo (Credito do Trabalhador) no Recibo de Ferias",
+                       "literal":  "Nao Provisionar Emprestimo (Credito do Trabalhador) no Recibo de Ferias",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "14 - 4.8",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22930/22035",
+                       "nome_fisico":  "DFF_CdiMetCalcDataPagto/DFF_QtiDiasCalcDataPagto",
+                       "literal":  "Metodo e Qtd Dias Data Pagamento Ferias",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.8",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "14224",
+                       "nome_fisico":  "Nao Provisionar Emprestimo (Credito do Trabalhador) no Recibo de Ferias",
+                       "literal":  "Nao Provisionar Emprestimo (Credito do Trabalhador) no Recibo de Ferias",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "14 - 4.8",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "109272",
+                       "nome_fisico":  "EMP_OplEmpresaCidada",
+                       "literal":  "Optante Programa Empresa Cidada",
+                       "id_transacao":  "15053",
+                       "id_campo_chave":  "3180 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "15 - 5.1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1501",
+                       "nome_fisico":  "Indice para Adto Quinzenal",
+                       "literal":  "Indice para Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "16 - 6.1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2501",
+                       "nome_fisico":  "Indice para Adto Quinzenal",
+                       "literal":  "Indice para Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "16 - 6.1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1710",
+                       "nome_fisico":  "Nao Pagar Adto Quinzenal para Diretor Nao Empregado",
+                       "literal":  "Nao Pagar Adto Quinzenal para Diretor Nao Empregado",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "16 - 6.4.1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1711",
+                       "nome_fisico":  "Nao Pagar Adto Quinzenal para Estagiarios",
+                       "literal":  "Nao Pagar Adto Quinzenal para Estagiarios",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "16 - 6.4.1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1739",
+                       "nome_fisico":  "Nao Pagar Adto Quinzenal para Menor Aprendiz",
+                       "literal":  "Nao Pagar Adto Quinzenal para Menor Aprendiz",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "16 - 6.4.1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1303",
+                       "nome_fisico":  "Quantidade Minima de Dias para Adto Quinzenal",
+                       "literal":  "Quantidade Minima de Dias para Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "16 - 6.4.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1712",
+                       "nome_fisico":  "No Proporcionalizar o Adto Quinzenal",
+                       "literal":  "No Proporcionalizar o Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "16 - 6.4.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1716",
+                       "nome_fisico":  "Nao Pagar Adto Quinzenal para Admitidos no Mes",
+                       "literal":  "Nao Pagar Adto Quinzenal para Admitidos no Mes",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "16 - 6.4.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2303",
+                       "nome_fisico":  "Quantidade Minima de Dias para Adto Quinzenal",
+                       "literal":  "Quantidade Minima de Dias para Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "16 - 6.4.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2712",
+                       "nome_fisico":  "No Proporcionalizar o Adto Quinzenal",
+                       "literal":  "No Proporcionalizar o Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "16 - 6.4.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2716",
+                       "nome_fisico":  "Nao Pagar Adto Quinzenal para Admitidos no Mes",
+                       "literal":  "Nao Pagar Adto Quinzenal para Admitidos no Mes",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "16 - 6.4.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "12392",
+                       "nome_fisico":  "Nao Proporcionalizar o Adto Quinzenal",
+                       "literal":  "Nao Proporcionalizar o Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "16 - 6.4.3",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1749",
+                       "nome_fisico":  "Desconsiderar Dias em Maternidade p/ Adto Quinzenal",
+                       "literal":  "Desconsiderar Dias em Maternidade p/ Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "16 - 6.4.3",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2742",
+                       "nome_fisico":  "Desconsiderar Dias em Maternidade p/ Adto Quinzenal",
+                       "literal":  "Desconsiderar Dias em Maternidade p/ Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "16 - 6.4.3",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1706",
+                       "nome_fisico":  "Pagar Somente na Folha a Pensao sobre o Gozo de Ferias",
+                       "literal":  "Pagar Somente na Folha a Pensao sobre o Gozo de Ferias",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "17 - 7.1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2706",
+                       "nome_fisico":  "Pagar Somente na Folha a Pensao sobre o Gozo de Ferias",
+                       "literal":  "Pagar Somente na Folha a Pensao sobre o Gozo de Ferias",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "17 - 7.1",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1748",
+                       "nome_fisico":  "Utilizar Remuneracao para Calculo de Antecipacao de 13o Salario",
+                       "literal":  "Utilizar Remuneracao para Calculo de Antecipacao de 13o Salario",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "20 - 10.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "13816",
+                       "nome_fisico":  "Utilizar Remuneracao do Mes Anterior para Calculo da Primeira Parcela",
+                       "literal":  "Utilizar Remuneracao do Mes Anterior para Calculo da Primeira Parcela",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "20 - 10.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2730",
+                       "nome_fisico":  "Utilizar Remuneracao para Calculo de Antecipacao de 13o Salario",
+                       "literal":  "Utilizar Remuneracao para Calculo de Antecipacao de 13o Salario",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "20 - 10.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "13817",
+                       "nome_fisico":  "Utilizar Remuneracao do Mes Anterior para Calculo da Primeira Parcela",
+                       "literal":  "Utilizar Remuneracao do Mes Anterior para Calculo da Primeira Parcela",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "20 - 10.2",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "1721",
+                       "nome_fisico":  "Pagar Somente na Folha a Pensao sobre a 2a Parcela do 13o Salario",
+                       "literal":  "Pagar Somente na Folha a Pensao sobre a 2a Parcela do 13o Salario",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "20 - 10.4",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "2719",
+                       "nome_fisico":  "Pagar Somente na Folha a Pensao sobre a 2a Parcela do 13o Salario",
+                       "literal":  "Pagar Somente na Folha a Pensao sobre a 2a Parcela do 13o Salario",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "20 - 10.4",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "41847",
+                       "nome_fisico":  "BNL_OplTratarFaltas",
+                       "literal":  "Tratar Faltas na Apuracao Avos 13o",
+                       "id_transacao":  "64353",
+                       "id_campo_chave":  "41846 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "20 - 10.5.5 faltas",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "41848",
+                       "nome_fisico":  "BNL_CdiMetCalculoFalta",
+                       "literal":  "Metodo Apuracao Faltas 13o",
+                       "id_transacao":  "64353",
+                       "id_campo_chave":  "41846 (Grupo)",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "20 - 10.5.5 metodo",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "13205",
+                       "nome_fisico":  "Nao Desconta Diferencas no Mensal de 13o Salario Ja Pago",
+                       "literal":  "Nao Desconta Diferencas no Mensal de 13o Salario Ja Pago",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "20 - 10.5.8",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "12688",
+                       "nome_fisico":  "Nao Pagar Adto Quinzenal p/ Expatriados",
+                       "literal":  "Nao Pagar Adto Quinzenal p/ Expatriados",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "21 - 4.19",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "12689",
+                       "nome_fisico":  "Nao Pagar Adto Quinzenal p/ Expatriados",
+                       "literal":  "Nao Pagar Adto Quinzenal p/ Expatriados",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "21 - 4.19",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "14211",
+                       "nome_fisico":  "Nao Provisionar Emprestimo (Credito do Trabalhador) no Adiantamento Quinzenal",
+                       "literal":  "Nao Provisionar Emprestimo (Credito do Trabalhador) no Adiantamento Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "26 - 4.18",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "14225",
+                       "nome_fisico":  "Nao Provisionar Emprestimo (Credito do Trabalhador) no Adiantamento Quinzenal",
+                       "literal":  "Nao Provisionar Emprestimo (Credito do Trabalhador) no Adiantamento Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "26 - 4.18",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "14223",
+                       "nome_fisico":  "Provisionar Emprestimo (Credito do Trabalhador) Integral no Adto Quinzenal",
+                       "literal":  "Provisionar Emprestimo (Credito do Trabalhador) Integral no Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76336 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "26 - 4.19",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "14226",
+                       "nome_fisico":  "Provisionar Emprestimo (Credito do Trabalhador) Integral no Adto Quinzenal",
+                       "literal":  "Provisionar Emprestimo (Credito do Trabalhador) Integral no Adto Quinzenal",
+                       "id_transacao":  "72213",
+                       "id_campo_chave":  "76345 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "26 - 4.19",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "3790",
+                       "nome_fisico":  "FOL_OplRegimeCompetencia",
+                       "literal":  "Considerar Regime de Competencia",
+                       "id_transacao":  "15073",
+                       "id_campo_chave":  "3711 (Folha)",
+                       "nivel":  "Folha",
+                       "item_txt":  "9 - Regime Pagamento",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "39105",
+                       "nome_fisico":  "DED_NusCICResponsavel",
+                       "literal":  "CPF do Responsavel (DIRF)",
+                       "id_transacao":  "17793",
+                       "id_campo_chave":  "39090 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "9 - Resp DIRF cpf",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "39110",
+                       "nome_fisico":  "DED_DssNomeResponsavel",
+                       "literal":  "Nome do Responsavel (DIRF)",
+                       "id_transacao":  "17793",
+                       "id_campo_chave":  "39090 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "9 - Resp DIRF nome",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "122710",
+                       "nome_fisico":  "LOC_CosDocResponsavel",
+                       "literal":  "CPF/Doc do Responsavel (Local)",
+                       "id_transacao":  "19453",
+                       "id_campo_chave":  "2170 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "9 - Resp Local cpf",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "3380",
+                       "nome_fisico":  "LOC_DssNomeRespl",
+                       "literal":  "Nome do Responsavel (Local obj2109)",
+                       "id_transacao":  "19453",
+                       "id_campo_chave":  "2170 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "9 - Resp Local nome",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "146829",
+                       "nome_fisico":  "LOC_CdiTipoDocumento_Respons",
+                       "literal":  "Tipo Documento do Responsavel (Local)",
+                       "id_transacao":  "19453",
+                       "id_campo_chave":  "2170 (Local)",
+                       "nivel":  "Local",
+                       "item_txt":  "9 - Resp Local tpdoc",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "4151",
+                       "nome_fisico":  "DEA_NusCICResponsavel",
+                       "literal":  "CPF do Responsavel (RAIS obj2124)",
+                       "id_transacao":  "19453",
+                       "id_campo_chave":  "39900 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "9 - Resp RAIS cpf",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "4153",
+                       "nome_fisico":  "DEA_DssNomeResponsavel",
+                       "literal":  "Nome do Responsavel (RAIS obj2124)",
+                       "id_transacao":  "19453",
+                       "id_campo_chave":  "39900 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "9 - Resp RAIS nome",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "74482",
+                       "nome_fisico":  "CJW_DtiAno_Inicio",
+                       "literal":  "Ano de Inicio Opcao Simples",
+                       "id_transacao":  "70912",
+                       "id_campo_chave":  "73377 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "9 - Simples ano",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "74480",
+                       "nome_fisico":  "CJW_CdiMes_Inicio",
+                       "literal":  "Mes de Inicio Opcao Simples",
+                       "id_transacao":  "70912",
+                       "id_campo_chave":  "73377 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "9 - Simples inicio",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "74481",
+                       "nome_fisico":  "CJW_CdiOpcaoSimples",
+                       "literal":  "Opcao pelo Simples",
+                       "id_transacao":  "70912",
+                       "id_campo_chave":  "73377 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "9 - Simples opcao",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "112345",
+                       "nome_fisico":  "EMP_CdiTipoEmpresa",
+                       "literal":  "Tipo de Empresa",
+                       "id_transacao":  "15053",
+                       "id_campo_chave":  "3180 (Empresa)",
+                       "nivel":  "Empresa",
+                       "item_txt":  "9 - Tipo Empresa",
+                       "fonte":  "CSV"
+                   },
+                   {
+                       "id_campo":  "22913",
+                       "nome_fisico":  "",
+                       "literal":  "",
+                       "id_transacao":  "17532",
+                       "id_campo_chave":  "22912",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.4 (dias semana ferias)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "22915",
+                       "nome_fisico":  "",
+                       "literal":  "Id do Tipo de Dia Calendario (2=Seg..6=Sex,7=Sab)",
+                       "id_transacao":  "17532",
+                       "id_campo_chave":  "22912",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.4 (dias semana ferias)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "117294",
+                       "nome_fisico":  "",
+                       "literal":  "",
+                       "id_transacao":  "17532",
+                       "id_campo_chave":  "22912",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.4 (dias semana ferias)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "22930",
+                       "nome_fisico":  "DFF_CdiMetCalcDataPagto",
+                       "literal":  "DFF_CdiMetCalcDataPagto",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.8 (pagamento ferias)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "22035",
+                       "nome_fisico":  "DFF_QtiDiasCalcDataPagto",
+                       "literal":  "DFF_QtiDiasCalcDataPagto",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.8 (pagamento ferias)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "22903",
+                       "nome_fisico":  "",
+                       "literal":  "Tipo Descanso = Ferias",
+                       "id_transacao":  "17522",
+                       "id_campo_chave":  "22902",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.9 (sabado dias uteis pagamento)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "22905",
+                       "nome_fisico":  "",
+                       "literal":  "Tipo Dia Calendario (2=Seg..7=Sab,8=Feriado,9=Comp)",
+                       "id_transacao":  "17522",
+                       "id_campo_chave":  "22902",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.9 (sabado dias uteis pagamento)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "13962",
+                       "nome_fisico":  "",
+                       "literal":  "Dia Valido para Pagamento",
+                       "id_transacao":  "17522",
+                       "id_campo_chave":  "22902",
+                       "nivel":  "Grupo de Empresa",
+                       "item_txt":  "14 - 4.9 (sabado dias uteis pagamento)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "22990",
+                       "nome_fisico":  "DFF_Opl13Salario_P",
+                       "literal":  "DFF_Opl13Salario_P",
+                       "id_transacao":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.2 (antecipa 13o nas ferias)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "115909",
+                       "nome_fisico":  "",
+                       "literal":  "data 1o dia do ano",
+                       "id_transacao":  "91292",
+                       "id_campo_chave":  "26970",
+                       "nivel":  "Folha",
+                       "item_txt":  "14 - 4.3 (13o consolidado obj 1409)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "23432",
+                       "nome_fisico":  "",
+                       "literal":  "Tipo Descanso (1=Ferias)",
+                       "id_transacao":  "72582",
+                       "id_campo_chave":  "76747",
+                       "nivel":  "Sindicato Oficial",
+                       "item_txt":  "14 - 4.15 (postergacao retorno ferias)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "117382",
+                       "nome_fisico":  "",
+                       "literal":  "Modo Descanso (1=Normal,2=Coletivo,3=Indenizado,4=Progressivas)",
+                       "id_transacao":  "72582",
+                       "id_campo_chave":  "76747",
+                       "nivel":  "Sindicato Oficial",
+                       "item_txt":  "14 - 4.15 (postergacao retorno ferias)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "89078",
+                       "nome_fisico":  "",
+                       "literal":  "Dia",
+                       "id_transacao":  "72582",
+                       "id_campo_chave":  "76747",
+                       "nivel":  "Sindicato Oficial",
+                       "item_txt":  "14 - 4.15 (postergacao retorno ferias)",
+                       "fonte":  "Inteligencia"
+                   },
+                   {
+                       "id_campo":  "89076",
+                       "nome_fisico":  "",
+                       "literal":  "Mes Base",
+                       "id_transacao":  "72582",
+                       "id_campo_chave":  "76747",
+                       "nivel":  "Sindicato Oficial",
+                       "item_txt":  "14 - 4.15 (postergacao retorno ferias)",
+                       "fonte":  "Inteligencia"
+                   }
+               ]
+}

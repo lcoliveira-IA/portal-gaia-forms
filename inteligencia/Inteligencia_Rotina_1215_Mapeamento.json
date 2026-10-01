@@ -1,0 +1,2054 @@
+{
+    "versao":  "1.0",
+    "descricao":  "Inteligencia de Mapeamento - Rotina 1215 (Importacao por Transacao). Liga PERGUNTA x RESPOSTA x DADO CSV x LINHA 1215.",
+    "fontes":  {
+                   "perguntas":  "Mapeamento_de_Dados_GA_Folha_de_Pagamento_V.2.8 (1).docx",
+                   "regras":  "Definicao_Rotina_1215_Formulario.txt",
+                   "dados_csv":  "Relatorios/Form_Implantacao_-*.csv",
+                   "separador_csv":  "|"
+               },
+    "colunas_csv":  [
+                        "REGRA_TXT",
+                        "ID_CAMPO_CHAVE",
+                        "ID_TRANSACAO_1215",
+                        "ITEM_TXT",
+                        "VALOR_ESPERADO_TXT",
+                        "NOME_ENTIDADE",
+                        "VALOR_ATUAL_BANCO",
+                        "ID_ENTIDADE",
+                        "NIVEL",
+                        "LITERAL_CAMPO",
+                        "NOME_FISICO_CAMPO",
+                        "ID_CAMPO_ALVO"
+                    ],
+    "logica_decisao":  {
+                           "descricao":  "Para cada regra e cada entidade (linha do CSV): converter resposta do cliente em VALOR_ESPERADO via mapa_resposta_para_valor (ou valor_fixo), comparar com VALOR_ATUAL_BANCO do CSV; gerar a linha da 1215 SOMENTE se forem diferentes. VALOR_ATUAL_BANCO vazio/NULL = nao gravado, normalmente gera.",
+                           "pseudocodigo":  "para cada regra R: para cada entidade E no NIVEL de R (CSV com ID_CAMPO_ALVO = R.alvo): esperado = mapa(R, resposta_cliente); atual = CSV[E].VALOR_ATUAL_BANCO; se R.condicao_geracao satisfeita E esperado != atual: emitir R.template com {ID_ENTIDADE=E.id, VALOR=esperado}"
+                       },
+    "ids_corrigidos":  {
+                           "309110":  {
+                                          "real":  "39110",
+                                          "nota":  "DED_DssNomeResponsavel - DIRF nome"
+                                      },
+                           "29105":  {
+                                         "real":  "39105",
+                                         "nota":  "DED_NusCICResponsavel - DIRF CPF"
+                                     },
+                           "28031":  {
+                                         "real":  "27031",
+                                         "nota":  "DF3_CdiMes_Pagamento1aParcela - mes 1a parcela 13o"
+                                     },
+                           "12688_local":  {
+                                               "real":  "12689",
+                                               "nota":  "adiantamento expatriados local"
+                                           }
+                       },
+    "regras":  [
+                   {
+                       "item_txt":  "9 - Regime Pagamento",
+                       "pergunta":  "Regime de Pagamento: Caixa ou Competência?",
+                       "opcoes_resposta":  [
+                                               "Caixa",
+                                               "Competencia"
+                                           ],
+                       "id_transacao_1215":  "15073",
+                       "id_campo_chave":  "3711",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "3790",
+                                          "nome_fisico":  "FOL_OplRegimeCompetencia",
+                                          "literal":  "Considerar Regime de Competencia",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "comercial":  "1",
+                                                                           "calendario":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID folha se esperado != VALOR_ATUAL_BANCO",
+                       "template_linha_1215":  "15073;3711;({ID_FOLHA})3790;({VALOR})",
+                       "exemplo":  "15073;3711;(11)3790;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  null
+                   },
+                   {
+                       "item_txt":  "9 - Resp DIRF (obj 1535)",
+                       "pergunta":  "Nome e CPF do Responsável Legal (DIRF)",
+                       "opcoes_resposta":  [
+                                               "texto livre (nome)",
+                                               "texto livre (CPF)"
+                                           ],
+                       "id_transacao_1215":  "17793",
+                       "id_campo_chave":  "39090",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "39110",
+                                          "nome_fisico":  "DED_DssNomeResponsavel",
+                                          "literal":  "Nome do Responsavel (DIRF)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "texto":  "valor informado"
+                                                                       },
+                                          "valor_fixo":  null,
+                                          "nota_id":  "TXT dizia 309110, real 39110"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "39105",
+                                          "nome_fisico":  "DED_NusCICResponsavel",
+                                          "literal":  "CPF do Responsavel (DIRF)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "texto":  "valor informado"
+                                                                       },
+                                          "valor_fixo":  null,
+                                          "nota_id":  "TXT dizia 29105, real 39105"
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual",
+                       "template_linha_1215":  "17793;39090;({ID_EMPRESA})39110;({NOME})39105;({CPF})",
+                       "exemplo":  "17793;39090;(1)39110;(Lucas da Costa de Oliveira)39105;(428.878.367-01)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  null
+                   },
+                   {
+                       "item_txt":  "9 - Resp RAIS (obj 2124)",
+                       "pergunta":  "Nome e CPF do Responsável (RAIS obj 2124)",
+                       "opcoes_resposta":  [
+                                               "texto livre (nome)",
+                                               "texto livre (CPF)"
+                                           ],
+                       "id_transacao_1215":  "19453",
+                       "id_campo_chave":  "39900",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "4153",
+                                          "nome_fisico":  "DEA_DssNomeResponsavel",
+                                          "literal":  "Nome Responsavel RAIS",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "texto":  "valor informado"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "4151",
+                                          "nome_fisico":  "DEA_NusCICResponsavel",
+                                          "literal":  "CPF Responsavel RAIS",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "texto":  "valor informado"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual",
+                       "template_linha_1215":  "19453;39900;({ID_EMPRESA})4153;({NOME})4151;({CPF})",
+                       "exemplo":  "19453;39900;(11)4153;(Lucas da Costa)4151;(428.878.367-01)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  null
+                   },
+                   {
+                       "item_txt":  "9 - Resp Local (obj 2109)",
+                       "pergunta":  "Nome e CPF do Responsável por Local (obj 2109)",
+                       "opcoes_resposta":  [
+                                               "texto livre (nome)",
+                                               "texto livre (CPF)"
+                                           ],
+                       "id_transacao_1215":  "19453",
+                       "id_campo_chave":  "2170",
+                       "nivel":  "Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "3380",
+                                          "nome_fisico":  "LOC_DssNomeRespl",
+                                          "literal":  "Nome Responsavel Local",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "texto":  "valor informado"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "122710",
+                                          "nome_fisico":  "LOC_CosDocResponsavel",
+                                          "literal":  "CPF/Doc Responsavel Local",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "texto":  "valor informado"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "146829",
+                                          "nome_fisico":  "LOC_CdiTipoDocumento_Respons",
+                                          "literal":  "Tipo Documento Responsavel",
+                                          "mapa_resposta_para_valor":  null,
+                                          "valor_fixo":  "2"
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID local se esperado != atual",
+                       "template_linha_1215":  "19453;2170;({ID_LOCAL})3380;({NOME})122710;({CPF})146829;(2)",
+                       "exemplo":  "19453;2170;(1)3380;(Lucas da Costa de Oliveira)122710;(428.878.367-01)146829;(2)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  null
+                   },
+                   {
+                       "item_txt":  "9 - Tipo Empresa",
+                       "pergunta":  "Tipo de Empresa: ME / EPP / Outros",
+                       "opcoes_resposta":  [
+                                               "ME",
+                                               "EPP",
+                                               "Outros"
+                                           ],
+                       "id_transacao_1215":  "15053",
+                       "id_campo_chave":  "3180",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "112345",
+                                          "nome_fisico":  "EMP_CdiTipoEmpresa",
+                                          "literal":  "Tipo de Empresa",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "me":  "3",
+                                                                           "epp":  "4",
+                                                                           "outros":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual",
+                       "template_linha_1215":  "15053;3180;({ID_EMPRESA})112345;({VALOR})",
+                       "exemplo":  "15053;3180;(1)112345;(3)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  null
+                   },
+                   {
+                       "item_txt":  "9 - Optante Simples",
+                       "pergunta":  "Optante pelo Simples: Sim / Não",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "70912",
+                       "id_campo_chave":  "73377",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "74480",
+                                          "nome_fisico":  "CJW_CdiMes_Inicio",
+                                          "literal":  "Mes Inicio Opcao Simples",
+                                          "mapa_resposta_para_valor":  null,
+                                          "valor_fixo":  "1"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "74482",
+                                          "nome_fisico":  "CJW_DtiAno_Inicio",
+                                          "literal":  "Ano Inicio Opcao Simples",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "dinamico":  "ano_corrente"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "74481",
+                                          "nome_fisico":  "CJW_CdiOpcaoSimples",
+                                          "literal":  "Opcao pelo Simples",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "2",
+                                                                           "nao":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual",
+                       "template_linha_1215":  "70912;73377;({ID_EMPRESA})74480;(1)74482;({ANO})74481;({VALOR})",
+                       "exemplo":  "70912;73377;(1)74480;(1)74482;(2026)74481;(2)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  null
+                   },
+                   {
+                       "item_txt":  "12 - Proporcionalidade dias uteis",
+                       "pergunta":  "Há proporcionalidade na apuração dos dias úteis e inúteis?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "12637",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "14092",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})12637;({VALOR}) / 72213;76345;({ID_LOCAL})14092;({VALOR})",
+                       "exemplo":  "72213;76336;(1)12637;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  null
+                   },
+                   {
+                       "item_txt":  "13 - 3.10 Prazo liberacao demonstrativo",
+                       "pergunta":  "Prazo para liberação de acesso aos demonstrativos: 2 dias / 1 dia / no dia / Outro",
+                       "opcoes_resposta":  [
+                                               "2 dias antes",
+                                               "1 dia antes",
+                                               "No dia do pagamento",
+                                               "Outro (especificar dias)"
+                                           ],
+                       "id_transacao_1215":  "15053 / 15063",
+                       "id_campo_chave":  "3180 / 3270",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "123396",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "3180",
+                                          "objeto":  "2107",
+                                          "nome_fisico":  "EMP_CdiOpcao_ConsDiaAtDisDmPgt",
+                                          "mapa_resposta_para_valor":  null,
+                                          "valor_fixo":  "1",
+                                          "nota":  "habilita o prazo"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "121991",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "3180",
+                                          "objeto":  "2107",
+                                          "nome_fisico":  "EMP_NuiDiaAntDispDemPagamento",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "2":  "2",
+                                                                           "1":  "1",
+                                                                           "0":  "0",
+                                                                           "outro":  "dias_informados"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "121992",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "3270",
+                                          "objeto":  "2109",
+                                          "nome_fisico":  "LOC_NuiDiaAntDispDemPagamento",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "2":  "2",
+                                                                           "1":  "1",
+                                                                           "0":  "0",
+                                                                           "outro":  "dias_informados"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local; habilitar 123396=1 antes",
+                       "template_linha_1215":  "15053;3180;({ID_EMPRESA})123396;(1)121991;({DIAS}) / 15063;3270;({ID_LOCAL})123396;(1)121992;({DIAS})",
+                       "exemplo":  "15053;3180;(1)123396;(1)121991;(3)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "121991 = campo do objeto 2107 (Empresa); 121992 = campo do objeto 2109 (Local). Ambos corretos e com o mesmo literal; a diferenca e o objeto/nivel.",
+                       "numero":  "3.10"
+                   },
+                   {
+                       "item_txt":  "13 - Verba liquido",
+                       "pergunta":  "(não há pergunta - valor fixo)",
+                       "opcoes_resposta":  [
+
+                                           ],
+                       "id_transacao_1215":  "19463",
+                       "id_campo_chave":  "22640",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22712",
+                                          "nome_fisico":  "DH2_CdiVerba_Liquido",
+                                          "literal":  "Verba - Liquido",
+                                          "mapa_resposta_para_valor":  null,
+                                          "valor_fixo":  "2736"
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID grupo empresa se atual != 2736",
+                       "template_linha_1215":  "19463;22640;({ID_GRUPO})22712;(2736)",
+                       "exemplo":  "19463;22640;(1)22712;(2736)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  null
+                   },
+                   {
+                       "item_txt":  "13 - 3.11",
+                       "pergunta":  "Qual a data limite para desligamento dos funcionários no mês?",
+                       "opcoes_resposta":  [
+                                               "dia especificado (ex.: 20)"
+                                           ],
+                       "id_transacao_1215":  "19463",
+                       "id_campo_chave":  "22640",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22646",
+                                          "nome_fisico":  "DH2_NuiDiaLimiteRescisao",
+                                          "literal":  "Dia-Limite para Rescisao",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "dia_informado":  "valor numerico"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID grupo se esperado != atual",
+                       "template_linha_1215":  "19463;22640;({ID_GRUPO})22646;({DIA})",
+                       "exemplo":  "19463;22640;(1)22646;(20)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "se preenchido, da erro em rescisoes apos a data",
+                       "numero":  "3.11"
+                   },
+                   {
+                       "item_txt":  "13 - 3.12",
+                       "pergunta":  "Em caso de estabilidade, a empresa indeniza ou suspende/bloqueia a demissão?",
+                       "opcoes_resposta":  [
+                                               "Indeniza o periodo estavel",
+                                               "Suspende/Bloqueia a demissao"
+                                           ],
+                       "id_transacao_1215":  "19463",
+                       "id_campo_chave":  "22640",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22660",
+                                          "nome_fisico":  "DH2_OplDemContratEstavel",
+                                          "literal":  "Bloquear Rescisao de Contratado Estavel",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "bloqueia":  "1",
+                                                                           "indeniza":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID grupo se esperado != atual",
+                       "template_linha_1215":  "19463;22640;({ID_GRUPO})22660;({VALOR})",
+                       "exemplo":  "19463;22640;(1)22660;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "3.12"
+                   },
+                   {
+                       "item_txt":  "13 - 3.14",
+                       "pergunta":  "Lei 12.506 - aviso prévio 3 dias: (a) a partir do 1º ano vencido / (b) a partir do 2º ano",
+                       "opcoes_resposta":  [
+                                               "(a) 1o ano vencido",
+                                               "(b) 2o ano vencido"
+                                           ],
+                       "id_transacao_1215":  "19463",
+                       "id_campo_chave":  "22640",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "95579",
+                                          "nome_fisico":  "DH2_OplAcrescAvPrevDtAdmissao",
+                                          "literal":  "Acrescimo Aviso Previo a partir da Admissao",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "1ano":  "1",
+                                                                           "2ano":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID grupo se esperado != atual",
+                       "template_linha_1215":  "19463;22640;({ID_GRUPO})95579;({VALOR})",
+                       "exemplo":  "19463;22640;(1)95579;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "3.14"
+                   },
+                   {
+                       "item_txt":  "13 - 3.21",
+                       "pergunta":  "Considerar dias reais p/ bolsa auxílio dos admitidos em mês de 31 dias?",
+                       "opcoes_resposta":  [
+                                               "Mes calendario (28,29,30,31 dias)",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "13463",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "Mes calendario":  "1",
+                                                                           "Nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "12393",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "Mes calendario":  "1",
+                                                                           "Nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})13463;({VALOR}) / 72213;76345;({ID_LOCAL})12393;({VALOR})",
+                       "exemplo":  "72213;76336;(1)13463;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "3.21"
+                   },
+                   {
+                       "item_txt":  "13 - 3.23 (1/3 recesso + gratificacao natalina)",
+                       "pergunta":  "Estagiários: marcado 1/3 sobre recesso? Marcado gratificação natalina?",
+                       "opcoes_resposta":  [
+                                               "Sim (marcado)",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "12200",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "literal":  "1/3 sobre o recesso",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2749",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "literal":  "1/3 sobre o recesso (Local)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "1704",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "literal":  "Gratificacao natalina",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2704",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "literal":  "Gratificacao natalina (Local)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})12200;({V}) / 72213;76336;({ID_EMPRESA})1704;({V}) / etc",
+                       "exemplo":  "72213;76336;(1)12200;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "3.23"
+                   },
+                   {
+                       "item_txt":  "13 - 3.25",
+                       "pergunta":  "Na apuração da remuneração no pagamento do Salário Maternidade, considerar: Mês comercial (30 dias) / Calendário (28,29,30 ou 31 dias) / Regra específica",
+                       "opcoes_resposta":  [
+                                               "Mes comercial (30 dias)",
+                                               "Calendario (28, 29, 30 ou 31 dias)",
+                                               "Regra especifica (detalhar)"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "1005",
+                                          "nome_fisico":  "Tipo de Mes para Calculo de Salario-Maternidade",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "calendario":  "1",
+                                                                           "comercial":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})1005;({VALOR})",
+                       "exemplo":  "72213;76336;(1)1005;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "Regra confirmada: Calendario (28/29/30/31) = 1; Mes comercial (30 dias) = 0. ATENCAO: o texto de nota do documento dizia 'null e comercial, 0 calendario e 1 comercial' (contraditorio) - prevalece a regra confirmada aqui: Calendario=1. Se resposta = Regra especifica, tratar manualmente/abrir chamado.",
+                       "numero":  "3.25"
+                   },
+                   {
+                       "item_txt":  "13 - 3.26",
+                       "pergunta":  "Item 3.26 - Sim / Não",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "12953",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})12953;({VALOR})",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "3.26"
+                   },
+                   {
+                       "item_txt":  "13 - 3.28",
+                       "pergunta":  "Item 3.28 - Sim / Não",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "14213",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})14213;({VALOR})",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "3.28"
+                   },
+                   {
+                       "item_txt":  "13 - 3.29",
+                       "pergunta":  "Item 3.29 - Sim / Não (relacionado a FOL_OplRegimeCompetencia)",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "14212",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual; considerar FOL_OplRegimeCompetencia: se ao menos 1 folha marcada=1, senao=2",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})14212;({VALOR})",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "3.29"
+                   },
+                   {
+                       "item_txt":  "14 - 4.2",
+                       "pergunta":  "Item 14 4.2 - Se informar Sim, considerar 1",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22940",
+                                          "nome_fisico":  "DFF_CdiMetTratFerNVenc",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID folha se esperado != atual",
+                       "template_linha_1215":  "17573;22920;({ID_FOLHA})22940;({VALOR})",
+                       "exemplo":  "17573;22920;(1)22940;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "4.2"
+                   },
+                   {
+                       "item_txt":  "14 - 4.3 (dobro)",
+                       "pergunta":  "Item 14 4.3 - pagamento férias em dobro / prazo pagamento - Sim / Não",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "19373",
+                       "id_campo_chave":  "22810",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22894",
+                                          "nome_fisico":  "DHU_OplPagtoFeriasDobro",
+                                          "literal":  "Pagar Ferias em Dobro, em Caso Legal",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null,
+                                          "template_linha_1215":  "19373;22810;({ID_GRUPO})22894;({V})"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "153930",
+                                          "nome_fisico":  "DHU_OplPagtoFeriasDobroPrazoPg",
+                                          "literal":  "Pagar Ferias em Dobro Quando Data de Pagamento Fora do Prazo",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null,
+                                          "template_linha_1215":  "19373;22810;({ID_GRUPO})153930;({V})"
+                                      }
+                                  ],
+                       "condicao_geracao":  "Gerar UMA linha SEPARADA por campo (22894 e 153930), por ID grupo de empresa, quando esperado != atual. Nao concatenar os dois campos na mesma linha.",
+                       "template_linha_1215":  [
+                                                   "19373;22810;({ID_GRUPO})22894;({V})",
+                                                   "19373;22810;({ID_GRUPO})153930;({V})"
+                                               ],
+                       "exemplo":  "19373;22810;(1)22894;(1)\n19373;22810;(1)153930;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  true,
+                       "divergencia":  null,
+                       "observacoes":  "Gera DUAS linhas independentes (uma por campo): 22894 (Pagar Ferias em Dobro, em Caso Legal) e 153930 (Pagar Ferias em Dobro Quando Data de Pagamento Fora do Prazo), objeto 2117. Cada campo em sua propria linha da 1215; nunca na mesma linha.",
+                       "numero":  "4.3"
+                   },
+                   {
+                       "item_txt":  "14 - 4.4 (dias semana ferias)",
+                       "pergunta":  "Dias da semana para início de férias",
+                       "opcoes_resposta":  [
+                                               "Somente no 1o dia util da semana",
+                                               "Qualquer dia exceto folga/descanso",
+                                               "De segunda a quinta (proibido vesperas feriados/folga)"
+                                           ],
+                       "id_transacao_1215":  "17532",
+                       "id_campo_chave":  "22912",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22913",
+                                          "valor_fixo":  "1"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "22915",
+                                          "literal":  "Id do Tipo de Dia Calendario (2=Seg..6=Sex,7=Sab)"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "117294",
+                                          "valor_fixo":  "1"
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar multiplas linhas por grupo, uma por dia da semana conforme opcao",
+                       "template_linha_1215":  "17532;22912;({ID_GRUPO})22913;(1)22915;({DIA})117294;(1)",
+                       "exemplo":  "17532;22912;(1)22913;(1)22915;(2)117294;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  true,
+                       "multi_linha_regra":  {
+                                                 "Somente no 1o dia util da semana":  [
+                                                                                          {
+                                                                                              "22915":  "2"
+                                                                                          }
+                                                                                      ],
+                                                 "Qualquer dia exceto folga/descanso":  [
+                                                                                            {
+                                                                                                "22915":  "2"
+                                                                                            },
+                                                                                            {
+                                                                                                "22915":  "3"
+                                                                                            },
+                                                                                            {
+                                                                                                "22915":  "4"
+                                                                                            },
+                                                                                            {
+                                                                                                "22915":  "5"
+                                                                                            },
+                                                                                            {
+                                                                                                "22915":  "6"
+                                                                                            }
+                                                                                        ],
+                                                 "De segunda a quinta":  [
+                                                                             {
+                                                                                 "22915":  "2"
+                                                                             },
+                                                                             {
+                                                                                 "22915":  "3"
+                                                                             },
+                                                                             {
+                                                                                 "22915":  "4"
+                                                                             },
+                                                                             {
+                                                                                 "22915":  "5"
+                                                                             }
+                                                                         ]
+                                             },
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "4.4"
+                   },
+                   {
+                       "item_txt":  "14 - 4.5 (dias ferias permitidos)",
+                       "pergunta":  "Selecionar dias de férias (descanso) que a empresa permite",
+                       "opcoes_resposta":  [
+                                               "20 dias + 1/3 abono pecuniario",
+                                               "30 dias de descanso",
+                                               "Outro (padrao 4/14/3/30)"
+                                           ],
+                       "id_transacao_1215":  "19373",
+                       "id_campo_chave":  "22810",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22882",
+                                          "nome_fisico":  "DHU_QtiDiasMinimoGozoFerias",
+                                          "literal":  "Qtd Min Dias Gozo"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "141204",
+                                          "nome_fisico":  "DHU_QtiDiasMinimoMaiorGozoFer",
+                                          "literal":  "Qtd Min Maior Gozo"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "141206",
+                                          "nome_fisico":  "DHU_QtiMaximoGozosPeriodo",
+                                          "literal":  "Qtd Max Gozos Periodo"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "9413",
+                                          "nome_fisico":  "DHU_QtiDiasMinimoAntecedAviso",
+                                          "literal":  "Qtd Min Dias Aviso"
+                                      }
+                                  ],
+                       "mapa_resposta_para_valor":  {
+                                                        "20 dias + 1/3 abono":  {
+                                                                                    "22882":  "20",
+                                                                                    "141204":  "20",
+                                                                                    "141206":  "1",
+                                                                                    "9413":  "30"
+                                                                                },
+                                                        "30 dias":  {
+                                                                        "22882":  "30",
+                                                                        "141204":  "30",
+                                                                        "141206":  "1",
+                                                                        "9413":  "30"
+                                                                    },
+                                                        "Outro (padrao)":  {
+                                                                               "22882":  "4",
+                                                                               "141204":  "14",
+                                                                               "141206":  "3",
+                                                                               "9413":  "30"
+                                                                           }
+                                                    },
+                       "condicao_geracao":  "gerar por ID grupo se qualquer valor esperado != atual",
+                       "template_linha_1215":  "19373;22810;({ID_GRUPO})22882;({A})141204;({B})141206;({C})9413;({D})",
+                       "exemplo":  "19373;22810;(1)22882;(4)141204;(14)141206;(3)9413;(30)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "4.5"
+                   },
+                   {
+                       "item_txt":  "14 - 4.5 (faltas) e 4.6 (metodo)",
+                       "pergunta":  "Abater faltas injustificadas no período aquisitivo? / Método de apuração",
+                       "opcoes_resposta":  [
+                                               "Sim (abater)",
+                                               "Nao",
+                                               "Desmembradas dia a dia (ficha data real)",
+                                               "Sumarizadas (ficha financeira)"
+                                           ],
+                       "id_transacao_1215":  "19373",
+                       "id_campo_chave":  "22810",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22820",
+                                          "nome_fisico":  "DHU_OplTratarFalFerias",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "23830",
+                                          "nome_fisico":  "DHU_CdiMetCalculoFalta",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "data_real":  "2",
+                                                                           "ficha_financeira":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "Gerar UMA UNICA linha por ID grupo com os dois campos (22820 e 23830) na MESMA linha, quando esperado != atual.",
+                       "template_linha_1215":  "19373;22810;({ID_GRUPO})22820;({V_22820})23830;({V_23830})",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "UMA linha unica com os dois campos concatenados. 22820 (abater faltas: Sim=1/Nao=0) e 23830 (metodo: data_real=2/ficha_financeira=1). TXT exemplo 4.6 grava em 22820, mas o metodo correto e 23830 conforme CSV.",
+                       "numero":  "4.5"
+                   },
+                   {
+                       "item_txt":  "14 - 4.6 (antecedencia programacao ferias)",
+                       "pergunta":  "A programação de férias pode ser realizada até quantos dias antes da saída de férias?",
+                       "opcoes_resposta":  [
+                                               "30 dias",
+                                               "45 dias",
+                                               "60 dias"
+                                           ],
+                       "id_transacao_1215":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "113654",
+                                          "nome_fisico":  "DFF_QtiDiasAntecProgramacaoFer",
+                                          "literal":  "Quantidade de Dias de Antecedencia para a Programacao de Ferias",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "30":  "30",
+                                                                           "45":  "45",
+                                                                           "60":  "60"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "Gerar UMA linha por ID folha se esperado != atual (campo 113654).",
+                       "template_linha_1215":  "17573;22920;({ID_FOLHA})113654;({DIAS})",
+                       "exemplo":  "17573;22920;(11)113654;(45)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "4.6 - um unico campo (113654). Gera uma linha por folha.",
+                       "numero":  "4.6"
+                   },
+                   {
+                       "item_txt":  "14 - 4.7 (alteracao programacao ferias)",
+                       "pergunta":  "A alteração da programação de férias pode ser realizada até quantos dias antes da saída de férias?",
+                       "opcoes_resposta":  [
+                                               "30 dias",
+                                               "45 dias",
+                                               "60 dias"
+                                           ],
+                       "id_transacao_1215":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "113643",
+                                          "nome_fisico":  "DFF_QtiDiasAlteracaoFerias",
+                                          "literal":  "Quantidade de Dias para Alteracao de Ferias",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "30":  "30",
+                                                                           "45":  "45",
+                                                                           "60":  "60"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "Gerar UMA linha por ID folha se esperado != atual (campo 113643).",
+                       "template_linha_1215":  "17573;22920;({ID_FOLHA})113643;({DIAS})",
+                       "exemplo":  "17573;22920;(11)113643;(45)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "4.7 - um unico campo (113643). Gera uma linha por folha.",
+                       "numero":  "4.7"
+                   },
+                   {
+                       "item_txt":  "14 - 4.8 (pagamento ferias)",
+                       "pergunta":  "Quando é feito o pagamento das férias?",
+                       "opcoes_resposta":  [
+                                               "02 dias uteis antes do inicio de gozo (legislacao)",
+                                               "Outro (especificar dias)"
+                                           ],
+                       "id_transacao_1215":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22930",
+                                          "nome_fisico":  "DFF_CdiMetCalcDataPagto",
+                                          "mapa_resposta_para_valor":  null,
+                                          "valor_fixo":  "1"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "22035",
+                                          "nome_fisico":  "DFF_QtiDiasCalcDataPagto",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "2dias_uteis":  "2",
+                                                                           "outro":  "qtd_especificada"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID folha se esperado != atual",
+                       "template_linha_1215":  "17573;22920;({ID_FOLHA})22930;(1)22035;({DIAS})",
+                       "exemplo":  "17573;22920;(1)22930;(1)22035;(2)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "4.8"
+                   },
+                   {
+                       "item_txt":  "14 - 4.8 (provisao desconto concessao ferias)",
+                       "pergunta":  "Existe provisão de desconto na concessão das férias?",
+                       "opcoes_resposta":  [
+                                               "Sim - Credito do Trabalhador",
+                                               "Outra opcao (abrir chamado)"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "14210",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "credito_trabalhador":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "14224",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "credito_trabalhador":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar se Credito do Trabalhador; se outra opcao, ABRIR CHAMADO para equipe de calculos",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})14210;(1) / 72213;76345;({ID_LOCAL})14224;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "se opcao diferente de Credito do Trabalhador, sinalizar abrir chamado",
+                       "numero":  "4.8"
+                   },
+                   {
+                       "item_txt":  "14 - 4.9 (sabado dias uteis pagamento)",
+                       "pergunta":  "A empresa considera o sábado para contagem dos dias úteis para pagamento?",
+                       "opcoes_resposta":  [
+                                               "Sim (gozo segunda, paga sexta anterior)",
+                                               "Nao (gozo segunda, paga quinta se util)"
+                                           ],
+                       "id_transacao_1215":  "17522",
+                       "id_campo_chave":  "22902",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22903",
+                                          "valor_fixo":  "1",
+                                          "literal":  "Tipo Descanso = Ferias"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "22905",
+                                          "literal":  "Tipo Dia Calendario (2=Seg..7=Sab,8=Feriado,9=Comp)"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "13962",
+                                          "valor_fixo":  "1",
+                                          "literal":  "Dia Valido para Pagamento"
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar multiplas linhas por grupo, uma por dia conforme opcao",
+                       "template_linha_1215":  "17522;22902;({ID_GRUPO})22903;(1)22905;({DIA})13962;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  true,
+                       "multi_linha_regra":  {
+                                                 "Sim (dias 2 a 7)":  [
+                                                                          {
+                                                                              "22905":  "2"
+                                                                          },
+                                                                          {
+                                                                              "22905":  "3"
+                                                                          },
+                                                                          {
+                                                                              "22905":  "4"
+                                                                          },
+                                                                          {
+                                                                              "22905":  "5"
+                                                                          },
+                                                                          {
+                                                                              "22905":  "6"
+                                                                          },
+                                                                          {
+                                                                              "22905":  "7"
+                                                                          }
+                                                                      ],
+                                                 "Nao (dias 2 a 5)":  [
+                                                                          {
+                                                                              "22905":  "2"
+                                                                          },
+                                                                          {
+                                                                              "22905":  "3"
+                                                                          },
+                                                                          {
+                                                                              "22905":  "4"
+                                                                          },
+                                                                          {
+                                                                              "22905":  "5"
+                                                                          }
+                                                                      ]
+                                             },
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "4.9"
+                   },
+                   {
+                       "item_txt":  "14 - 4.1 (periodo critico)",
+                       "pergunta":  "Qual o período considerado crítico para saída de férias?",
+                       "opcoes_resposta":  [
+                                               "2 meses",
+                                               "3 meses",
+                                               "Outro (especificar)"
+                                           ],
+                       "id_transacao_1215":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "23030",
+                                          "nome_fisico":  "DFF_QtiAutoMeses_P",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "2meses":  "10",
+                                                                           "3meses":  "9",
+                                                                           "outro":  "numero_informado - 12"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID folha se esperado != atual",
+                       "template_linha_1215":  "17573;22920;({ID_FOLHA})23030;({VALOR})",
+                       "exemplo":  "17573;22920;(1)23030;(10)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "formula: 12 - numero_informado_de_meses",
+                       "numero":  "4.1"
+                   },
+                   {
+                       "item_txt":  "14 - 4.11 (programacao automatica)",
+                       "pergunta":  "A empresa utiliza programação automática de gozo de férias?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22950",
+                                          "nome_fisico":  "DFF_CdiMetProgramacaoFerias",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "2",
+                                                                           "nao":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID folha SOMENTE COM AUTORIZACAO DO CONSULTOR",
+                       "template_linha_1215":  "17573;22920;({ID_FOLHA})22950;({VALOR})",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "0=Nenhum, 1=Manual, 2=Automatica. So gerar com autorizacao do consultor.",
+                       "numero":  "4.11"
+                   },
+                   {
+                       "item_txt":  "14 - 4.2 (antecipa 13o nas ferias)",
+                       "pergunta":  "A empresa antecipa 13º salário nas férias?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "22990",
+                                          "nome_fisico":  "DFF_Opl13Salario_P",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID folha se Sim nesta questao E Sim na 4.11",
+                       "template_linha_1215":  "17573;22920;({ID_FOLHA})22990;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "4.2"
+                   },
+                   {
+                       "item_txt":  "14 - 4.3 (13o consolidado obj 1409)",
+                       "pergunta":  "Antecipa médias 13º + 10.1 mês 1ª parcela + 10.3 mês 2ª parcela + 10.5.1 venc/desc + 10.5.3 complementar",
+                       "opcoes_resposta":  [
+                                               "Sim/Nao para cada sub-item; meses 1a/2a parcela; valores fixos LPC"
+                                           ],
+                       "id_transacao_1215":  "91292",
+                       "id_campo_chave":  "26970",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "115909",
+                                          "literal":  "data 1o dia do ano",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "dinamico":  "ANO0101 (ex.: 20260101)"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "77832",
+                                          "nome_fisico":  "DF3_OplPagarMedias1aParcela",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null,
+                                          "condicao":  "Considerar 1 SOMENTE se 4.3 = Sim E 4.11 = Sim; caso contrario 0."
+                                      },
+                                      {
+                                          "id_campo_alvo":  "27031",
+                                          "nome_fisico":  "DF3_CdiMes_Pagamento1aParcela",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "30_novembro":  "11",
+                                                                           "outro":  "id_mes_informado"
+                                                                       },
+                                          "valor_fixo":  null,
+                                          "nota_id":  "TXT dizia 28031, real 27031. 30 de Novembro = 11; Outro = ID do mes (dominio_meses)."
+                                      },
+                                      {
+                                          "id_campo_alvo":  "27032",
+                                          "nome_fisico":  "DF3_CdiProcessoLPC_1aParcela",
+                                          "mapa_resposta_para_valor":  null,
+                                          "valor_fixo":  "81"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "27033",
+                                          "nome_fisico":  "DF3_CdiMes_Pagamento2aParcela",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "20_dezembro":  "12",
+                                                                           "outro":  "id_mes_informado"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "27034",
+                                          "nome_fisico":  "DF3_CdiProcessoLPC_2aParcela",
+                                          "mapa_resposta_para_valor":  null,
+                                          "valor_fixo":  "91"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "19280",
+                                          "nome_fisico":  "DF3_OplVencDescHoleriteMes12",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "nao":  "1",
+                                                                           "sim":  "0"
+                                                                       },
+                                          "valor_fixo":  null,
+                                          "semantica_invertida":  true,
+                                          "nota_id":  "Item 10.5.1: Nao = 1, Sim = 0 (Participar de Vencimentos/Descontos em Dezembro)."
+                                      },
+                                      {
+                                          "id_campo_alvo":  "26990",
+                                          "nome_fisico":  "DF3_OplPgtoJaRecebido",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "dominio_meses":  {
+                                             "1":  "Janeiro",
+                                             "2":  "Fevereiro",
+                                             "3":  "Marco",
+                                             "4":  "Abril",
+                                             "5":  "Maio",
+                                             "6":  "Junho",
+                                             "7":  "Julho",
+                                             "8":  "Agosto",
+                                             "9":  "Setembro",
+                                             "10":  "Outubro",
+                                             "11":  "Novembro",
+                                             "12":  "Dezembro"
+                                         },
+                       "condicao_geracao":  "Gerar UMA linha por ID folha existente no CSV. 115909 = primeiro dia do ano atual (AAAA0101). 77832 = 1 somente se 4.3 Sim E 4.11 Sim, senao 0. 28031/27031 (mes 1a parcela): 30 de Novembro=11, Outro=ID do mes. 27032 fixo 81. 27033 (mes 2a parcela): 20 de Dezembro=12, Outro=ID do mes. 27034 fixo 91. 19280 (10.5.1): Nao=1, Sim=0. 26990 (10.5.3): Sim=1, Nao=0.",
+                       "template_linha_1215":  "91292;26970;({ID_FOLHA})115909;({ANO0101})77832;({V1})27031;({MES1})27032;(81)27033;({MES2})27034;(91)19280;({V2})26990;({V3})",
+                       "exemplo":  "91292;26970;(1)115909;(20260101)77832;(1)27031;(11)27032;(81)27033;(12)27034;(91)19280;(1)26990;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "Bloco consolidado do 13o (objeto 1409). Sub-perguntas: 4.3 (antecipa medias), 4.11 (programacao automatica - condiciona o 77832), 10.1 (mes 1a parcela -> 27031), 10.3 (mes 2a parcela -> 27033), 10.5.1 (venc/desc dezembro -> 19280, INVERTIDO Nao=1), 10.5.3 (complementar ja recebido -> 26990). 27032=81 e 27034=91 sempre fixos. Dominio de meses conforme dominio_meses. LPC: 81=13o Adiantamento, 91=13o Pagamento.",
+                       "numero":  "4.3"
+                   },
+                   {
+                       "item_txt":  "14 - 4.14 (ferias coletivas)",
+                       "pergunta":  "A empresa adota férias coletivas?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "17573",
+                       "id_campo_chave":  "22920",
+                       "nivel":  "Folha",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "52581",
+                                          "nome_fisico":  "DFF_OplAtivaSitLicRemunerada",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID folha se esperado != atual",
+                       "template_linha_1215":  "17573;22920;({ID_FOLHA})52581;({VALOR})",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "4.14"
+                   },
+                   {
+                       "item_txt":  "14 - 4.15 (postergacao retorno ferias)",
+                       "pergunta":  "Há datas de postergação para o retorno das férias?",
+                       "opcoes_resposta":  [
+                                               "Sim (tabela por sindicato)",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72582",
+                       "id_campo_chave":  "76747",
+                       "nivel":  "Sindicato Oficial",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "23432",
+                                          "literal":  "Tipo Descanso (1=Ferias)"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "117382",
+                                          "literal":  "Modo Descanso (1=Normal,2=Coletivo,3=Indenizado,4=Progressivas)"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "89078",
+                                          "literal":  "Dia"
+                                      },
+                                      {
+                                          "id_campo_alvo":  "89076",
+                                          "literal":  "Mes Base"
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID sindicato oficial, conforme tabela informada pelo cliente",
+                       "template_linha_1215":  "72582;76747;({ID_SIND})23432;({TIPO})117382;({MODO})89078;({DIA})89076;({MES})",
+                       "exemplo":  "72582;76747;(1)23432;(1)117382;(1)89078;(25)89076;(12)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  true,
+                       "divergencia":  null,
+                       "observacoes":  "gerar uma linha por sindicato oficial existente",
+                       "numero":  "4.15"
+                   },
+                   {
+                       "item_txt":  "14 - 4.17 (encerra periodo aquisitivo art 140)",
+                       "pergunta":  "A empresa encerra o período aquisitivo conforme lei art 140 CLT?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "19373",
+                       "id_campo_chave":  "22810",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "154153",
+                                          "nome_fisico":  "Abrir Periodo Quando Menos de 1 Ano de Casa e com Saldo para as Coletivas",
+                                          "objeto":  "2117",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID grupo se esperado != atual",
+                       "template_linha_1215":  "19373;22810;({ID_GRUPO})154153;({VALOR})",
+                       "exemplo":  "19373;22810;(1)154153;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "Regra confirmada: Sim = 1, Nao = 0 (campo 154153 do objeto 2117). Gerar uma linha por ID grupo de empresa. Se Nao com especificacao, avaliar detalhe informado.",
+                       "numero":  "4.17"
+                   },
+                   {
+                       "item_txt":  "15 - 5.1 (Empresa Cidada)",
+                       "pergunta":  "A empresa aderiu ao programa Empresa Cidadã (Lei 11770/08)?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "15053",
+                       "id_campo_chave":  "3180",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "109272",
+                                          "nome_fisico":  "EMP_OplEmpresaCidada",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual",
+                       "template_linha_1215":  "15053;3180;({ID_EMPRESA})109272;({VALOR})",
+                       "exemplo":  "15053;3180;(1)109272;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "5.1"
+                   },
+                   {
+                       "item_txt":  "16 - 6.1 (percentual adiantamento)",
+                       "pergunta":  "Data do pagamento do adiantamento de salário e percentual",
+                       "opcoes_resposta":  [
+                                               "percentual padrao",
+                                               "Outro (especificar percentual)"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "1501",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "percentual":  "valor numerico"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2501",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "percentual":  "valor numerico"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})1501;({PCT}) / 72213;76345;({ID_LOCAL})2501;({PCT})",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "6.1"
+                   },
+                   {
+                       "item_txt":  "16 - 6.4.1 (vinculos adiantamento)",
+                       "pergunta":  "Quais vínculos recebem adiantamento? Diretor / Estagiário / Menor Aprendiz",
+                       "opcoes_resposta":  [
+                                               "marcado (recebe)",
+                                               "NAO marcado (nao recebe -> gravar 1)"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "1710",
+                                          "literal":  "Nao pagar adiant Diretor",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "nao":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "1711",
+                                          "literal":  "Nao pagar adiant Estagiario",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "nao":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "1739",
+                                          "literal":  "Nao pagar adiant Menor Aprendiz",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "nao":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa; gerar 1 se vinculo NAO marcado (nao recebe)",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})1710;(1) / ...1711;(1) / ...1739;(1)",
+                       "semantica_invertida":  true,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "SEMANTICA INVERTIDA: gravar 1 quando NAO marcado (significa nao pagar)",
+                       "numero":  "6.4.1"
+                   },
+                   {
+                       "item_txt":  "16 - 6.4.2 (admissao adiantamento)",
+                       "pergunta":  "Admissão - funcionário recebe adiantamento? Qual regra?",
+                       "opcoes_resposta":  [
+                                               "Proporcional (min dias)",
+                                               "Integral independente admissao",
+                                               "Admitidos nao recebem no mes"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "1303",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "literal":  "Dias min ativo p/ adiant",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "proporcional":  "qtd_dias"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2303",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "literal":  "Dias min ativo (Local)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "proporcional":  "qtd_dias"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "1712",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "literal":  "Adiant integral",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "integral":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2712",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "literal":  "Adiant integral (Local)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "integral":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "1716",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "literal":  "Admitidos nao recebem",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "admitidos_nao_recebem":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2716",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "literal":  "Admitidos nao recebem (Local)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "admitidos_nao_recebem":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local conforme a opcao marcada",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})1303;({DIAS}) / etc",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "6.4.2"
+                   },
+                   {
+                       "item_txt":  "16 - 6.4.3 (proporcionalidade + maternidade)",
+                       "pergunta":  "Considerar dias reais admitidos mês 31 dias? Pagar adiant licença maternidade?",
+                       "opcoes_resposta":  [
+                                               "Mes calendario (Sim=1)",
+                                               "Sim (maternidade)",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "12392",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "literal":  "Mes calendario adiant 31 dias",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "calendario":  "1",
+                                                                           "comercial":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "12393",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "literal":  "Mes calendario adiant 31 (Local)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "calendario":  "1",
+                                                                           "comercial":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "1749",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "literal":  "Adiant licenca maternidade",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2742",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "literal":  "Adiant licenca maternidade (Local)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})12392;({V}) / etc",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "6.4.3"
+                   },
+                   {
+                       "item_txt":  "17 - 7.1 (pensao ferias)",
+                       "pergunta":  "Quando há desconto pensão nas férias, quando é feito o crédito para a pensionista?",
+                       "opcoes_resposta":  [
+                                               "Paga na mesma data do salario mensal"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "1706",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "mesma_data_salario":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2706",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "mesma_data_salario":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})1706;(1) / 72213;76345;({ID_LOCAL})2706;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "7.1"
+                   },
+                   {
+                       "item_txt":  "20 - 10.2 (base calculo 1a parcela 13o)",
+                       "pergunta":  "Na 1ª parcela de 13º, considerar como base de cálculo:",
+                       "opcoes_resposta":  [
+                                               "Remuneracao do mes de pagamento",
+                                               "Remuneracao/salario do mes anterior"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "1748",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "literal":  "Base 13o remun mes pagto",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "remun_mes_pagamento":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2730",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "literal":  "Base 13o remun mes pagto (Local)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "remun_mes_pagamento":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "13816",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "literal":  "Base 13o mes anterior",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "remun_mes_anterior":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "13817",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "literal":  "Base 13o mes anterior (Local)",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "remun_mes_anterior":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local; marcar 1 no par correspondente a opcao",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})1748;(1) ou 72213;76336;({ID_EMPRESA})13816;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "10.2"
+                   },
+                   {
+                       "item_txt":  "20 - 10.4 (repasse pensao 13o)",
+                       "pergunta":  "Quando há desconto pensão sobre 13º, repasse ocorre em:",
+                       "opcoes_resposta":  [
+                                               "No processo mensal"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "1721",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "processo_mensal":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "2719",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "processo_mensal":  "1"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})1721;(1) / 72213;76345;({ID_LOCAL})2719;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "10.4"
+                   },
+                   {
+                       "item_txt":  "20 - 10.5.5 (faltas reduzem avos 13o)",
+                       "pergunta":  "As faltas injustificadas devem ser consideradas para redução dos avos do 13º?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "64353",
+                       "id_campo_chave":  "41846",
+                       "nivel":  "Grupo de Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "41847",
+                                          "nome_fisico":  "BNL_OplTratarFaltas",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "41848",
+                                          "nome_fisico":  "BNL_CdiMetCalculoFalta",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "ficha_financeira":  "1",
+                                                                           "data_real":  "2"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID grupo se esperado != atual",
+                       "template_linha_1215":  "64353;41846;({ID_GRUPO})41847;(1)41848;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "10.5.5"
+                   },
+                   {
+                       "item_txt":  "20 - 10.5.8 (desconto media 13o pago a maior)",
+                       "pergunta":  "A empresa efetua desconto de valores pagos a maior na reapuração da 2ª parcela 13º?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336",
+                       "nivel":  "Empresa",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "13205",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "nao":  "1",
+                                                                           "sim":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})13205;({VALOR})",
+                       "semantica_invertida":  true,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "SEMANTICA INVERTIDA: Nao = gravar 1",
+                       "numero":  "10.5.8"
+                   },
+                   {
+                       "item_txt":  "21 - 4.19 (adiantamento expatriados)",
+                       "pergunta":  "A empresa paga adiantamento quinzenal para expatriados/impatriados?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "12688",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "12689",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null,
+                                          "nota_id":  "TXT usava 12688 no Local, real 12689"
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})12688;({V}) / 72213;76345;({ID_LOCAL})12689;({V})",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "4.19"
+                   },
+                   {
+                       "item_txt":  "26 - 4.18 (provisao desc Credito Trab quinzenal)",
+                       "pergunta":  "Existe provisão de desconto do Crédito do Trabalhador no adiantamento quinzenal?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "14211",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "nao":  "1",
+                                                                           "sim":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "14225",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "nao":  "1",
+                                                                           "sim":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})14211;(1) / 72213;76345;({ID_LOCAL})14225;(1)",
+                       "semantica_invertida":  true,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  "SEMANTICA INVERTIDA: Nao = gravar 1",
+                       "numero":  "4.18"
+                   },
+                   {
+                       "item_txt":  "26 - 4.19 (provisiona Credito Trab integral quinzenal)",
+                       "pergunta":  "Provisionar Crédito do Trabalhador integral no adiantamento quinzenal?",
+                       "opcoes_resposta":  [
+                                               "Sim",
+                                               "Nao"
+                                           ],
+                       "id_transacao_1215":  "72213",
+                       "id_campo_chave":  "76336 / 76345",
+                       "nivel":  "Empresa e Local",
+                       "campos":  [
+                                      {
+                                          "id_campo_alvo":  "14223",
+                                          "nivel_campo":  "Empresa",
+                                          "id_campo_chave_campo":  "76336",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      },
+                                      {
+                                          "id_campo_alvo":  "14226",
+                                          "nivel_campo":  "Local",
+                                          "id_campo_chave_campo":  "76345",
+                                          "mapa_resposta_para_valor":  {
+                                                                           "sim":  "1",
+                                                                           "nao":  "0"
+                                                                       },
+                                          "valor_fixo":  null
+                                      }
+                                  ],
+                       "condicao_geracao":  "gerar por ID empresa e ID local se esperado != atual",
+                       "template_linha_1215":  "72213;76336;({ID_EMPRESA})14223;(1) / 72213;76345;({ID_LOCAL})14226;(1)",
+                       "semantica_invertida":  false,
+                       "multi_linha":  false,
+                       "divergencia":  null,
+                       "observacoes":  null,
+                       "numero":  "4.19"
+                   }
+               ]
+}

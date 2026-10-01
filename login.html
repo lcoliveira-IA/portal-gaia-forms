@@ -244,12 +244,14 @@
             // Modo Estático / Nuvem Serverless:
             // Salva a identificação da empresa/usuário no navegador (localStorage)
             const cleanUser = user ? user.trim() : "Cliente GAIA";
+            const isConsultor = cleanUser.toLowerCase().includes("consultor") || cleanUser.toLowerCase().includes("admin") || cleanUser.toLowerCase() === "apdata";
             const clientUser = {
-                role: "cliente",
+                role: isConsultor ? "consultor" : "cliente",
                 name: cleanUser,
                 client_id: "cli_" + btoa(encodeURIComponent(cleanUser)).replace(/[^a-zA-Z0-9]/g, "").substring(0, 16)
             };
             localStorage.setItem("gaia_current_user", JSON.stringify(clientUser));
+            localStorage.setItem("gaia_active_role", clientUser.role);
             window.location.href = "index.html";
         });
     </script>
