@@ -1,231 +1,104 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Apdata Assistente de Implantação</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Global Antares - Portal de Implantação</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        "apple": "0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02)",
+                        "float": "0 20px 48px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03)"
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
-        :root {
-            --ap-dark-green: #22432d;
-            --ap-gold: #b09054;
-            --ap-cream: #e1d6b9;
-            --ap-bg-cream: #eae1c8;
-            --ap-card-cream: #f4ebd3;
-        }
-
         body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Roboto', sans-serif;
-            background-image: url('bg_login.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
+            font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+            -webkit-font-smoothing: antialiased;
         }
-
-        /* Subtle dark overlay to make the login card pop */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(34, 67, 45, 0.4) 0%, rgba(10, 15, 12, 0.7) 100%);
-            pointer-events: none;
-            z-index: 1;
+        .btn-hover-lift {
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .login-container {
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 400px;
-            animation: fadeIn 0.8s ease-out forwards;
+        .btn-hover-lift:hover {
+            transform: translateY(-1px);
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .logo-section {
-            text-align: center;
-            margin-bottom: 25px;
-            background: rgba(244, 235, 211, 0.92);
-            padding: 20px 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.4);
-            width: 100%;
-        }
-
-        .logo-icon {
-            font-size: 3.8rem;
-            background: linear-gradient(135deg, #d4ba7b 0%, #8c723b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: -5px;
-        }
-
-        .logo-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--ap-dark-green);
-            line-height: 0.9;
-            letter-spacing: -1.5px;
-        }
-
-        .logo-sub {
-            font-size: 1.45rem;
-            font-weight: 700;
-            color: var(--ap-dark-green);
-            margin-top: 12px;
-            letter-spacing: -0.5px;
-        }
-
-        .login-card {
-            background-color: rgba(244, 235, 211, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 35px 40px;
-            width: 100%;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.7);
-            border: 1px solid rgba(255,255,255,0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Glossy shine effect on card */
-        .login-card::after {
-            content: "";
-            position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg);
-            animation: shine 6s infinite;
-            pointer-events: none;
-        }
-
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 200%; }
-            100% { left: 200%; }
-        }
-
-        .form-label {
-            font-size: 0.9rem;
-            color: #222;
-            margin-bottom: 4px;
-        }
-
-        .form-control {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px 12px;
-            font-size: 0.95rem;
-            color: #333;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
-        }
-
-        .form-control:focus {
-            background-color: #fff;
-            border-color: var(--ap-gold);
-            box-shadow: 0 0 0 0.2rem rgba(176, 144, 84, 0.2);
-            color: #333;
-            outline: none;
-        }
-
-        .btn-primary {
-            background-color: var(--ap-dark-green);
-            border: 1px solid var(--ap-gold);
-            color: #d4ba7b;
-            width: 100%;
-            padding: 10px;
-            font-size: 1.1rem;
-            border-radius: 4px;
-            transition: all 0.3s;
-            margin-top: 8px;
-        }
-
-        .btn-primary:hover {
-            background-color: #183321;
-            color: #ebdab2;
-            border-color: #d4ba7b;
-        }
-        
-        .btn-primary:disabled {
-            background-color: #375745;
-            color: #999;
-            border-color: #666;
-        }
-
-        .links-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 25px;
-            font-size: 0.85rem;
-        }
-
-        .links-container a {
-            color: #111;
-            text-decoration: underline;
-            text-decoration-color: var(--ap-dark-green);
-            text-underline-offset: 3px;
-        }
-
-        .links-container a:hover {
-            color: var(--ap-dark-green);
-        }
-
-        #error-msg {
-            display: none;
-            color: #d32f2f;
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.85em;
-            font-weight: 500;
+        .btn-hover-lift:active {
+            transform: translateY(0);
         }
     </style>
 </head>
-<body>
-    <div class="login-container">
-        <div class="logo-section">
-            <i class="fas fa-fingerprint logo-icon"></i>
-            <div class="logo-text">apdata</div>
-            <div class="logo-sub">Assistente de Implantação</div>
+<body class="bg-[#f8f9fa] text-[#202124] font-sans min-h-screen flex items-center justify-center p-4 relative overflow-hidden select-none">
+
+    <!-- Ambient Subtle Warm Light (Clean Apple/Google Aesthetic) -->
+    <div class="fixed w-[600px] h-[600px] rounded-full bg-slate-200/40 blur-[140px] -top-40 -left-40 pointer-events-none z-0"></div>
+    <div class="fixed w-[500px] h-[500px] rounded-full bg-blue-100/30 blur-[130px] bottom-0 right-0 pointer-events-none z-0"></div>
+
+    <div class="w-full max-w-md relative z-10 space-y-6">
+        
+        <!-- Brand Header -->
+        <div class="text-center flex flex-col items-center">
+            <div class="w-16 h-16 rounded-2xl bg-white border border-[#e8eaed] flex items-center justify-center p-3 mb-4 shadow-apple">
+                <img alt="Apdata Logo" class="h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxXygev2oQaXob1bxJZJ-aKnzu5pzwp8FwM5faMrOOLm-RbUuGGzGvJS4LTQDAR0hz-izp9EuqskE7JxI94fwljmYr7s5Erx08tGcrc0IM1hWpNDH0rSQTllMLFK3hJTQJW4z6oMLFjhamkIrM4oFY0KaZ4cwG_fK4DDQNdtmlxTskqChDbl8ttcBcMyD3lB5Jr1kveh9KmlDFloaHmoWesQu0jgCbKTKGKGbClGPqD2PzmrEMIDmDd1eGlrHDFmVia0o">
+            </div>
+            <h1 class="text-2xl font-extrabold text-[#1d1d1f] tracking-tight">Global Antares</h1>
+            <div class="flex items-center gap-1.5 mt-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-xs font-semibold text-[#70757a]">Portal de Implantação e Parametrização</span>
+            </div>
         </div>
 
-        <div class="login-card">
-            <form id="loginForm">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Usuário</label>
-                    <input type="text" class="form-control" id="username" required>
+        <!-- Login Card -->
+        <div class="bg-white/90 backdrop-blur-xl border border-[#e8eaed] rounded-3xl p-8 shadow-float">
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="username" class="block text-xs font-bold text-[#1d1d1f] uppercase tracking-wider mb-1.5">Usuário ou Empresa</label>
+                    <div class="relative">
+                        <input type="text" id="username" required placeholder="Digite seu usuário ou empresa" class="w-full bg-[#f8f9fa] border border-[#d2d5da] rounded-xl px-4 py-3 text-xs text-[#202124] focus:ring-2 focus:ring-[#1d1d1f] focus:border-[#1d1d1f] focus:bg-white outline-none transition-all placeholder-[#70757a]">
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <label for="password" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="password" required>
+
+                <div>
+                    <label for="password" class="block text-xs font-bold text-[#1d1d1f] uppercase tracking-wider mb-1.5">Senha de Acesso</label>
+                    <div class="relative">
+                        <input type="password" id="password" required placeholder="Digite sua senha" class="w-full bg-[#f8f9fa] border border-[#d2d5da] rounded-xl px-4 py-3 text-xs text-[#202124] focus:ring-2 focus:ring-[#1d1d1f] focus:border-[#1d1d1f] focus:bg-white outline-none transition-all placeholder-[#70757a]">
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary" id="btn-login">Entrar</button>
-                <div id="error-msg">Usuário ou senha incorretos.</div>
-                
-                <div class="links-container">
-                    <a href="#">Esqueceu a Senha?</a>
-                    <a href="#">Precisa de Ajuda?</a>
-                </div>
+
+                <div id="error-msg" class="hidden text-xs text-rose-600 font-semibold text-center py-1">Usuário ou senha incorretos.</div>
+
+                <button type="submit" id="btn-login" class="btn-hover-lift w-full bg-[#1d1d1f] hover:bg-black text-white py-3 px-4 rounded-xl text-xs font-bold tracking-wide transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer mt-2">
+                    <span>Acessar Portal</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
             </form>
+
+            <div class="mt-6 pt-5 border-t border-[#f1f3f4] flex items-center justify-between text-xs text-[#70757a]">
+                <a href="javascript:void(0)" class="hover:text-[#1d1d1f] hover:underline transition-colors">Esqueceu a Senha?</a>
+                <a href="javascript:void(0)" class="hover:text-[#1d1d1f] hover:underline transition-colors">Precisa de Ajuda?</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center text-[11px] text-[#70757a]">
+            &copy; Apdata &bull; Global Antares Onboarding Suite &bull; Engine v4.12
         </div>
     </div>
 
@@ -238,8 +111,8 @@
             const err = document.getElementById("error-msg");
 
             btn.disabled = true;
-            btn.innerHTML = 'Autenticando...';
-            err.style.display = 'none';
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Autenticando...';
+            err.classList.add("hidden");
 
             // Modo Estático / Nuvem Serverless:
             // Salva a identificação da empresa/usuário no navegador (localStorage)

@@ -123,7 +123,6 @@
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span class="text-[11px] font-medium text-[#70757a]">Portal de Implantação</span>
                 </div>
-                <div id="client-company-badge" class="hidden mt-2 px-3 py-1 bg-[#1d1d1f]/10 text-[#1d1d1f] font-bold text-xs rounded-full border border-[#1d1d1f]/20 truncate max-w-[240px] shadow-xs"></div>
                 
             </div>
         </div>
@@ -281,12 +280,6 @@
                 </button>
 
                 <!-- Botão Extrair arquivo (Rotina 1215 - Visível apenas para Consultor/Admin) -->
-                
-                <!-- Botão Alternar Visão Consultor/Cliente (Exibido apenas com parâmetro de Consultor na URL) -->
-                <button type="button" id="btn-toggle-consultor-view" class="hidden btn-hover-lift px-3.5 py-2 border border-indigo-400 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-xl text-xs font-bold transition-all shadow-xs items-center gap-1.5 cursor-pointer" style="display: none;" title="Clique para alternar entre a visão do Cliente e a visão do Consultor (com ferramentas da Rotina 1215)">
-                    <i class="fa-solid fa-user-gear"></i> <span id="label-consultor-view">Visão: Consultor</span>
-                </button>
-
                 <div class="relative inline-block text-left hidden" id="dropdown-extrair-container">
                     <button type="button" id="btn-extrair-1215" class="btn-hover-lift bg-[#1d1d1f] hover:bg-black text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-2">
                         <i class="fa-solid fa-file-arrow-down text-emerald-400"></i> Extrair arquivo
@@ -862,14 +855,19 @@
     <div class="bg-white rounded-3xl w-full mx-4 shadow-float border border-[#e8eaed] overflow-hidden flex flex-col relative transform transition-all duration-300 max-w-2xl"><button type="button" onclick="(function(){const m=document.getElementById('welcome-onboarding-modal');if(m){m.classList.add('opacity-0','pointer-events-none');setTimeout(()=&gt;m.remove(),300);}})()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#f8f9fa] hover:bg-[#e8eaed] text-[#5f6368] hover:text-[#1d1d1f] flex items-center justify-center transition-colors z-10" title="Fechar"><span class="material-symbols-outlined text-lg">close</span></button><div class="flex flex-col items-center justify-center p-6 md:p-8 text-center gap-5"><div class="w-full h-80 flex items-center justify-center bg-gradient-to-b from-[#f8f9fa] to-white rounded-2xl border border-[#e8eaed] p-3 relative shadow-xs overflow-hidden"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2H7PHkm9IBVSp1OSGKxDi2t2Jbh6O1p829AVOqu1BnZ58ZSxDt_EUSUS6VJi6C2QN6Lt6_eKY7GkNyKJ8ozBJEbgO2Ryf4-NVFXTieMH1XW1BmHCviVNCr-f3tzuRXDhWlbdQOPBL3Y54sWGzgNgGH1RgFAxF_AwKMMNxR2CPqVTE01Fld7IlsKa0lPD7LN1pf2Yiggd1cKnSz0jrXnWEy_j51KKDnVgDVDTz4h7dnJrmiRtL8Hjjr_9YaMZvlKXKsWA" alt="Assistente Apdata" class="w-full h-full object-contain filter drop-shadow-sm"></div><div class="space-y-2 mt-1"><div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold mb-1"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Assistente de Implantação Apdata</div><h2 class="text-2xl md:text-3xl font-extrabold text-[#1d1d1f] tracking-tight">Bem-vindo ao Global Antares</h2></div></div><div class="px-8 py-4 bg-[#fafafa] border-t border-[#f1f3f4] flex flex-col sm:flex-row items-center justify-between gap-3"><label class="flex items-center gap-2 cursor-pointer text-xs text-[#70757a] hover:text-[#202124] select-none"><input type="checkbox" id="check-dont-show-welcome" class="form-checkbox text-[#1d1d1f] rounded text-xs border-[#d2d5da]"><span class="">Não mostrar novamente</span></label><button type="button" onclick="(function(){const chk=document.getElementById('check-dont-show-welcome');if(chk &amp;&amp; chk.checked){try{localStorage.setItem('ga_welcome_dismissed','true');}catch(e){}}const m=document.getElementById('welcome-onboarding-modal');if(m){m.classList.add('opacity-0','pointer-events-none');setTimeout(()=&gt;m.remove(),300);}})()" class="btn-hover-lift bg-[#1d1d1f] hover:bg-black text-white px-6 py-2.5 rounded-xl text-xs font-semibold shadow-sm flex items-center justify-center gap-2 transition-all w-full sm:w-auto"><span class="">Começar Parametrização</span><span class="material-symbols-outlined text-base">arrow_forward</span></button></div></div>
 </div>
 
-    
-    <!-- Hidden Legacy Containers for JS Compatibility -->
-    <div id="client-select-overlay" class="hidden" style="display: none;"></div>
-    <div id="client-modal" class="hidden fixed inset-0 z-[100]" style="display: none;"><div id="client-modal-content"><button id="btn-close-client-modal"></button><input id="new-client-name"><input id="new-client-user"><input id="new-client-pass"><div id="new-client-consultor-group"><select id="new-client-consultor"></select></div><button id="btn-cancel-client"></button><button id="btn-save-client"></button></div></div>
-    <div id="edit-client-modal" class="hidden fixed inset-0 z-[100]" style="display: none;"><div id="edit-client-modal-content"><button id="btn-close-edit-client-modal"></button><input id="edit-client-id"><input id="edit-client-name"><input id="edit-client-user"><input id="edit-client-pass"><button id="btn-delete-client"></button><button id="btn-cancel-edit-client"></button><button id="btn-save-edit-client"></button></div></div>
-
-        <!-- Main JavaScript Logic -->
+    <!-- Main JavaScript Logic -->
     <script src="config.js?v=102"></script>
-    <script src="rotina1215_engine.js?v=101"></script>
-    <script src="app2.js?v=static108"></script>
+    <script src="app2.js?v=static105"></script>
+
+
+
+
+
+
+
+
+
+
+
+
 </body></html>
