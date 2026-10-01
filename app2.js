@@ -84,6 +84,7 @@ async function handleFormFinalization() {
                         const payload = {
                             client_id: currentClientId,
                             client_name: currentUser.name || "Cliente GAIA",
+                            cnpj: currentUser.cnpj || "",
                             profile_id: currentProfileId || "matriz",
                             profile_name: currentProfileId ? (clientProfiles.find(p => p.id === currentProfileId)?.name || currentProfileId) : "Matriz",
                             timestamp: new Date().toISOString(),
@@ -283,18 +284,43 @@ function updateLockUI() {
 
 async function checkAuth() {
     try {
-        let saved = localStorage.getItem("gaia_current_user");
-        if (!saved) {
-            currentUser = { role: "cliente", name: "Cliente GAIA", client_id: "cli_default" };
+        // Leitura de parâmetros na URL (Ex: ?empresa=CAMISA&cnpj=12345678000190)
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramEmpresa = urlParams.get("empresa") || urlParams.get("cliente");
+        const paramCnpj = urlParams.get("cnpj") || "";
+
+        if (paramEmpresa) {
+            const cleanEmpresa = decodeURIComponent(paramEmpresa).trim();
+            const safeId = "cli_" + btoa(encodeURIComponent(cleanEmpresa.toLowerCase())).replace(/[^a-zA-Z0-9]/g, "").substring(0, 16);
+            currentUser = {
+                role: "cliente",
+                name: cleanEmpresa,
+                cnpj: paramCnpj,
+                client_id: safeId
+            };
             localStorage.setItem("gaia_current_user", JSON.stringify(currentUser));
         } else {
-            try {
-                currentUser = JSON.parse(saved);
-            } catch(e) {
+            let saved = localStorage.getItem("gaia_current_user");
+            if (!saved) {
                 currentUser = { role: "cliente", name: "Cliente GAIA", client_id: "cli_default" };
+                localStorage.setItem("gaia_current_user", JSON.stringify(currentUser));
+            } else {
+                try {
+                    currentUser = JSON.parse(saved);
+                } catch(e) {
+                    currentUser = { role: "cliente", name: "Cliente GAIA", client_id: "cli_default" };
+                }
             }
         }
         window.currentUser = currentUser;
+        currentClientId = currentUser.client_id || "cli_default";
+
+        // Atualiza a exibição visual do nome da empresa na interface
+        const badge = document.getElementById("client-company-badge");
+        if (badge && currentUser.name) {
+            badge.textContent = currentUser.name + (currentUser.cnpj ? " (" + currentUser.cnpj + ")" : "");
+            badge.classList.remove("hidden");
+        }
 
         
 
