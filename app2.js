@@ -85,8 +85,9 @@ async function handleFormFinalization() {
                     try {
                         const payload = {
                             client_id: currentClientId,
-                            client_name: currentUser.name || "Cliente GAIA",
-                            cnpj: currentUser.cnpj || "",
+                            client_name: (currentUser && currentUser.name) ? currentUser.name : (currentClientId || "Cliente GAIA"),
+                            cnpj: (currentUser && currentUser.cnpj) ? currentUser.cnpj : "",
+                            status: "Finalizado",
                             profile_id: currentProfileId || "matriz",
                             profile_name: currentProfileId ? (clientProfiles.find(p => p.id === currentProfileId)?.name || currentProfileId) : "Matriz",
                             timestamp: new Date().toISOString(),
@@ -817,6 +818,38 @@ async function saveServerState() {
     } catch(e) {
         console.error("Erro ao salvar no localStorage:", e);
     }
+
+    if (window.COPILOT_WEBHOOK_URL && window.COPILOT_WEBHOOK_URL.trim() !== "") {
+        try {
+            const payload = {
+                client_id: currentClientId,
+                client_name: (currentUser && currentUser.name) ? currentUser.name : (currentClientId || "Cliente GAIA"),
+                cnpj: (currentUser && currentUser.cnpj) ? currentUser.cnpj : "",
+                status: "Rascunho",
+                profile_id: currentProfileId || "matriz",
+                profile_name: currentProfileId ? (clientProfiles.find(p => p.id === currentProfileId)?.name || currentProfileId) : "Matriz",
+                timestamp: new Date().toISOString(),
+                state: formState,
+                profiles: clientProfiles
+            };
+            const resp = await fetch(window.COPILOT_WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (resp.ok) {
+                console.log("[Copilot Studio] Rascunho sincronizado com o SharePoint!");
+                return true;
+            } else {
+                console.warn("[Copilot Studio] Resposta HTTP ao sincronizar rascunho:", resp.status);
+                return false;
+            }
+        } catch(err) {
+            console.warn("[Copilot Studio] Falha ao sincronizar rascunho com a nuvem:", err);
+            return false;
+        }
+    }
+    return false;
 }
 
 // ------------------------------------------
@@ -4691,13 +4724,21 @@ function saveDraft() {
 
 
 btnSaveDraft.addEventListener("click", async () => {
+    btnSaveDraft.disabled = true;
+    const originalText = btnSaveDraft.textContent;
+    btnSaveDraft.textContent = "Salvando...";
 
     saveDraft();
+    const cloudSaved = await saveServerState();
 
-    await saveServerState();
+    btnSaveDraft.disabled = false;
+    btnSaveDraft.textContent = originalText;
 
-    showAlertModal("Rascunho salvo com sucesso!");
-
+    if (cloudSaved) {
+        showAlertModal("Rascunho salvo com sucesso no navegador e sincronizado no SharePoint corporativo da Apdata!");
+    } else {
+        showAlertModal("Rascunho salvo com sucesso no seu computador local.");
+    }
 });
 
 
