@@ -295,12 +295,19 @@ function applyRoleUI(role) {
     const btnToggleConsultor = document.getElementById("btn-toggle-consultor-view");
     
     if (labelConsultor && btnToggleConsultor) {
-        if (isConsultor) {
-            labelConsultor.textContent = "Visão: Consultor";
-            btnToggleConsultor.className = "px-3 py-2 border border-emerald-500 text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer";
+        if (window.isConsultorAuthorized) {
+            btnToggleConsultor.style.display = "inline-flex";
+            btnToggleConsultor.classList.remove("hidden");
+            if (isConsultor) {
+                labelConsultor.textContent = "Visão: Consultor";
+                btnToggleConsultor.className = "px-3 py-2 border border-emerald-500 text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-lg text-xs font-bold transition-all shadow-xs inline-flex items-center gap-1.5 active:scale-95 cursor-pointer";
+            } else {
+                labelConsultor.textContent = "Alternar: Visão Consultor";
+                btnToggleConsultor.className = "px-3 py-2 border border-slate-300 text-slate-700 bg-white hover:bg-slate-100 rounded-lg text-xs font-semibold transition-all shadow-xs inline-flex items-center gap-1.5 active:scale-95 cursor-pointer";
+            }
         } else {
-            labelConsultor.textContent = "Visão: Cliente";
-            btnToggleConsultor.className = "px-3 py-2 border border-slate-300 text-slate-700 bg-white hover:bg-slate-100 rounded-lg text-xs font-semibold transition-all shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer";
+            btnToggleConsultor.style.display = "none";
+            btnToggleConsultor.classList.add("hidden");
         }
     }
 
@@ -311,7 +318,7 @@ function applyRoleUI(role) {
     const consultantTopBar = document.getElementById("consultant-top-bar");
     const btnProcessIA = document.getElementById("btn-global-process-ia");
 
-    if (isConsultor) {
+    if (isConsultor && window.isConsultorAuthorized) {
         if (consultantTopBar) consultantTopBar.classList.remove("hidden");
         if (uploadCsvContainer) {
             uploadCsvContainer.classList.remove("hidden");
@@ -354,21 +361,33 @@ function applyRoleUI(role) {
 
 async function checkAuth() {
     try {
-        // Leitura de parâmetros na URL (Ex: ?empresa=CAMISA&cnpj=12345678000190&role=consultor)
+        // Leitura de parâmetros na URL (Ex: ?empresa=CAMISA&cnpj=12345678000190&Consultor=ApData)
         const urlParams = new URLSearchParams(window.location.search);
         const paramEmpresa = urlParams.get("empresa") || urlParams.get("cliente");
         const paramCnpj = urlParams.get("cnpj") || "";
-        const paramRole = (urlParams.get("perfil") || urlParams.get("role") || "").toLowerCase();
 
-        let initialRole = "cliente";
-        if (paramRole === "consultor" || paramRole === "admin") {
-            initialRole = "consultor";
-        } else {
-            const savedRole = localStorage.getItem("gaia_active_role");
-            if (savedRole === "consultor" || savedRole === "admin") {
-                initialRole = "consultor";
+        // Verificação se há parâmetro de consultor na URL:
+        // Exemplo suportado: &Consultor=ApData
+        // Também aceita: ?consultor=ApData, ?consultor=1, ?role=consultor, ?perfil=consultor
+        let isConsultorParam = false;
+        for (const [key, val] of urlParams.entries()) {
+            const k = key.toLowerCase();
+            const v = (val || "").trim().toLowerCase();
+            if (k === "consultor" && (v === "apdata" || v === "sim" || v === "true" || v === "1" || v.length > 0)) {
+                isConsultorParam = true;
+                break;
+            }
+            if ((k === "role" || k === "perfil") && (v === "consultor" || v === "admin")) {
+                isConsultorParam = true;
+                break;
             }
         }
+
+        // Se a URL contém o parâmetro do consultor, autoriza o modo consultor.
+        // Se a URL NÃO contém o parâmetro do consultor, o acesso é estritamente de CLIENTE!
+        window.isConsultorAuthorized = isConsultorParam;
+        
+        let initialRole = isConsultorParam ? "consultor" : "cliente";
 
         if (paramEmpresa) {
             const cleanEmpresa = decodeURIComponent(paramEmpresa).trim();
@@ -397,21 +416,21 @@ async function checkAuth() {
         window.currentUser = currentUser;
         currentClientId = currentUser.client_id || "cli_default";
 
-        // Setup do botão alternar visão consultor/cliente no topo
+        // Setup do botão alternar visão consultor/cliente no topo (apenas para consultor autorizado)
         const btnToggleConsultor = document.getElementById("btn-toggle-consultor-view");
         if (btnToggleConsultor && !btnToggleConsultor._hasToggleListener) {
             btnToggleConsultor._hasToggleListener = true;
             btnToggleConsultor.addEventListener("click", () => {
+                if (!window.isConsultorAuthorized) return;
                 const newRole = (currentUser.role === "consultor") ? "cliente" : "consultor";
                 currentUser.role = newRole;
                 window.currentUser = currentUser;
-                localStorage.setItem("gaia_active_role", newRole);
                 applyRoleUI(newRole);
                 updateStepView();
                 if (typeof showAlertModal === "function") {
                     showAlertModal(newRole === "consultor" ? 
                         "Visão do Consultor Ativada!\n\nAgora você pode carregar o CSV do Global Antares no menu lateral, processar o confronto com as respostas do cliente e extrair o arquivo da Rotina 1215." : 
-                        "Visão do Cliente Ativada!\n\nAs ferramentas internas do consultor foram ocultadas."
+                        "Visão do Cliente Ativada!\n\nAs ferramentas internas do consultor foram ocultadas para você visualizar como o cliente vê o formulário."
                     );
                 }
             });

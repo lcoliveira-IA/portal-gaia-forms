@@ -446,8 +446,8 @@
                     </div>
                 </div>
 
-                <!-- Botão Alternar Visão Consultor/Cliente -->
-                <button type="button" id="btn-toggle-consultor-view" class="px-3 py-2 border border-indigo-400 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 active:scale-95 cursor-pointer" title="Clique para alternar entre a visão do Cliente e a visão do Consultor (com ferramentas da Rotina 1215)">
+                <!-- Botão Alternar Visão Consultor/Cliente (Exibido apenas com parâmetro de Consultor na URL) -->
+                <button type="button" id="btn-toggle-consultor-view" class="hidden px-3 py-2 border border-indigo-400 text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg text-xs font-bold transition-all shadow-xs items-center gap-1.5 active:scale-95 cursor-pointer" style="display: none;" title="Clique para alternar entre a visão do Cliente e a visão do Consultor (com ferramentas da Rotina 1215)">
                     <i class="fa-solid fa-user-gear"></i> <span id="label-consultor-view">Visão: Consultor</span>
                 </button>
 
@@ -1202,7 +1202,7 @@
 
     <script src="config.js?v=102"></script>
     <script src="rotina1215_engine.js?v=101"></script>
-    <script src="app2.js?v=static106"></script>
+    <script src="app2.js?v=static107"></script>
 
     
 
