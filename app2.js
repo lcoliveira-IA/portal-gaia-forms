@@ -47,13 +47,34 @@ async function handleFormFinalization() {
 
     if (typeof window.validateEmpresasForFinalization === "function") {
         if (!window.validateEmpresasForFinalization()) {
-            showAlertModal("Não é possível finalizar. Por favor, preencha todos os campos obrigatórios das Empresas (destacados em vermelho) na seção 'Dados da Empresa'.");
+            const sections = getCategorySections();
+            const secEmpIdx = sections.findIndex(s => s.title === "Dados da Empresa");
+            if (secEmpIdx >= 0 && currentStepIndex !== secEmpIdx) {
+                currentStepIndex = secEmpIdx;
+                initWizard();
+                updateStepView();
+                setTimeout(() => {
+                    if (typeof window.validateEmpresasForFinalization === "function") {
+                        window.validateEmpresasForFinalization();
+                    }
+                }, 300);
+            }
+            showAlertModal("Não é possível finalizar ainda.\n\nPor favor, preencha os dados obrigatórios da empresa (destacados em vermelho) na seção 'Dados da Empresa'.");
             return;
         }
     }
 
     const unfilled = getUnfilledRequiredFields();
     if (unfilled.length > 0) {
+        const firstPending = unfilled[0];
+        const sections = getCategorySections();
+        const targetIdx = sections.findIndex(s => s.title === firstPending.topic);
+        if (targetIdx >= 0 && targetIdx !== currentStepIndex) {
+            currentStepIndex = targetIdx;
+            initWizard();
+            updateStepView();
+        }
+
         let msg = "Não é possível finalizar o formulário ainda. Existem " + unfilled.length + " campo(s) obrigatório(s) pendente(s):\n\n";
         unfilled.slice(0, 5).forEach(u => {
             msg += "• Tópico \"" + u.topic + "\": " + u.question + "\n";
@@ -61,7 +82,15 @@ async function handleFormFinalization() {
         if (unfilled.length > 5) {
             msg += "... e mais " + (unfilled.length - 5) + " campo(s).";
         }
+        msg += "\n\nOs campos pendentes foram destacados em vermelho nesta tela para facilitar o preenchimento.";
         showAlertModal(msg);
+
+        setTimeout(() => {
+            const redField = document.querySelector(".unfilled-highlight, .field-unfilled-highlight, input[style*='red'], textarea[style*='red']");
+            if (redField) {
+                redField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 300);
         return;
     }
 
@@ -162,27 +191,44 @@ function getUnfilledRequiredFields() {
     formSchema.forEach(sec => {
         if (!sec.content || !Array.isArray(sec.content)) return;
         
-        // Retrieve active section state for company groups
-        const secState = typeof getActiveSectionState === "function" 
-            ? getActiveSectionState(sec.title) 
-            : ((formState && formState[sec.type] && formState[sec.type][sec.title]) ? formState[sec.type][sec.title] : {});
+        // Retrieve section state from formState with proper category fallback
+        const cat = sec.type || currentCategory || "Folha de Pagamento";
+        const typeState = (formState && formState[cat]) ? formState[cat] : {};
+        const secState = typeState[sec.title] || {};
 
         sec.content.forEach(item => {
+            if (item.element === "custom_empresa") return; // Validado separadamente por validateEmpresasForFinalization
             if (item.isRequired) {
                 const keyText = item.text || item.titleText;
                 if (!keyText) return;
 
-                const val = secState[keyText];
-                let isFilled = false;
+                const cleanKey = keyText.replace(/[\.#\$\[\]\n\r]/g, "_").substring(0, 100);
+                if (secState[cleanKey + "_ignore"] === true) return; // Se marcado como 'Não se aplica', não bloqueia
 
-                if (item.responseType === "checkbox") {
+                let isFilled = false;
+                const val = secState[keyText] !== undefined ? secState[keyText] : (item.id_pergunta ? secState[item.id_pergunta] : undefined);
+
+                if (item.element === "checkbox_group" && Array.isArray(item.matches)) {
+                    isFilled = item.matches.some(m => {
+                        const label = m[1].trim().replace(/_+$/, "");
+                        return secState[label] === true;
+                    });
+                } else if (item.responseType === "checkbox") {
                     isFilled = (item.options || []).some(opt => secState[opt.label] === true);
+                } else if (item.responseType === "dropdown") {
+                    const mainVal = secState[keyText];
+                    isFilled = Boolean(mainVal !== undefined && mainVal !== null && String(mainVal).trim() !== "");
+                    if (isFilled && item.triggerInputOn && item.triggerInputOn.includes(mainVal)) {
+                        isFilled = Boolean(secState[keyText + "_detalhe"] && String(secState[keyText + "_detalhe"]).trim() !== "");
+                    }
                 } else if (item.responseType === "attachment") {
                     if (Array.isArray(val)) {
                         isFilled = val.length > 0;
                     } else {
-                        isFilled = Boolean(val && typeof val === "object" && val.data);
+                        isFilled = Boolean(val && typeof val === "object" && (val.data || val.name));
                     }
+                } else if (item.element === "table") {
+                    isFilled = (secState["config_tabelas_ignore"] === true) || Boolean(val || (item.rows && item.rows.some(r => secState[r[0]])));
                 } else {
                     isFilled = Boolean(val !== undefined && val !== null && String(val).trim() !== "");
                 }
@@ -1392,6 +1438,8 @@ function appendCardHeader(cardElement, titleText, stateKey, sectionState, isFill
     headerDiv.appendChild(titleEl);
 
     const cleanKey = stateKey.replace(/[.#$[{}\]\n\r]/g, "_").substring(0, 100);
+    cardElement.setAttribute("data-state-key", cleanKey);
+    cardElement.setAttribute("data-title", titleText);
     const isHelpFlagged = sectionState[cleanKey + "_need_help"] === true;
     const isIgnored = sectionState[cleanKey + "_ignore"] === true;
 
@@ -1496,7 +1544,14 @@ function appendCardHeader(cardElement, titleText, stateKey, sectionState, isFill
                 el.disabled = newVal;
             }
         });
+
+        if (typeof updateFieldHighlight === "function") {
+            const hasReq = cardElement.classList.contains("unfilled-highlight") || cardElement.classList.contains("force-unfilled-highlight");
+            updateFieldHighlight(cardElement, isFilled, newVal, hasReq);
+        }
+
         saveDraft();
+        if (typeof updateProgressBar === 'function') updateProgressBar();
     });
 
     actionsWrapper.appendChild(ignoreBtn);
@@ -2695,6 +2750,118 @@ function renderConsultorEmailCard(container) {
     container.appendChild(card);
 }
 
+function updateFieldHighlight(container, isFilled, isIgnored, isRequired = false) {
+    if (!container) return;
+    
+    // An item should be highlighted if it is required (or forced by step validation) and NOT filled and NOT ignored
+    const isPending = Boolean((isRequired || container.classList.contains("force-unfilled-highlight")) && !isFilled && !isIgnored);
+    
+    if (isPending) {
+        container.classList.add("unfilled-highlight");
+        container.style.setProperty("border", "2px solid #ef4444", "important");
+        container.style.setProperty("background-color", "rgba(254, 242, 242, 0.45)", "important");
+        container.style.setProperty("border-radius", "16px", "important");
+        container.style.setProperty("box-shadow", "0 4px 6px -1px rgba(239, 68, 68, 0.15)", "important");
+        
+        // Add or ensure warning banner
+        let reqBanner = container.querySelector(".unfilled-req-banner");
+        if (!reqBanner) {
+            reqBanner = document.createElement("div");
+            reqBanner.className = "unfilled-req-banner mt-2 mb-2 inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-800 border border-red-300 rounded-lg text-xs font-bold shadow-sm";
+            reqBanner.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-600 text-sm"></i> <span>Atenção: Obrigatório o preenchimento</span>';
+            const headerFlex = container.querySelector(".card-header-flex");
+            if (headerFlex) {
+                headerFlex.appendChild(reqBanner);
+            } else {
+                container.insertBefore(reqBanner, container.firstChild);
+            }
+        }
+    } else {
+        container.classList.remove("unfilled-highlight");
+        container.classList.remove("force-unfilled-highlight");
+        container.style.border = "";
+        container.style.backgroundColor = "";
+        container.style.borderRadius = "";
+        container.style.boxShadow = "";
+        
+        const reqBanner = container.querySelector(".unfilled-req-banner");
+        if (reqBanner) {
+            reqBanner.remove();
+        }
+    }
+}
+
+function highlightUnfilledFieldsInCurrentStep() {
+    const sections = getCategorySections();
+    const section = sections[currentStepIndex];
+    if (!section) return;
+
+    if (section.title === "Dados da Empresa" && typeof window.validateEmpresasForFinalization === "function") {
+        window.validateEmpresasForFinalization();
+        return;
+    }
+
+    const typeState = formState[section.type || currentCategory] || {};
+    const sectionState = typeState[section.title] || {};
+
+    const cards = document.querySelectorAll("#dynamic-form .form-section");
+    cards.forEach(card => {
+        const cleanKey = card.getAttribute("data-state-key");
+        const titleText = card.getAttribute("data-title");
+        if (!cleanKey && !titleText) return;
+
+        const isIgnored = sectionState[cleanKey + "_ignore"] === true;
+        if (isIgnored) {
+            updateFieldHighlight(card, true, true, false);
+            return;
+        }
+
+        // Check if filled
+        let isFilled = false;
+        // Check text/textarea inputs inside card
+        const textareas = card.querySelectorAll("textarea, input[type='text'], input[type='email']");
+        for (const input of textareas) {
+            if (input.value && input.value.trim()) {
+                isFilled = true;
+                break;
+            }
+        }
+        // Check selects
+        if (!isFilled) {
+            const selects = card.querySelectorAll("select");
+            for (const sel of selects) {
+                if (sel.value && sel.value.trim()) {
+                    isFilled = true;
+                    break;
+                }
+            }
+        }
+        // Check checkboxes
+        if (!isFilled) {
+            const chks = card.querySelectorAll("input[type='checkbox']");
+            for (const chk of chks) {
+                if (chk.checked) {
+                    isFilled = true;
+                    break;
+                }
+            }
+        }
+        // Check attachments
+        if (!isFilled) {
+            const att = sectionState[titleText] || sectionState[cleanKey];
+            if (Array.isArray(att) && att.length > 0) isFilled = true;
+            else if (att && typeof att === "object" && (att.data || att.name)) isFilled = true;
+        }
+
+        if (!isFilled) {
+            card.classList.add("force-unfilled-highlight");
+            updateFieldHighlight(card, false, false, true);
+        } else {
+            updateFieldHighlight(card, true, false, false);
+        }
+    });
+}
+
 function renderFormContent(section) {
 
     const btnAi = document.getElementById("btn-open-ia-modal");
@@ -2949,7 +3116,25 @@ function renderFormContent(section) {
 
             const questionContainer = document.createElement("div");
             const cleanText = item.text;
-            const isFilled = sectionState[cleanText] !== undefined && sectionState[cleanText] !== "";
+            const cleanKey = cleanText.replace(/[\.#\$\[\]\n\r]/g, "_").substring(0, 100);
+            const isIgnored = sectionState[cleanKey + "_ignore"] === true;
+            let isFilled = false;
+            if (item.responseType === "checkbox") {
+                isFilled = (item.options || []).some(opt => sectionState[opt.label] === true);
+            } else if (item.responseType === "attachment") {
+                const val = sectionState[cleanText];
+                if (Array.isArray(val)) isFilled = val.length > 0;
+                else isFilled = Boolean(val && typeof val === "object" && (val.data || val.name));
+            } else if (item.responseType === "dropdown") {
+                const mainVal = sectionState[cleanText];
+                isFilled = Boolean(mainVal !== undefined && mainVal !== null && String(mainVal).trim() !== "");
+                if (isFilled && item.triggerInputOn && item.triggerInputOn.includes(mainVal)) {
+                    isFilled = Boolean(sectionState[cleanText + "_detalhe"] && String(sectionState[cleanText + "_detalhe"]).trim() !== "");
+                }
+            } else {
+                const val = sectionState[cleanText];
+                isFilled = Boolean(val !== undefined && val !== null && String(val).trim() !== "");
+            }
 
             if (item.responseType === "note") {
                 questionContainer.className = "relative group";
@@ -3026,23 +3211,11 @@ function renderFormContent(section) {
 
                 appendCardHeader(questionContainer, cleanText, cleanText, sectionState, isFilled);
 
-            if (item.responseType === "composite_table") {
-                renderCompositeTable(questionContainer, item, sectionState, cleanText);
-            }
-
-                
-                if (item.isRequired) {
-                    questionContainer.style.cssText = "padding: 24px; margin-bottom: 16px; border: 2px solid #ef4444 !important; background-color: rgba(254, 242, 242, 0.7) !important; border-radius: 16px !important; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.15) !important;";
-                    const reqBanner = document.createElement("div");
-                    reqBanner.className = "mt-2 mb-2 inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-800 border border-red-300 rounded-lg text-xs font-extrabold shadow-sm";
-                    reqBanner.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-600 text-sm"></i> <span>Atenção: Obrigatório o preenchimento</span>';
-                    const headerFlex = questionContainer.querySelector(".card-header-flex");
-                    if (headerFlex) {
-                        headerFlex.appendChild(reqBanner);
-                    } else {
-                        questionContainer.insertBefore(reqBanner, questionContainer.firstChild);
-                    }
+                if (item.responseType === "composite_table") {
+                    renderCompositeTable(questionContainer, item, sectionState, cleanText);
                 }
+
+                updateFieldHighlight(questionContainer, isFilled, isIgnored, item.isRequired);
 
                 if (isEditMode) {
                     const editBar = createItemEditActions(item, false);
@@ -3130,6 +3303,10 @@ function renderFormContent(section) {
                         sectionState[item.id_pergunta] = compStr;
                     }
 
+                    if (typeof updateFieldHighlight === "function") {
+                        updateFieldHighlight(questionContainer, Boolean(compStr), sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                    }
+
                     saveDraft();
                 };
 
@@ -3174,6 +3351,10 @@ if(item.responseType === "composite_table") { textarea.style.display = "none"; t
 
                         sectionState[cleanText] = e.target.value;
 
+                        if (typeof updateFieldHighlight === "function") {
+                            updateFieldHighlight(questionContainer, Boolean(e.target.value.trim()), sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                        }
+
                         saveDraft();
 
                     });
@@ -3198,6 +3379,10 @@ if(item.responseType === "composite_table") { input.style.display = "none"; inpu
                     input.addEventListener("input", (e) => {
 
                         sectionState[cleanText] = e.target.value;
+
+                        if (typeof updateFieldHighlight === "function") {
+                            updateFieldHighlight(questionContainer, Boolean(e.target.value.trim()), sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                        }
 
                         saveDraft();
 
@@ -3429,6 +3614,13 @@ setTimeout(() => { detailInput.style.height = "auto"; detailInput.style.height =
                 selectEl.onchange = (e) => {
                     sectionState[cleanText] = e.target.value;
                     checkTrigger(e.target.value);
+                    let dFilled = Boolean(e.target.value);
+                    if (dFilled && item.triggerInputOn && item.triggerInputOn.includes(e.target.value)) {
+                        dFilled = Boolean(detailInput.value.trim());
+                    }
+                    if (typeof updateFieldHighlight === "function") {
+                        updateFieldHighlight(questionContainer, dFilled, sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                    }
                     if (typeof saveDraft === 'function') saveDraft(); else if (typeof saveFormRascunho === 'function') saveFormRascunho();
                     if (typeof updateProgressBar === 'function') updateProgressBar();
                 };
@@ -3436,6 +3628,13 @@ setTimeout(() => { detailInput.style.height = "auto"; detailInput.style.height =
                       e.target.style.height = "auto";
                       e.target.style.height = e.target.scrollHeight + "px";
                     sectionState[cleanText + "_detalhe"] = e.target.value;
+                    let dFilled = Boolean(selectEl.value);
+                    if (dFilled && item.triggerInputOn && item.triggerInputOn.includes(selectEl.value)) {
+                        dFilled = Boolean(e.target.value.trim());
+                    }
+                    if (typeof updateFieldHighlight === "function") {
+                        updateFieldHighlight(questionContainer, dFilled, sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                    }
                     if (typeof saveDraft === 'function') saveDraft(); else if (typeof saveFormRascunho === 'function') saveFormRascunho();
                     if (typeof updateProgressBar === 'function') updateProgressBar();
                 };
@@ -3551,6 +3750,10 @@ setTimeout(() => { txt.style.height = "auto"; txt.style.height = txt.scrollHeigh
                             }
 
                             sectionState[opt.label] = e.target.checked;
+                            if (typeof updateFieldHighlight === "function") {
+                                const anyChecked = (item.options || []).some(o => sectionState[o.label] === true);
+                                updateFieldHighlight(questionContainer, anyChecked, sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                            }
 
                             saveDraft();
 
@@ -3589,6 +3792,10 @@ setTimeout(() => { txt.style.height = "auto"; txt.style.height = txt.scrollHeigh
                             }
 
                             sectionState[opt.label] = e.target.checked;
+                            if (typeof updateFieldHighlight === "function") {
+                                const anyChecked = (item.options || []).some(o => sectionState[o.label] === true);
+                                updateFieldHighlight(questionContainer, anyChecked, sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                            }
 
                             saveDraft();
 
@@ -3779,27 +3986,17 @@ setTimeout(() => { txt.style.height = "auto"; txt.style.height = txt.scrollHeigh
 
                 
 
-                const isFilled = sectionState[cleanText] !== undefined && sectionState[cleanText] !== "";
+                const cleanKey = cleanText.replace(/[\.#\$\[\]\n\r]/g, "_").substring(0, 100);
+                const isIgnored = sectionState[cleanKey + "_ignore"] === true;
+                const isFilled = sectionState[cleanText] !== undefined && String(sectionState[cleanText]).trim() !== "";
 
                 appendCardHeader(questionContainer, cleanText, cleanText, sectionState, isFilled);
 
-            if (item.responseType === "composite_table") {
-                renderCompositeTable(questionContainer, item, sectionState, cleanText);
-            }
-
-
-            if (item.isRequired) {
-                questionContainer.style.cssText = "padding: 24px; margin-bottom: 16px; border: 2px solid #ef4444 !important; background-color: rgba(254, 242, 242, 0.7) !important; border-radius: 16px !important; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.15) !important;";
-                const reqBanner = document.createElement("div");
-                reqBanner.className = "mt-2 mb-2 inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-800 border border-red-300 rounded-lg text-xs font-extrabold shadow-sm";
-                reqBanner.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-600 text-sm"></i> <span>Atenção: Obrigatório o preenchimento</span>';
-                const headerFlex = questionContainer.querySelector(".card-header-flex");
-                if (headerFlex) {
-                    headerFlex.appendChild(reqBanner);
-                } else {
-                    questionContainer.insertBefore(reqBanner, questionContainer.firstChild);
+                if (item.responseType === "composite_table") {
+                    renderCompositeTable(questionContainer, item, sectionState, cleanText);
                 }
-            }
+
+                updateFieldHighlight(questionContainer, isFilled, isIgnored, item.isRequired);
 
                 if (isEditMode) {
                     const editBar = createItemEditActions(item, false);
@@ -3859,6 +4056,10 @@ if(item.responseType === "composite_table") { textarea.style.display = "none"; t
 
                         sectionState[cleanText] = e.target.value;
 
+                        if (typeof updateFieldHighlight === "function") {
+                            updateFieldHighlight(questionContainer, Boolean(e.target.value.trim()), sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                        }
+
                         saveDraft();
 
                         
@@ -3893,6 +4094,10 @@ if(item.responseType === "composite_table") { input.style.display = "none"; inpu
                     input.addEventListener("input", (e) => {
 
                         sectionState[cleanText] = e.target.value;
+
+                        if (typeof updateFieldHighlight === "function") {
+                            updateFieldHighlight(questionContainer, Boolean(e.target.value.trim()), sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                        }
 
                         saveDraft();
 
@@ -4002,19 +4207,15 @@ if(item.responseType === "composite_table") { input.style.display = "none"; inpu
 
             
 
-            appendCardHeader(checkboxContainer, item.titleText, item.titleText || `checkbox_${idx}`, sectionState);
-            if (item.isRequired) {
-                checkboxContainer.style.cssText = "padding: 20px 24px; margin-bottom: 16px; border: 2px solid #ef4444 !important; background-color: rgba(254, 242, 242, 0.7) !important; border-radius: 16px !important; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.15) !important;";
-                const reqBanner = document.createElement("div");
-                reqBanner.className = "mt-2 mb-2 inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-800 border border-red-300 rounded-lg text-xs font-extrabold shadow-sm";
-                reqBanner.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-600 text-sm"></i> <span>Atenção: Obrigatório o preenchimento</span>';
-                const headerFlex = checkboxContainer.querySelector(".card-header-flex");
-                if (headerFlex) {
-                    headerFlex.appendChild(reqBanner);
-                } else {
-                    checkboxContainer.insertBefore(reqBanner, checkboxContainer.firstChild);
-                }
-            }
+            const cleanKey = (item.titleText || `checkbox_${idx}`).replace(/[\.#\$\[\]\n\r]/g, "_").substring(0, 100);
+            const isIgnored = sectionState[cleanKey + "_ignore"] === true;
+            const isGroupChecked = (item.matches || []).some(m => {
+                const label = m[1].trim().replace(/_+$/, "");
+                return sectionState[label] === true;
+            });
+
+            appendCardHeader(checkboxContainer, item.titleText, item.titleText || `checkbox_${idx}`, sectionState, isGroupChecked);
+            updateFieldHighlight(checkboxContainer, isGroupChecked, isIgnored, item.isRequired);
             if (isEditMode) {
                 const editBar = createItemEditActions(item, false);
                 checkboxContainer.appendChild(editBar);
@@ -4087,6 +4288,14 @@ if(item.responseType === "composite_table") { input.style.display = "none"; inpu
                     saveDraft();
 
                     optionCard.classList.toggle("selected", checkbox.checked);
+
+                    if (typeof updateFieldHighlight === "function") {
+                        const anyGrpChecked = (item.matches || []).some(m => {
+                            const lbl = m[1].trim().replace(/_+$/, "");
+                            return sectionState[lbl] === true;
+                        });
+                        updateFieldHighlight(checkboxContainer, anyGrpChecked, sectionState[cleanKey + "_ignore"] === true, item.isRequired);
+                    }
 
                 });
 
@@ -4187,18 +4396,7 @@ setTimeout(() => { suffixInput.style.height = "auto"; suffixInput.style.height =
                 const editBar = createItemEditActions(item, true);
                 tableContainer.appendChild(editBar);
             }
-            if (item.isRequired) {
-                tableContainer.style.cssText = "padding: 24px; margin-bottom: 16px; padding-top: 24px; border: 2px solid #ef4444 !important; background-color: rgba(254, 242, 242, 0.7) !important; border-radius: 16px !important; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.15) !important;";
-                const reqBanner = document.createElement("div");
-                reqBanner.className = "mt-2 mb-2 inline-flex items-center gap-2 px-3 py-1.5 bg-red-100 text-red-800 border border-red-300 rounded-lg text-xs font-extrabold shadow-sm";
-                reqBanner.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-600 text-sm"></i> <span>Atenção: Obrigatório o preenchimento</span>';
-                const headerFlex = tableContainer.querySelector(".card-header-flex");
-                if (headerFlex) {
-                    headerFlex.appendChild(reqBanner);
-                } else {
-                    tableContainer.insertBefore(reqBanner, tableContainer.firstChild);
-                }
-            }
+
 
 
 
@@ -4231,6 +4429,17 @@ setTimeout(() => { suffixInput.style.height = "auto"; suffixInput.style.height =
                 }
 
             }
+
+            const isTableIgnored = sectionState["config_tabelas_ignore"] === true;
+            let isTableFilled = false;
+            if (tableType === "form") {
+                isTableFilled = tableRows && tableRows.some(row => row.length >= 2 && sectionState[row[0]]);
+            } else if (tableType === "grid") {
+                const gridTitle = (tableHeaders || []).join(" / ");
+                const gridData = sectionState[gridTitle] || sectionState["custom_empresa_data"] || [];
+                isTableFilled = gridData.length > 0;
+            }
+            updateFieldHighlight(tableContainer, isTableFilled, isTableIgnored, item.isRequired);
 
             
 
@@ -4792,9 +5001,24 @@ btnNextStep.addEventListener("click", () => {
     const sections = getCategorySections();
     const section = sections[currentStepIndex];
     if (section) {
+        if (section.title === "Dados da Empresa" && typeof window.validateEmpresasForFinalization === "function") {
+            if (!window.validateEmpresasForFinalization()) {
+                showAlertModal("Não é possível avançar ainda.\n\nPor favor, preencha todos os dados obrigatórios da empresa (destacados em vermelho).");
+                return;
+            }
+        }
         const p = getSectionProgress(section, formState); // Usa a lógica já existente
         if (p.hasFields && p.missing > 0) {
-            showAlertModal(`Não é possível avançar. Faltam ${p.missing} campo(s) obrigatório(s) nesta seção.\n\nPor favor, preencha todos os campos pendentes ou marque a opção 'Não se aplica' (Desconsiderar) na pergunta.`);
+            if (typeof highlightUnfilledFieldsInCurrentStep === "function") {
+                highlightUnfilledFieldsInCurrentStep();
+            }
+            showAlertModal(`Não é possível avançar. Faltam ${p.missing} campo(s) pendente(s) nesta seção.\n\nOs campos pendentes foram destacados em vermelho nesta tela para facilitar o preenchimento.\n\nPor favor, preencha todos os campos ou marque a opção 'Não se aplica' (Desconsiderar).`);
+            setTimeout(() => {
+                const firstRed = document.querySelector(".unfilled-highlight, input[style*='red'], textarea[style*='red']");
+                if (firstRed) {
+                    firstRed.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 250);
             return;
         }
     }

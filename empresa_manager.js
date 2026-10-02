@@ -746,21 +746,95 @@ const ESTADO_OPTIONS = `
     
 window.validateEmpresasForFinalization = function() {
     const cards = document.querySelectorAll('.data-card');
-    if (cards.length === 0) return false;
-    let isValid = true;
-    cards.forEach(card => {
-        const allInputs = card.querySelectorAll('input.form-control, select.form-control');
-        allInputs.forEach(input => {
-            if (input.classList.contains('field-id-empresa') || input.classList.contains('field-complemento')) return;
-            if (!input.value.trim()) {
-                isValid = false;
-                input.style.borderColor = 'red';
-            } else {
-                input.style.borderColor = 'var(--border-color)';
-            }
+    
+    // Lista de campos estritamente obrigatórios da empresa/filial
+    const requiredFieldClasses = [
+        'field-razao-social',
+        'field-local',
+        'field-vigencia-emp',
+        'field-cnpj-prefix',
+        'field-endereco',
+        'field-bairro',
+        'field-municipio',
+        'field-estado'
+    ];
+
+    if (cards.length > 0) {
+        let isValid = true;
+        let firstInvalid = null;
+
+        cards.forEach(card => {
+            requiredFieldClasses.forEach(cls => {
+                const el = card.querySelector('.' + cls);
+                if (el) {
+                    const val = (el.value || "").trim();
+                    if (!val) {
+                        isValid = false;
+                        el.style.border = '2px solid #ef4444';
+                        el.style.backgroundColor = '#fef2f2';
+                        if (!firstInvalid) firstInvalid = el;
+
+                        // Adiciona listener em tempo real para remover o vermelho assim que preencher
+                        if (!el._hasValidationListener) {
+                            el._hasValidationListener = true;
+                            const removeErr = () => {
+                                if (el.value.trim()) {
+                                    el.style.border = '';
+                                    el.style.backgroundColor = '';
+                                }
+                            };
+                            el.addEventListener('input', removeErr);
+                            el.addEventListener('change', removeErr);
+                        }
+                    } else {
+                        el.style.border = '';
+                        el.style.backgroundColor = '';
+                    }
+                }
+            });
         });
-    });
-    return isValid;
+
+        if (!isValid && firstInvalid) {
+            // Expande o card se estiver recolhido para exibir o campo em vermelho
+            const parentCard = firstInvalid.closest('.data-card');
+            if (parentCard) {
+                const exp = parentCard.querySelector('.expanded-content');
+                if (exp && (exp.style.display === 'none' || !exp.classList.contains('active'))) {
+                    exp.style.display = 'block';
+                    exp.classList.add('active');
+                }
+            }
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstInvalid.focus();
+        }
+
+        return isValid;
+    }
+
+    // Se o usuário não está na seção 2 no momento (ex: está no passo final e clicou em Finalizar)
+    // Valida os dados da empresa salvos em memória / localStorage
+    const empresasList = (window.empresas && window.empresas.length > 0) ? window.empresas :
+        (typeof formState !== "undefined" && formState["Folha de Pagamento"] && formState["Folha de Pagamento"]["Dados da Empresa"] && formState["Folha de Pagamento"]["Dados da Empresa"]["custom_empresa_data"]) || [];
+
+    if (!empresasList || empresasList.length === 0) {
+        return false;
+    }
+
+    // Verifica se pelo menos uma empresa possui Razão Social preenchida e valida campos essenciais
+    for (const emp of empresasList) {
+        const rz = emp["field-razao-social"] || emp["razao_social"] || emp["razaoSocial"] || emp["Razão Social"];
+        if (!rz || !String(rz).trim()) {
+            return false;
+        }
+        for (const cls of requiredFieldClasses) {
+            const val = emp[cls];
+            if (!val || !String(val).trim()) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 };
 
 window.applyLockToEmpresas = function() {
@@ -930,6 +1004,12 @@ function addEmpresa(isRendering = false) {
     newCard.querySelectorAll('input, select').forEach(el => {
         el.addEventListener('change', saveEmpresasState);
         el.addEventListener('blur', saveEmpresasState);
+        el.addEventListener('input', () => {
+            if (el.value.trim()) {
+                el.style.border = '';
+                el.style.backgroundColor = '';
+            }
+        });
     });
     
     if (!isRendering) {
