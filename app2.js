@@ -65,8 +65,20 @@ async function handleFormFinalization() {
         return;
     }
 
+    const consultorEmailInput = document.getElementById("input-consultor-email");
+    const consultorEmailVal = (consultorEmailInput && consultorEmailInput.value.trim()) 
+        || window.consultorEmail 
+        || (localStorage.getItem("gaia_consultor_email_" + currentClientId) || "");
+
+    let confirmMsg = "Deseja finalizar o formulário?\n\nApós a finalização, ele ficará bloqueado para edições e será transmitido para o Copilot Studio / SharePoint para auditoria de implantação.";
+    if (consultorEmailVal) {
+        confirmMsg += "\n\nUma notificação de conclusão será enviada ao consultor responsável:\n" + consultorEmailVal;
+    } else {
+        confirmMsg += "\n\n(Aviso: Nenhum e-mail de consultor responsável foi informado. Você ainda pode informar na primeira seção antes de finalizar).";
+    }
+
     showConfirmModal(
-        "Deseja finalizar o formulário?\n\nApós a finalização, ele ficará bloqueado para edições e será transmitido para o Copilot Studio / SharePoint para auditoria de implantação.",
+        confirmMsg,
         async () => {
             try {
                 showAlertModal("Transmitindo dados para a Apdata e registrando no SharePoint...\nPor favor, aguarde.");
@@ -81,20 +93,27 @@ async function handleFormFinalization() {
 
                 // Envia dados para o Microsoft Copilot Studio se o webhook estiver configurado
                 let copilotSent = false;
+                const payload = {
+                    client_id: currentClientId,
+                    client_name: (currentUser && currentUser.name) ? currentUser.name : (currentClientId || "Cliente GAIA"),
+                    cnpj: (currentUser && currentUser.cnpj) ? currentUser.cnpj : "",
+                    consultor_email: consultorEmailVal,
+                    status: "Finalizado",
+                    profile_id: currentProfileId || "matriz",
+                    profile_name: currentProfileId ? (clientProfiles.find(p => p.id === currentProfileId)?.name || currentProfileId) : "Matriz",
+                    timestamp: new Date().toISOString(),
+                    empresas: (window.empresas || []),
+                    state: formState,
+                    profiles: clientProfiles
+                };
+
+                // Salva backup local do payload finalizado
+                try {
+                    localStorage.setItem("gaia_payload_final_" + currentClientId, JSON.stringify(payload));
+                } catch(e) {}
+
                 if (window.COPILOT_WEBHOOK_URL && window.COPILOT_WEBHOOK_URL.trim() !== "") {
                     try {
-                        const payload = {
-                            client_id: currentClientId,
-                            client_name: (currentUser && currentUser.name) ? currentUser.name : (currentClientId || "Cliente GAIA"),
-                            cnpj: (currentUser && currentUser.cnpj) ? currentUser.cnpj : "",
-                            status: "Finalizado",
-                            profile_id: currentProfileId || "matriz",
-                            profile_name: currentProfileId ? (clientProfiles.find(p => p.id === currentProfileId)?.name || currentProfileId) : "Matriz",
-                            timestamp: new Date().toISOString(),
-                            empresas: (window.empresas || []),
-                            state: formState,
-                            profiles: clientProfiles
-                        };
                         const resp = await fetch(window.COPILOT_WEBHOOK_URL, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
@@ -118,9 +137,11 @@ async function handleFormFinalization() {
                     initWizard();
                     updateStepView();
 
-                    showAlertModal(
-                        "Obrigado! Formulário Finalizado e Transmitido com Sucesso!\n\nOs dados foram gravados com segurança no SharePoint e o Agente de IA iniciou a auditoria de implantação.\nTodas as edições no formulário foram bloqueadas."
-                    );
+                    let msgSuccess = "Obrigado! Formulário Finalizado e Transmitido com Sucesso!\n\nOs dados foram gravados com segurança no SharePoint e o Agente de IA iniciou a auditoria de implantação.\nTodas as edições no formulário foram bloqueadas.";
+                    if (consultorEmailVal) {
+                        msgSuccess += "\n\nO consultor responsável (" + consultorEmailVal + ") foi notificado sobre a conclusão.";
+                    }
+                    showAlertModal(msgSuccess);
                 } else {
                     showAlertModal("Erro ao finalizar formulário: " + (data.error || "Erro desconhecido"));
                 }
@@ -128,7 +149,8 @@ async function handleFormFinalization() {
                 console.error(e);
                 showAlertModal("Erro ao comunicar com o servidor para finalizar o formulário.");
             }
-        }
+        },
+        "Confirmar e Finalizar"
     );
 }
 
@@ -360,12 +382,36 @@ function applyRoleUI(role) {
     }
 }
 
+function updateConsultorBadge() {
+    const badge = document.getElementById("consultor-email-badge");
+    const textEl = document.getElementById("consultor-badge-text");
+    const email = window.consultorEmail || (localStorage.getItem("gaia_consultor_email_" + (currentClientId || "cli_default")) || "");
+    if (badge && textEl) {
+        if (email && email.trim()) {
+            textEl.textContent = email.trim();
+            badge.title = "Consultor Responsável: " + email.trim();
+            badge.classList.remove("hidden");
+        } else {
+            badge.classList.add("hidden");
+        }
+    }
+}
+
 async function checkAuth() {
     try {
-        // Leitura de parâmetros na URL (Ex: ?empresa=CAMISA&cnpj=12345678000190)
+        // Leitura de parâmetros na URL (Ex: ?empresa=CAMISA&cnpj=12345678000190&email_consultor=consultor@apdata.com.br)
         const urlParams = new URLSearchParams(window.location.search);
         const paramEmpresa = urlParams.get("empresa") || urlParams.get("cliente");
         const paramCnpj = urlParams.get("cnpj") || "";
+
+        // Leitura do e-mail do consultor responsável na URL
+        let paramConsultorEmail = urlParams.get("email_consultor") || urlParams.get("consultor_email") || urlParams.get("consultant_email");
+        if (!paramConsultorEmail) {
+            const rawConsultor = urlParams.get("consultor") || urlParams.get("Consultor");
+            if (rawConsultor && rawConsultor.includes("@")) {
+                paramConsultorEmail = rawConsultor;
+            }
+        }
 
         // O portal estático é estritamente e exclusivamente para preenchimento do CLIENTE
         window.isConsultorAuthorized = false;
@@ -398,6 +444,15 @@ async function checkAuth() {
         window.currentUser = currentUser;
         currentClientId = currentUser.client_id || "cli_default";
 
+        // Vinculação do e-mail do consultor responsável (URL ou persistência local)
+        if (paramConsultorEmail) {
+            window.consultorEmail = decodeURIComponent(paramConsultorEmail).trim();
+            localStorage.setItem("gaia_consultor_email_" + currentClientId, window.consultorEmail);
+        } else {
+            window.consultorEmail = localStorage.getItem("gaia_consultor_email_" + currentClientId) || "";
+        }
+        currentUser.consultor_email = window.consultorEmail;
+
         // Setup do botão alternar visão consultor/cliente no topo (apenas para consultor autorizado)
         const btnToggleConsultor = document.getElementById("btn-toggle-consultor-view");
         if (btnToggleConsultor && !btnToggleConsultor._hasToggleListener) {
@@ -424,6 +479,8 @@ async function checkAuth() {
             badge.textContent = currentUser.name + (currentUser.cnpj ? " (" + currentUser.cnpj + ")" : "");
             badge.classList.remove("hidden");
         }
+
+        updateConsultorBadge();
 
         applyRoleUI(currentUser.role);
 
@@ -790,10 +847,12 @@ async function saveServerState() {
 
     if (window.COPILOT_WEBHOOK_URL && window.COPILOT_WEBHOOK_URL.trim() !== "") {
         try {
+            const consultorEmailVal = window.consultorEmail || (document.getElementById("input-consultor-email") ? document.getElementById("input-consultor-email").value.trim() : (localStorage.getItem("gaia_consultor_email_" + currentClientId) || ""));
             const payload = {
                 client_id: currentClientId,
                 client_name: (currentUser && currentUser.name) ? currentUser.name : (currentClientId || "Cliente GAIA"),
                 cnpj: (currentUser && currentUser.cnpj) ? currentUser.cnpj : "",
+                consultor_email: consultorEmailVal,
                 status: "Rascunho",
                 profile_id: currentProfileId || "matriz",
                 profile_name: currentProfileId ? (clientProfiles.find(p => p.id === currentProfileId)?.name || currentProfileId) : "Matriz",
@@ -2555,6 +2614,87 @@ function extrairCamposResponsavelLegado(raw) {
     return { nome, cpf: formatarCPFInput(cpf), email };
 }
 
+function renderConsultorEmailCard(container) {
+    if (!container) return;
+    const existing = container.querySelector(".consultor-responsavel-card");
+    if (existing) existing.remove();
+
+    const emailVal = window.consultorEmail || (localStorage.getItem("gaia_consultor_email_" + (currentClientId || "cli_default")) || "");
+    const isLocked = isCurrentClientLocked && !isEditMode;
+
+    const card = document.createElement("div");
+    card.className = "consultor-responsavel-card mb-6 p-5 md:p-6 bg-gradient-to-r from-blue-50/90 via-white to-indigo-50/70 rounded-2xl border border-blue-200/80 shadow-sm transition-all";
+    card.innerHTML = `
+        <div class="flex items-start md:items-center justify-between gap-4 mb-3 pb-3 border-b border-blue-100">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs">
+                    <i class="fa-solid fa-headset text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm md:text-base font-bold text-slate-800 tracking-tight">Consultor Apdata Responsável</h3>
+                    <p class="text-[11px] text-slate-500">Notificação automática ao finalizar o formulário</p>
+                </div>
+            </div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold ${emailVal ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'}">
+                <span class="w-2 h-2 rounded-full ${emailVal ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}"></span>
+                <span id="consultor-status-pill">${emailVal ? 'Consultor Vinculado' : 'Aguardando E-mail'}</span>
+            </span>
+        </div>
+        <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+            Informe ou confirme o e-mail do consultor Apdata responsável pela sua implantação. Ao clicar em <strong>Finalizar</strong>, o sistema enviará automaticamente uma notificação a este e-mail informando que as respostas estão concluídas.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+            <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <i class="fa-regular fa-envelope"></i>
+                </div>
+                <input type="email" 
+                       id="input-consultor-email" 
+                       class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs md:text-sm font-medium text-slate-800 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none shadow-xs disabled:bg-slate-100 disabled:text-slate-500 disabled:cursor-not-allowed" 
+                       placeholder="ex: consultor@apdata.com.br" 
+                       value="${escapeHtml(emailVal)}" 
+                       ${isLocked ? 'disabled' : ''}>
+            </div>
+            <div class="text-[11px] text-slate-500 flex items-center gap-1.5 self-center sm:self-auto">
+                <i class="fa-solid fa-circle-info text-blue-500"></i>
+                <span>Parâmetro na URL: <code>&email_consultor=...</code></span>
+            </div>
+        </div>
+    `;
+
+    const inputEmail = card.querySelector("#input-consultor-email");
+    if (inputEmail && !isLocked) {
+        inputEmail.addEventListener("input", (e) => {
+            const val = e.target.value.trim();
+            window.consultorEmail = val;
+            if (currentClientId) {
+                localStorage.setItem("gaia_consultor_email_" + currentClientId, val);
+            }
+            if (window.currentUser) {
+                window.currentUser.consultor_email = val;
+            }
+            updateConsultorBadge();
+            const pill = card.querySelector("#consultor-status-pill");
+            const pillContainer = pill ? pill.parentElement : null;
+            if (pill && pillContainer) {
+                if (val && val.includes("@")) {
+                    pill.textContent = "Consultor Vinculado";
+                    pillContainer.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200";
+                    const dot = pillContainer.querySelector("span:first-child");
+                    if (dot) dot.className = "w-2 h-2 rounded-full bg-emerald-500";
+                } else {
+                    pill.textContent = "Aguardando E-mail";
+                    pillContainer.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200";
+                    const dot = pillContainer.querySelector("span:first-child");
+                    if (dot) dot.className = "w-2 h-2 rounded-full bg-amber-500 animate-pulse";
+                }
+            }
+        });
+    }
+
+    container.appendChild(card);
+}
+
 function renderFormContent(section) {
 
     const btnAi = document.getElementById("btn-open-ia-modal");
@@ -2609,6 +2749,10 @@ function renderFormContent(section) {
         renderCompanyGroupConfigurator(dynamicForm);
     } else if (section.title !== "Apresentação") {
         renderCompanyGroupTabs(dynamicForm);
+    }
+
+    if (section.title === "Apresentação" || section.title === "Dados da Empresa" || currentStepIndex === 0) {
+        renderConsultorEmailCard(dynamicForm);
     }
 
 
@@ -7617,11 +7761,24 @@ let confirmActionCallback = null;
 
 
 
-function showConfirmModal(message, callback) {
+function showConfirmModal(message, callback, confirmBtnText = "Confirmar") {
 
     const modal = document.getElementById("confirm-modal");
 
-    document.getElementById("confirm-modal-message").textContent = message;
+    const msgEl = document.getElementById("confirm-modal-message");
+    if (msgEl) msgEl.textContent = message;
+
+    const btnConfirm = document.getElementById("btn-confirm-action");
+    if (btnConfirm) {
+        btnConfirm.textContent = confirmBtnText;
+        if (confirmBtnText.toLowerCase().includes("finalizar")) {
+            btnConfirm.className = "bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all";
+        } else if (confirmBtnText.toLowerCase().includes("excluir") || confirmBtnText.toLowerCase().includes("deletar")) {
+            btnConfirm.className = "bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all";
+        } else {
+            btnConfirm.className = "bg-[#1d1d1f] hover:bg-black text-white px-5 py-2 rounded-xl text-xs font-semibold shadow-sm transition-all";
+        }
+    }
 
     confirmActionCallback = callback;
 
