@@ -91,6 +91,7 @@ async function handleFormFinalization() {
                             profile_id: currentProfileId || "matriz",
                             profile_name: currentProfileId ? (clientProfiles.find(p => p.id === currentProfileId)?.name || currentProfileId) : "Matriz",
                             timestamp: new Date().toISOString(),
+                            empresas: (window.empresas || []),
                             state: formState,
                             profiles: clientProfiles
                         };
@@ -361,33 +362,14 @@ function applyRoleUI(role) {
 
 async function checkAuth() {
     try {
-        // Leitura de parâmetros na URL (Ex: ?empresa=CAMISA&cnpj=12345678000190&Consultor=ApData)
+        // Leitura de parâmetros na URL (Ex: ?empresa=CAMISA&cnpj=12345678000190)
         const urlParams = new URLSearchParams(window.location.search);
         const paramEmpresa = urlParams.get("empresa") || urlParams.get("cliente");
         const paramCnpj = urlParams.get("cnpj") || "";
 
-        // Verificação se há parâmetro de consultor na URL:
-        // Exemplo suportado: &Consultor=ApData
-        // Também aceita: ?consultor=ApData, ?consultor=1, ?role=consultor, ?perfil=consultor
-        let isConsultorParam = false;
-        for (const [key, val] of urlParams.entries()) {
-            const k = key.toLowerCase();
-            const v = (val || "").trim().toLowerCase();
-            if (k === "consultor" && (v === "apdata" || v === "sim" || v === "true" || v === "1" || v.length > 0)) {
-                isConsultorParam = true;
-                break;
-            }
-            if ((k === "role" || k === "perfil") && (v === "consultor" || v === "admin")) {
-                isConsultorParam = true;
-                break;
-            }
-        }
-
-        // Se a URL contém o parâmetro do consultor, autoriza o modo consultor.
-        // Se a URL NÃO contém o parâmetro do consultor, o acesso é estritamente de CLIENTE!
-        window.isConsultorAuthorized = isConsultorParam;
-        
-        let initialRole = isConsultorParam ? "consultor" : "cliente";
+        // O portal estático é estritamente e exclusivamente para preenchimento do CLIENTE
+        window.isConsultorAuthorized = false;
+        let initialRole = "cliente";
 
         if (paramEmpresa) {
             const cleanEmpresa = decodeURIComponent(paramEmpresa).trim();
@@ -4558,7 +4540,6 @@ setTimeout(() => { suffixInput.style.height = "auto"; suffixInput.style.height =
                 <div class="header-actions">
                     <button class="btn btn-primary btn-hover-lift" onclick="openModal()"><i class="fas fa-file-import"></i> Importar Excel/CSV</button>
                     <button class="btn btn-hover-lift" style="background-color: #10b981; color: white; border-color: #10b981;" onclick="downloadTemplate()"><i class="fas fa-download"></i> Baixar Template</button>
-                    <button class="btn btn-outline btn-hover-lift" id="btnExportGA" onclick="exportGA()"><i class="fas fa-file-export"></i> Exportar GA</button>
                 </div>
                 <div id="companies-list"></div>
                 <button class="btn btn-outline btn-hover-lift" style="width: 100%; border-style: dashed; margin-top: 1rem; padding: 12px;" onclick="addEmpresa()"><i class="fas fa-plus"></i> Adicionar Nova Empresa/Local</button>
