@@ -5149,11 +5149,11 @@ function updateProgressBar() {
 
 // Export Trigger
 
-btnExportPayload.addEventListener("click", () => {
-
-    triggerExport();
-
-});
+if (btnExportPayload) {
+    btnExportPayload.addEventListener("click", () => {
+        triggerExport();
+    });
+}
 
 
 
@@ -5225,25 +5225,23 @@ function triggerExport() {
 
 // Close Modal
 
-btnCloseModal.addEventListener("click", () => {
-
-    exportModal.classList.remove("active");
-
-});
+if (btnCloseModal) {
+    btnCloseModal.addEventListener("click", () => {
+        if (exportModal) exportModal.classList.remove("active");
+    });
+}
 
 
 
 // Close when click outside
 
-exportModal.addEventListener("click", (e) => {
-
-    if (e.target === exportModal) {
-
-        exportModal.classList.remove("active");
-
-    }
-
-});
+if (exportModal) {
+    exportModal.addEventListener("click", (e) => {
+        if (e.target === exportModal) {
+            exportModal.classList.remove("active");
+        }
+    });
+}
 
 
 
