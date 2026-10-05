@@ -122,6 +122,34 @@ async function handleFormFinalization() {
 
                 // Envia dados para o Microsoft Copilot Studio se o webhook estiver configurado
                 let copilotSent = false;
+
+                // Remove anexos em base64 do payload (o Agente aceita no máximo ~3 MB de prompt).
+                // Os anexos viram apenas metadados (nome/tipo/tamanho) e são coletados à parte.
+                const anexosColetados = [];
+                const sanitizeForAgent = (node, path) => {
+                    if (Array.isArray(node)) return node.map((v, i) => sanitizeForAgent(v, path.concat(i)));
+                    if (node && typeof node === "object") {
+                        if (typeof node.data === "string" && node.data.startsWith("data:")) {
+                            anexosColetados.push({
+                                caminho: path.filter(p => typeof p === "string").join(" > "),
+                                nome: node.name || "anexo",
+                                tipo: node.type || "",
+                                tamanho: node.size || 0,
+                                conteudo_base64: node.data.split(",")[1] || ""
+                            });
+                            return { name: node.name || "anexo", type: node.type || "", size: node.size || 0, uploadedAt: node.uploadedAt || "", anexo_removido_do_payload: true };
+                        }
+                        const out = {};
+                        Object.keys(node).forEach(k => {
+                            const v = node[k];
+                            if (v === "" || v === null || v === undefined || v === false) return; // remove ruído (ex.: _need_help=false)
+                            out[k] = sanitizeForAgent(v, path.concat(k));
+                        });
+                        return out;
+                    }
+                    return node;
+                };
+
                 const payload = {
                     client_id: currentClientId,
                     client_name: (currentUser && currentUser.name) ? currentUser.name : (currentClientId || "Cliente GAIA"),
@@ -132,21 +160,43 @@ async function handleFormFinalization() {
                     profile_name: currentProfileId ? (clientProfiles.find(p => p.id === currentProfileId)?.name || currentProfileId) : "Matriz",
                     timestamp: new Date().toISOString(),
                     empresas: (window.empresas || []),
-                    state: formState,
-                    profiles: clientProfiles
+                    state: sanitizeForAgent(formState, []),
+                    profiles: sanitizeForAgent(clientProfiles, ["profiles"]),
+                    total_anexos: anexosColetados.length,
+                    anexos: anexosColetados.map(a => ({ caminho: a.caminho, nome: a.nome, tipo: a.tipo, tamanho: a.tamanho }))
                 };
+
+                const payloadStr = JSON.stringify(payload);
+                const payloadBytes = new Blob([payloadStr]).size;
+                console.log("[Copilot Studio] Tamanho do payload:", (payloadBytes / 1024).toFixed(1), "KB | anexos removidos:", anexosColetados.length);
+                if (payloadBytes > 2.8 * 1024 * 1024) {
+                    console.warn("[Copilot Studio] Payload ainda acima de 2,8 MB mesmo sem anexos.");
+                }
 
                 // Salva backup local do payload finalizado
                 try {
-                    localStorage.setItem("gaia_payload_final_" + currentClientId, JSON.stringify(payload));
+                    localStorage.setItem("gaia_payload_final_" + currentClientId, payloadStr);
                 } catch(e) {}
+
+                // (Opcional) Envia os anexos em um fluxo separado, que só grava arquivos (não passa pelo Agente)
+                if (anexosColetados.length > 0 && window.COPILOT_ATTACHMENTS_WEBHOOK_URL && window.COPILOT_ATTACHMENTS_WEBHOOK_URL.trim() !== "") {
+                    try {
+                        await fetch(window.COPILOT_ATTACHMENTS_WEBHOOK_URL, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ client_id: currentClientId, consultor_email: consultorEmailVal, timestamp: payload.timestamp, anexos: anexosColetados })
+                        });
+                    } catch(attErr) {
+                        console.warn("[Copilot Studio] Aviso ao transmitir anexos:", attErr);
+                    }
+                }
 
                 if (window.COPILOT_WEBHOOK_URL && window.COPILOT_WEBHOOK_URL.trim() !== "") {
                     try {
                         const resp = await fetch(window.COPILOT_WEBHOOK_URL, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify(payload)
+                            body: payloadStr
                         });
                         if (resp.ok) {
                             copilotSent = true;
