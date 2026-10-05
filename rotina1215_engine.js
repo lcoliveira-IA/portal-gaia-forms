@@ -75,6 +75,14 @@
         return true;
     }
 
+    function initWithStrings(regrasStr, perguntasStr, mapaStr, dicionarioStr) {
+        try { cacheRegras = typeof regrasStr === 'string' ? JSON.parse(regrasStr) : regrasStr; } catch(e) { cacheRegras = { regras: [] }; }
+        try { cachePerguntas = typeof perguntasStr === 'string' ? JSON.parse(perguntasStr) : perguntasStr; } catch(e) { cachePerguntas = { perguntas: [] }; }
+        try { cacheMapaChaves = typeof mapaStr === 'string' ? JSON.parse(mapaStr) : mapaStr; } catch(e) { cacheMapaChaves = {}; }
+        try { cacheDicionario = typeof dicionarioStr === 'string' ? JSON.parse(dicionarioStr) : dicionarioStr; } catch(e) { cacheDicionario = { campos: [] }; }
+        return true;
+    }
+
     function parseCsvGA(conteudo) {
         if (!conteudo || typeof conteudo !== 'string') return [];
 
@@ -1014,6 +1022,7 @@
 
     return {
         init,
+        initWithStrings,
         parseCsvGA,
         normalizarValor,
         extrairNumeroDeTexto,
