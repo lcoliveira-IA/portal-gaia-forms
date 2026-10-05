@@ -941,38 +941,10 @@ async function saveServerState() {
         console.error("Erro ao salvar no localStorage:", e);
     }
 
-    if (window.COPILOT_WEBHOOK_URL && window.COPILOT_WEBHOOK_URL.trim() !== "") {
-        try {
-            const consultorEmailVal = window.consultorEmail || (document.getElementById("input-consultor-email") ? document.getElementById("input-consultor-email").value.trim() : (localStorage.getItem("gaia_consultor_email_" + currentClientId) || ""));
-            const payload = {
-                client_id: currentClientId,
-                client_name: (currentUser && currentUser.name) ? currentUser.name : (currentClientId || "Cliente GAIA"),
-                cnpj: (currentUser && currentUser.cnpj) ? currentUser.cnpj : "",
-                consultor_email: consultorEmailVal,
-                status: "Rascunho",
-                profile_id: currentProfileId || "matriz",
-                profile_name: currentProfileId ? (clientProfiles.find(p => p.id === currentProfileId)?.name || currentProfileId) : "Matriz",
-                timestamp: new Date().toISOString(),
-                state: formState,
-                profiles: clientProfiles
-            };
-            const resp = await fetch(window.COPILOT_WEBHOOK_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-            if (resp.ok) {
-                console.log("[Copilot Studio] Rascunho sincronizado com o SharePoint!");
-                return true;
-            } else {
-                console.warn("[Copilot Studio] Resposta HTTP ao sincronizar rascunho:", resp.status);
-                return false;
-            }
-        } catch(err) {
-            console.warn("[Copilot Studio] Falha ao sincronizar rascunho com a nuvem:", err);
-            return false;
-        }
-    }
+    // Removido o envio ao webhook no rascunho para não passar pelo agente
+    // if (window.COPILOT_WEBHOOK_URL && window.COPILOT_WEBHOOK_URL.trim() !== "") { ... }
+    
+    return false;
     return false;
 }
 
